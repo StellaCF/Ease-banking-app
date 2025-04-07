@@ -5,7 +5,7 @@ const App = () => {
     <div>
       <div>fullstack project</div>
     </div>
-  )
-}
+  );
+};
 
-export default App
+export default App;

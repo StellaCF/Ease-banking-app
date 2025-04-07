@@ -1,9 +1,14 @@
 {
   "name": "banking-app",
   "version": "1.0.0",
-  "main": "index.js",
+  "main": "server.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "start": "node server.js",
+    "dev": "nodemon server.js",
+    "lint:spellcheck": "cspell . --gitignore --show-suggestions --no-progress",
+    "lint:eslint": "eslint . --ext .js,.ts,.jsx,.tsx",
+    "format:prettier": "prettier --write .",
+    "format": "npm run lint:spellcheck && npm run lint:eslint && npm run format:prettier"
   },
   "author": "",
   "license": "ISC",
@@ -16,6 +21,10 @@
     "morgan": "^1.10.0"
   },
   "devDependencies": {
-    "nodemon": "^3.1.9"
+    "cspell": "^8.18.1",
+    "eslint": "^9.24.0",
+    "eslint-plugin-n": "^17.17.0",
+    "nodemon": "^3.1.9",
+    "prettier": "^3.5.3"
   }
 }
