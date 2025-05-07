@@ -1,7 +1,18 @@
 {
    "version": "0.2",
    "language": "en",
-   "words": ["cspell", "prettier", "eslint", "nodemon", "bcrypt"], 
-   "ignorePaths": ["node_modules", "dist", ".gitignore"]
- }
- 
+   "words": [
+      "bcrypt",
+      "cspell",
+      "eslint",
+      "jwtsecret",
+      "nodemon",
+      "prettier",
+      "UUIDV"
+   ],
+   "ignorePaths": [
+      "node_modules",
+      "dist",
+      ".gitignore"
+   ]
+}

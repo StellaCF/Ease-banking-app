@@ -1,0 +1,23 @@
+{
+   "development": {
+     "use_env_variable": "DEV_DB_URL",
+     "url": "postgres://postgres:740611@localhost:5432/bankApp",
+     "dialect": "postgres"
+   },
+   "test": {
+     "use_env_variable": "TEST_DB_URL",
+     "url": "postgres://postgres:740611@localhost:5432/bankApp",
+     "dialect": "postgres"
+   },
+   "production": {
+     "use_env_variable": "PROD_DB_URL",
+     "url": "postgresql://neondb_owner:npg_Jy28klGnfbIR@ep-cool-sunset-a8gs7ewp-pooler.eastus2.azure.neon.tech/neondb?sslmode=require",
+     "dialect": "postgres",
+     "dialectOptions": {
+       "ssl": {
+         "require": true,
+         "rejectUnauthorized": false
+       }
+     }
+   }
+ }
