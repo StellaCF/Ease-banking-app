@@ -25,6 +25,7 @@ exports.register = async (req, res) => {
          password: hashedPassword,
          acctNumber: acctNumber,
          acctBalance: 0,
+         savingsBalance: 0,
       });
 
       res.status(201).json({ message: 'User registered successfully' });
@@ -42,7 +43,7 @@ exports.login = async (req, res) => {
       const user = await authService.loginUser({ email, password});
       
       const token = jwt.sign({ email: user.email, id: user.id, acctNumber: user.acctNumber }, env.JWT_SECRET, {
-         expiresIn: '1h',
+         expiresIn: '10h',
       });
 
       return res.status(200).json({ message: 'Login successful', token });

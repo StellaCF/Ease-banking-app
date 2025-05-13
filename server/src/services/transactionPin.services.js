@@ -1,6 +1,6 @@
 const { User } = require('../data/models/users');
 
-exports.createTransactionPin = async (id, pin) => {
+exports.createTransactionPin = async ({id, pin}) => {
    try {
       const user = await User.findOne({ where: {id} });
       if (!user) {

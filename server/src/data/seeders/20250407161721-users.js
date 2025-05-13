@@ -7,6 +7,18 @@ module.exports = {
   async up (queryInterface) {
 
       await queryInterface.bulkInsert('users', [
+         {
+          firstName: 'Rose',
+          otherName: 'Ella',
+          lastName: 'Okafor',
+          email: "stellachommy01@gmail.com",
+          phoneNumber: "08105740611",
+          password: hashPassword("ella1002"),
+          acctNumber: "8105740611",
+          acctBalance: "0",
+          savingsBalance: "0",
+          transactionPin: "1002"
+        },
         {
           firstName: 'John',
           otherName: 'Doe',
@@ -16,6 +28,8 @@ module.exports = {
           password: hashPassword("password123"),
           acctNumber: "8077662711",
           acctBalance: "0",
+          savingsBalance: "0",
+          transactionPin: "1002"
         },
         {
           firstName: "John",
@@ -26,6 +40,8 @@ module.exports = {
           password: hashPassword("securePass456"),
           acctNumber: "8123456789",
           acctBalance: "0",
+          savingsBalance: "0",
+          transactionPin: "1002"
         },
         {
           firstName: "John",
@@ -36,6 +52,8 @@ module.exports = {
           password: hashPassword("mySecret789"),
           acctNumber: "7011223344",
           acctBalance: "0",
+          savingsBalance: "0",
+          transactionPin: "1002"
         },
         {
           firstName: "Jane",
@@ -46,6 +64,8 @@ module.exports = {
           password: hashPassword("securePass123"),
           acctNumber: "8033445566",
           acctBalance: "0",
+          savingsBalance: "0",
+          transactionPin: "1002"
         },
         {
           firstName: "Michael",
@@ -56,6 +76,8 @@ module.exports = {
           password: hashPassword("passWord456!"),
           acctNumber: "8122334455",
           acctBalance: "0",
+          savingsBalance: "0",
+          transactionPin: "1002"
         }
     ]);
 

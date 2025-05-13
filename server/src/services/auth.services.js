@@ -9,9 +9,14 @@ exports.createUser = async ( userData ) => {
      return true;
   } catch (error) {
 
-    if (error instanceof UniqueConstraintError) {
-      throw new Error("Email already exists");
-    }
+  if (error instanceof UniqueConstraintError) {
+    const field = error.errors[0]?.path;
+    if (field === 'email') {
+      throw new Error('Email already exists');
+    } else if (field === 'phoneNumber') {
+      throw new Error('Phone number already exists');
+    } 
+  }
 
     throw new Error("Error creating user: " + error.message);
   }
@@ -26,7 +31,7 @@ exports.loginUser = async ({email, password}) => {
      
      const isPasswordValid = await bcrypt.compare(password, user.password);
      if (!isPasswordValid) {
-       throw new Error("Invalid password");
+       throw new Error("Password is incorrect.");
      }
  
      return user;

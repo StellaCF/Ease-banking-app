@@ -45,6 +45,10 @@ module.exports.User = sequelize.define('users',
     type: DataTypes.STRING,
     allowNull: true,
   },
+  savingsBalance: {
+    type: DataTypes.STRING,
+    allowNull: true,
+  },
   transactionPin: {
     type: DataTypes.STRING(4),
     allowNull: true
@@ -64,4 +68,4 @@ module.exports.User = sequelize.define('users',
 }, {
     timestamps: false,
     tableName: 'users',
-})
+});

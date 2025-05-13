@@ -1,9 +1,7 @@
 'use strict';
-
 const { sequelize } = require('../../config/db');
 
 /** @type {require('sequelize-cli').Migration} */
-// This comment is retained for reference, but the import statement is not used.
 module.exports = {
   async up(queryInterface, Sequelize) {
     await queryInterface.sequelize.query('CREATE EXTENSION IF NOT EXISTS "uuid-ossp";');
@@ -44,6 +42,10 @@ module.exports = {
       allowNull: false,
       },
       acctBalance: {
+        type: Sequelize.STRING,
+        allowNull: true,
+      },
+      savingsBalance: {
         type: Sequelize.STRING,
         allowNull: true,
       },
