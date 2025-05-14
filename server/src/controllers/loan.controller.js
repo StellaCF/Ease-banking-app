@@ -27,7 +27,7 @@ exports.requestLoan = async (req, res) => {
 
 exports.repayLoan = async (req, res) => {
   try {
-    const { amount, description } = req.body;
+    const { amount } = req.body;
     const userId = req.user.id;
 
     if (!amount || amount <= 0) {

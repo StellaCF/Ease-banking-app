@@ -9,15 +9,14 @@ import Loader from "../components/Loader";
 import Cookies from "js-cookie";
 
 const LoginPage = () => {
-
   const [loading, setLoading] = useState(false)
-const navigate = useNavigate();
-  const {
-    register,
-    formState: { errors },
-    handleSubmit,
-    reset
-  } = useForm({
+  const navigate = useNavigate();
+    const {
+      register,
+      formState: { errors },
+      handleSubmit,
+      reset
+    } = useForm({
     defaultValues: {
       email: "",
       password: ""
@@ -30,15 +29,16 @@ const navigate = useNavigate();
       const response = await axios.post("https://ease-banking-app.onrender.com/api/login", data);
       const { message, token } = response.data;
       toast.success(message);
+      console.log(response.data)
       Cookies.set("auth_token", token, {
         expires: 1,
         secure: true, 
         sameSite: "strict",
       });
-      setTimeout(() => {
-        reset();
-        navigate("/transactionPin");
-      }, 2000);
+      // setTimeout(() => {
+      //   reset();
+      //   navigate("/transactionPin");
+      // }, 2000);
     } catch (error) {
     console.log(error)     
     const errorMessage = error.response?.data?.error || "Login failed";

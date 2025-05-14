@@ -36,10 +36,10 @@ const TransactionPin = () => {
       );
       const { message } = response.data;
       toast.success(message);
-      // setTimeout(() => {
-      //   reset();
-      //   navigate("/dashboard");
-      // }, 2000);
+      setTimeout(() => {
+        reset();
+        navigate("/dashboard");
+      }, 2000);
     } catch (error) {
     console.log(error)     
     const errorMessage = error.response?.data?.error;

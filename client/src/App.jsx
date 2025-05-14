@@ -26,14 +26,14 @@ const App = () => {
           <Route path ="/dashboard" element={ <Dashboard /> } />
           <Route path="/signup" element={<SignUp />} />
           <Route path="/login" element={<LoginPage />} />
-          <Route path="/ForgetPassword" element={<ForgetPassword />} />
-          <Route path="/VerifyPassword" element={<VerifyPassword />} />
-          <Route path="/ResetPassword" element={<ResetPassword />} />
-          <Route path="/TransactionPin" element={<TransactionPin />} />
-          <Route path="/DepositPage" element={<DepositPage />} />
-          <Route path="/WithdrawPage" element={<WithdrawPage />} />
-          <Route path="/TransferPage" element={<TransferPage />} />
-          <Route path="/SavePage" element={<SavePage />} />
+          <Route path="/forgetPassword" element={<ForgetPassword />} />
+          <Route path="/verifyPassword" element={<VerifyPassword />} />
+          <Route path="/resetPassword" element={<ResetPassword />} />
+          <Route path="/transactionPin" element={<TransactionPin />} />
+          <Route path="/depositPage" element={<DepositPage />} />
+          <Route path="/withdrawPage" element={<WithdrawPage />} />
+          <Route path="/transferPage" element={<TransferPage />} />
+          <Route path="/savePage" element={<SavePage />} />
         </Routes>
       </Router>
       <ToastContainer/>

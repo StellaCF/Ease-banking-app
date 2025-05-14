@@ -33,7 +33,6 @@ exports.loginUser = async ({email, password}) => {
      if (!isPasswordValid) {
        throw new Error("Password is incorrect.");
      }
- 
      return user;
    } catch (error) {
      throw new Error("Error during login: " + error.message);

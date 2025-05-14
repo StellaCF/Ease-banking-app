@@ -45,7 +45,11 @@ exports.login = async (req, res) => {
          expiresIn: '10h',
       });
 
-      return res.status(200).json({ message: 'Login successful', token });
+      return res.status(200).json({ message: 'Login successful', token, user: {
+         id: user.id,
+         email: user.email,
+         transactionPin: user.transactionPin, 
+      } });
 
    } catch (error) {
       if (
@@ -90,9 +94,9 @@ exports.forgotPassword = async (req, res) => {
 //reset password
 exports.resetPassword = async (req, res) => {
    try {
-      const { email, otp, password } = req.body;
+      const { email, otp, newPassword } = req.body;
 
-      const hashedPassword = await bcrypt.hash(password, 10);
+      const hashedPassword = await bcrypt.hash(newPassword, 10);
 
       const resetUser = await authService.resetPassword(email, otp, hashedPassword);
 

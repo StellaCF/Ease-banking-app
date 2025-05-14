@@ -1,8 +1,22 @@
 // components/Sidebar.js
 import { FaHome, FaMoneyCheck, FaListAlt, FaUser, FaSignOutAlt } from 'react-icons/fa';
 import { NavLink } from 'react-router-dom';
+import Cookies from "js-cookie";
+import { useNavigate } from 'react-router-dom';
+import { toast } from 'react-toastify';
 
 const Sidebar = () => {
+  const navigate = useNavigate();
+
+  const logout = () => {
+    try {
+      Cookies.remove("auth_token"); 
+      toast.success("Logged Out");
+      navigate("/login")
+    } catch (error) {
+      toast.error(error);
+    }
+  }
   return (
     <aside className="w-64 min-h-screen bg-white shadow-md px-4 py-6 flex flex-col">
       <div className="flex items-center space-x-2 mb-10">
@@ -24,7 +38,9 @@ const Sidebar = () => {
         </a>
       </nav>
 
-      <button className="flex items-center text-red-500 hover:text-red-600 p-2 mt-auto">
+      <button
+        onClick={logout}
+        className="flex items-center text-red-500 hover:text-red-600 p-2 mt-auto cursor-pointer">
         <FaSignOutAlt className="mr-2" /> Logout
       </button>
     </aside>
