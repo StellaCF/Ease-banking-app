@@ -14,9 +14,7 @@ exports.register = async (req, res) => {
 
       const hashedPassword = await bcrypt.hash(password, 10);
 
-      console.log(acctNumber);
-
-      await authService.createUser({
+      const data = await authService.createUser({
          firstName,
          otherName,
          lastName,
@@ -28,9 +26,10 @@ exports.register = async (req, res) => {
          savingsBalance: 0,
       });
 
-      res.status(201).json({ message: 'User registered successfully' });
+      return res.status(201).json({ message: 'User registered successfully', data });
    } catch (error) {
-      res.status(500).json({ message: 'Server error', error: error.message });
+      console.error("Register error:", error);
+      return res.status(500).json({ message: 'Server error', error: error.message });
    }
 };
 

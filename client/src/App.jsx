@@ -8,6 +8,8 @@ import ForgetPassword from './auth/ForgetPassword'
 import VerifyPassword from './auth/VerifyPassword';
 import ResetPassword from './auth/ResetPassword';
 import TransactionPin from './auth/TransactionPin';
+import { ToastContainer } from "react-toastify"
+import "react-toastify/dist/ReactToastify.css";
 import DepositPage from './user/dashboard/DepositPage';
 import WithdrawPage from './user/dashboard/WithdrawPage';
 import TransferPage from './user/dashboard/TransferPage';
@@ -34,6 +36,7 @@ const App = () => {
           <Route path="/SavePage" element={<SavePage />} />
         </Routes>
       </Router>
+      <ToastContainer/>
     </div>
   );
 };
