@@ -58,7 +58,7 @@ const TransferPage = () => {
     <div className="flex min-h-screen bg-gray-100">
       <Sidebar />
 
-      <main className="flex-1 p-8 space-y-8">
+      <main className="flex-1 p-8 space-y-8 ml-64">
         <TopBar username="user" accountBalance={accountBalance} />
 
         <div className="max-w-3xl mx-auto bg-white p-8 rounded-2xl shadow-xl">
@@ -96,7 +96,7 @@ const TransferPage = () => {
           <button
             onClick={verifyAccount}
             disabled={loading}
-            className="bg-blue-700 hover:bg-blue-800 text-white font-semibold py-3 px-6 rounded-lg transition mb-6"
+            className="bg-[#02487F] hover:bg-[#1384AB] cursor-pointer text-white font-semibold py-3 px-6 rounded-lg transition mb-6"
           >
             {loading ? "Verifying..." : "Verify Account"}
           </button>

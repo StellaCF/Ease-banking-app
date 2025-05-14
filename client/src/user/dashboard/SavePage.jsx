@@ -5,134 +5,177 @@ import TopBar from "../../components/TopBar";
 const SavePage = () => {
   const [description, setDescription] = useState("");
   const [amount, setAmount] = useState("");
+  const [balance, setBalance] = useState(2000); // Example main balance
   const [savings, setSavings] = useState([]);
-  const [accountBalance, setAccountBalance] = useState(1200.75);
+
+  const [activeAction, setActiveAction] = useState({}); // Track open input fields for Add/Spend
+  const [actionAmount, setActionAmount] = useState({}); // Stores input value per saving
 
   const handleSave = () => {
-    if (!description || !amount || isNaN(amount) || parseFloat(amount) <= 0) {
-      alert("Enter a valid description and amount");
+    const parsedAmount = parseFloat(amount);
+    if (!description || isNaN(parsedAmount) || parsedAmount <= 0) {
+      alert("Please enter valid description and amount.");
       return;
     }
 
-    if (parseFloat(amount) > accountBalance) {
-      alert("Insufficient balance");
+    if (parsedAmount > balance) {
+      alert("Insufficient balance.");
       return;
     }
 
     const newSaving = {
       id: Date.now(),
       description,
-      amount: parseFloat(amount),
+      amount: parsedAmount,
     };
 
     setSavings([...savings, newSaving]);
-    setAccountBalance(prev => prev - parseFloat(amount));
+    setBalance(balance - parsedAmount);
     setDescription("");
     setAmount("");
   };
 
-  const handleSpend = (id) => {
-    const savingToSpend = savings.find(item => item.id === id);
-    if (savingToSpend) {
-      setAccountBalance(prev => prev + savingToSpend.amount);
-      setSavings(savings.filter(item => item.id !== id));
-    }
+  const toggleAction = (id, type) => {
+    setActiveAction((prev) => ({
+      ...prev,
+      [id]: prev[id] === type ? null : type,
+    }));
+    setActionAmount((prev) => ({
+      ...prev,
+      [id]: "",
+    }));
   };
 
-  const handleAddToSavings = (id) => {
-    const addAmount = prompt("Enter amount to add:");
-    const numericAmount = parseFloat(addAmount);
-
-    if (!addAmount || isNaN(numericAmount) || numericAmount <= 0) {
-      alert("Enter a valid amount");
+  const handleActionSubmit = (id, type) => {
+    const input = parseFloat(actionAmount[id]);
+    if (isNaN(input) || input <= 0) {
+      alert("Enter a valid amount.");
       return;
     }
 
-    if (numericAmount > accountBalance) {
-      alert("Insufficient balance");
-      return;
-    }
+    setSavings((prev) =>
+      prev.map((save) => {
+        if (save.id === id) {
+          if (type === "spend") {
+            if (input > save.amount) {
+              alert("You cannot spend more than you've saved.");
+              return save;
+            }
+            setBalance((bal) => bal + input);
+            return { ...save, amount: save.amount - input };
+          }
 
-    setSavings(prevSavings =>
-      prevSavings.map(saving =>
-        saving.id === id
-          ? { ...saving, amount: saving.amount + numericAmount }
-          : saving
-      )
+          if (type === "add") {
+            if (input > balance) {
+              alert("Not enough balance to add.");
+              return save;
+            }
+            setBalance((bal) => bal - input);
+            return { ...save, amount: save.amount + input };
+          }
+        }
+        return save;
+      })
     );
-    setAccountBalance(prev => prev - numericAmount);
+
+    setActiveAction((prev) => ({ ...prev, [id]: null }));
+    setActionAmount((prev) => ({ ...prev, [id]: "" }));
   };
 
   return (
     <div className="flex min-h-screen bg-gray-100">
       <Sidebar />
 
-      <main className="flex-1 p-8 space-y-8">
-        <TopBar username="user" accountBalance={accountBalance} />
+      <main className="flex-1 p-8 space-y-8 ml-64">
+        <TopBar username="user" accountBalance={balance} />
 
-        <div className="max-w-2xl mx-auto bg-white p-8 rounded-2xl shadow-xl">
+        <div className="max-w-3xl mx-auto bg-white p-8 rounded-2xl shadow-xl space-y-6">
           <h2 className="text-3xl font-bold text-[#02487F] mb-6">Save Money</h2>
 
-          <div className="mb-6">
-            <label className="block text-gray-600 font-medium mb-2">Description</label>
-            <input
-              type="text"
-              value={description}
-              onChange={(e) => setDescription(e.target.value)}
-              placeholder="e.g. Travel Fund"
-              className="w-full border border-gray-300 rounded-lg px-4 py-3 text-gray-800"
-            />
-          </div>
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+            <div>
+              <label className="block text-gray-600 font-medium mb-2">Description</label>
+              <input
+                type="text"
+                value={description}
+                onChange={(e) => setDescription(e.target.value)}
+                className="w-full border border-gray-300 rounded-lg px-4 py-3"
+                placeholder="e.g. Vacation Fund"
+              />
+            </div>
 
-          <div className="mb-6">
-            <label className="block text-gray-600 font-medium mb-2">Amount</label>
-            <input
-              type="number"
-              value={amount}
-              onChange={(e) => setAmount(e.target.value)}
-              placeholder="Enter amount to save"
-              className="w-full border border-gray-300 rounded-lg px-4 py-3 text-gray-800"
-            />
+            <div>
+              <label className="block text-gray-600 font-medium mb-2">Amount</label>
+              <input
+                type="number"
+                value={amount}
+                onChange={(e) => setAmount(e.target.value)}
+                className="w-full border border-gray-300 rounded-lg px-4 py-3"
+                placeholder="Enter amount"
+              />
+            </div>
           </div>
 
           <button
             onClick={handleSave}
-            className="w-full bg-blue-700 hover:bg-blue-800 text-white font-semibold py-3 px-6 rounded-lg transition"
+            className="bg-[#02487F] hover:bg-[#1384AB] text-white font-semibold py-3 px-6 rounded-lg transition"
           >
             Save
           </button>
-        </div>
 
-        {savings.length > 0 && (
-          <div className="max-w-3xl mx-auto space-y-4">
-            <h3 className="text-2xl font-bold text-gray-700">Your Savings</h3>
-            {savings.map((item) => (
-              <div
-                key={item.id}
-                className="flex justify-between items-center bg-white p-4 rounded-lg shadow-md"
-              >
-                <div>
-                  <p className="text-lg font-medium text-gray-800">{item.description}</p>
-                  <p className="text-sm text-gray-600">₦{item.amount.toFixed(2)}</p>
+          {savings.length > 0 && (
+            <div className="grid gap-4">
+              {savings.map((save) => (
+                <div
+                  key={save.id}
+                  className="border border-gray-300 p-6 rounded-xl bg-gray-50 shadow-sm"
+                >
+                  <div className="flex items-center justify-between mb-2">
+                    <div>
+                      <h3 className="text-xl font-semibold text-[#02487F]">{save.description}</h3>
+                      <p className="text-gray-700">₦{save.amount.toFixed(2)}</p>
+                    </div>
+
+                    <div className="flex space-x-2">
+                      <button
+                        onClick={() => toggleAction(save.id, "spend")}
+                        className="bg-[#02487F] hover:bg-[#1384AB] cursor-pointer text-white py-1 px-4 rounded-lg"
+                      >
+                        Spend
+                      </button>
+                      <button
+                        onClick={() => toggleAction(save.id, "add")}
+                        className="bg-[#02487F] hover:bg-[#1384AB] cursor-pointer text-white py-1 px-4 rounded-lg"
+                      >
+                        Add
+                      </button>
+                    </div>
+                  </div>
+
+                  {activeAction[save.id] && (
+                    <div className="mt-4 space-y-2">
+                      <input
+                        type="number"
+                        placeholder={`Enter amount to ${activeAction[save.id]}`}
+                        value={actionAmount[save.id] || ""}
+                        onChange={(e) =>
+                          setActionAmount({ ...actionAmount, [save.id]: e.target.value })
+                        }
+                        className="w-full border border-gray-300 rounded-lg px-4 py-2"
+                      />
+                      <button
+                        onClick={() => handleActionSubmit(save.id, activeAction[save.id])}
+                        className="w-full bg-[#02487F] hover:bg-[#1384AB] cursor-pointer text-white py-2 px-6 rounded-lg"
+                      >
+                        Confirm {activeAction[save.id]}
+                      </button>
+                    </div>
+                  )}
                 </div>
-                <div className="flex gap-2">
-                  <button
-                    onClick={() => handleAddToSavings(item.id)}
-                    className="bg-yellow-500 hover:bg-yellow-600 text-white px-4 py-2 rounded-lg"
-                  >
-                    Add
-                  </button>
-                  <button
-                    onClick={() => handleSpend(item.id)}
-                    className="bg-red-600 hover:bg-red-700 text-white px-4 py-2 rounded-lg"
-                  >
-                    Spend
-                  </button>
-                </div>
-              </div>
-            ))}
-          </div>
-        )}
+              ))}
+            </div>
+          )}
+        </div>
       </main>
     </div>
   );
