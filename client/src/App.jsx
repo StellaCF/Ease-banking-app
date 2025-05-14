@@ -14,6 +14,8 @@ import DepositPage from './user/dashboard/DepositPage';
 import WithdrawPage from './user/dashboard/WithdrawPage';
 import TransferPage from './user/dashboard/TransferPage';
 import SavePage from './user/dashboard/SavePage';
+import LoanPage from './user/dashboard/LoanPage';
+import Profile from './user/dashboard/Profile';
 
 
 
@@ -34,6 +36,8 @@ const App = () => {
           <Route path="/WithdrawPage" element={<WithdrawPage />} />
           <Route path="/TransferPage" element={<TransferPage />} />
           <Route path="/SavePage" element={<SavePage />} />
+          <Route path="/LoanPage" element={<LoanPage />} />
+          <Route path="/Profile" element={<Profile />} />
         </Routes>
       </Router>
       <ToastContainer/>
