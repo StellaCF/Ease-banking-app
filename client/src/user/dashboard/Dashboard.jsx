@@ -1,59 +1,102 @@
-// pages/Dashboard.js
-
+import { useState } from "react";
 import Sidebar from "../../components/SideBar";
+import { useNavigate } from "react-router-dom";
 
-const wallets = [
-  { name: 'Australian Dollar (AUD)', flag: '🇦🇺', amount: 0 },
-  { name: 'Nigerian Naira (NGN)', flag: '🇳🇬', amount: 0 },
-  { name: 'United States Dollar (USD)', flag: '🇺🇸', amount: 0 },
-  { name: 'Great British Pounds (GBP)', flag: '🇬🇧', amount: 0 },
+const features = [
+  { title: "Deposit", description: "Fund your account securely", color: "bg-[#1384AB]", path: "/depositPage" },
+  { title: "Withdraw", description: "Withdraw to your local bank", color: "bg-[#1384AB]", path: "/WithdrawPage" },
+  { title: "Transfer", description: "Send money instantly", color: "bg-[#1384AB]", path: "/TransferPage" },
+  { title: "Save", description: "Set money aside for goals", color: "bg-[#1384AB]", path: "/SavePage" },
+];
+
+const transactions = [
+  { id: 1, type: "Deposit", amount: 500, date: "May 12, 2025", status: "Completed" },
+  { id: 2, type: "Transfer", amount: 200, date: "May 10, 2025", status: "Pending" },
+  { id: 3, type: "Withdraw", amount: 100, date: "May 8, 2025", status: "Completed" },
 ];
 
 const Dashboard = () => {
+  const navigate = useNavigate();
+  const [filter, setFilter] = useState("All");
+  const accountBalance = 1200.75;``
+
+  const filteredTransactions =
+    filter === "All"
+      ? transactions
+      : transactions.filter((tx) => tx.type === filter);
+
   return (
     <div className="flex min-h-screen bg-gray-100">
       <Sidebar />
 
       <main className="flex-1 p-8 space-y-8">
-        <div className="flex justify-between items-center">
-          <div>
-            <h1 className="text-lg text-gray-600">Hi, user</h1>
-            <p className="text-sm text-gray-400">Welcome Back - 13th May, 2025.</p>
-          </div>
-          <div className="w-10 h-10 rounded-full bg-cyan-100 text-cyan-600 flex items-center justify-center font-bold">
-            CO
+        {/* KYC Banner with Greeting & Balance */}
+        <div className="bg-gradient-to-r from-[#02487F] to-[#1384AB] text-white p-6 rounded-lg space-y-4">
+          <div className="flex justify-between items-start">
+            <div>
+              <h1 className="text-lg">Hi, user</h1>
+              <h2 className="text-xl font-semibold mt-4">Account Balance</h2>
+              <p className="text-3xl font-bold mt-1">₦{accountBalance.toFixed(2)}</p>
+            </div>
+
+            <div className="text-right">
+              {/* <h2 className="text-2xl font-semibold">Unlock more account privileges</h2>
+              <button className="mt-4 bg-white text-[#02487F] font-semibold px-4 py-2 rounded-full">
+                Complete KYC Verification
+              </button> */}
+            </div>
           </div>
         </div>
 
-        {/* KYC Banner */}
-        <div className="bg-blue-900 text-white p-6 rounded-lg flex justify-between items-center">
-          <div>
-            <h2 className="text-2xl font-semibold">Unlock more account privileges</h2>
-            <p className="text-sm mt-2">Complete your KYC verification to access more features on Wiremoney</p>
-            <button className="mt-4 bg-white text-blue-900 font-semibold px-4 py-2 rounded-full">
-              Complete my KYC Verification
-            </button>
-          </div>
-        </div>
-
-        {/* Wallets */}
+        {/* Quick Action Features */}
         <div className="bg-white p-6 rounded-lg shadow">
-          <div className="flex justify-between items-center mb-4">
-            <h3 className="text-xl font-semibold">Wallets</h3>
-            <button className="bg-cyan-500 text-white px-4 py-2 rounded-full">Send Money</button>
-          </div>
+          <h3 className="text-xl font-semibold mb-4">Quick Actions</h3>
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
-            {wallets.map((wallet) => (
-              <div key={wallet.name} className="border rounded-lg p-4 text-center relative">
-                <span className="absolute top-2 right-2 bg-gray-100 text-xs text-gray-600 px-2 py-1 rounded-full">
-                  Coming Soon
-                </span>
-                <div className="text-3xl mb-2">{wallet.flag}</div>
-                <div className="text-sm text-gray-600">{wallet.name}</div>
-                <div className="text-2xl font-bold mt-2">${wallet.amount}</div>
+            {features.map((feature) => (
+              <div key={feature.title} onClick={() => navigate(feature.path)} className={`p-6 rounded-lg cursor-pointer text-white ${feature.color}`}>
+                <h4 className="text-lg font-semibold mb-2">{feature.title}</h4>
+                <p className="text-sm">{feature.description}</p>
               </div>
             ))}
           </div>
+        </div>
+
+        {/* Transaction History with Filter */}
+        <div className="bg-white p-6 rounded-lg shadow">
+          <div className="flex justify-between items-center mb-4">
+            <h3 className="text-xl font-semibold">Transaction History</h3>
+            <select
+              value={filter}
+              onChange={(e) => setFilter(e.target.value)}
+              className="border border-gray-300 rounded px-3 py-2 text-sm text-gray-700"
+            >
+              <option value="All">All</option>
+              <option value="Deposit">Deposit</option>
+              <option value="Withdraw">Withdraw</option>
+              <option value="Transfer">Transfer</option>
+            </select>
+          </div>
+
+          <table className="w-full text-left border-collapse">
+            <thead>
+              <tr className="text-gray-600 text-sm border-b">
+                <th className="py-2">Type</th>
+                <th className="py-2">Amount</th>
+                <th className="py-2">Date</th>
+                <th className="py-2">Status</th>
+              </tr>
+            </thead>
+            <tbody>
+              {filteredTransactions.map((tx) => (
+                <tr key={tx.id} className="text-sm border-b text-gray-700">
+                  <td className="py-2">{tx.type}</td>
+                  <td className="py-2">₦{tx.amount}</td>
+                  <td className="py-2">{tx.date}</td>
+                  <td className="py-2">{tx.status}</td>
+                </tr>
+              ))}
+            </tbody>
+          </table>
         </div>
       </main>
     </div>

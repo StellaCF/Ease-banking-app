@@ -1,26 +1,26 @@
 // components/Sidebar.js
-import { FaHome, FaMoneyCheck, FaListAlt, FaCog, FaSignOutAlt } from 'react-icons/fa';
+import { FaHome, FaMoneyCheck, FaListAlt, FaUser, FaSignOutAlt } from 'react-icons/fa';
+import { NavLink } from 'react-router-dom';
 
 const Sidebar = () => {
   return (
     <aside className="w-64 min-h-screen bg-white shadow-md px-4 py-6 flex flex-col">
       <div className="flex items-center space-x-2 mb-10">
-        <img src="/logo.svg" alt="Wiremoney Logo" className="w-8 h-8" />
-        <span className="font-bold text-xl text-blue-600">wiremoney</span>
+        <span className="font-bold text-xl text-[#02487F]">Ease Bank</span>
       </div>
 
       <nav className="space-y-6 flex-1">
-        <a href="#" className="flex items-center space-x-2 text-blue-700 bg-blue-100 p-2 rounded">
+        <NavLink to="/dashboard" className="flex items-center space-x-2 text-[#02487F] bg-blue-100 p-2 rounded">
           <FaHome /> <span>Home</span>
+        </NavLink>
+        <a href="#" className="flex items-center space-x-2 text-gray-700 hover:text-[#02487F] p-2">
+          <FaMoneyCheck /> <span>Ease Loan</span>
         </a>
-        <a href="#" className="flex items-center space-x-2 text-gray-700 hover:text-blue-700 p-2">
-          <FaMoneyCheck /> <span>Payments</span>
-        </a>
-        <a href="#" className="flex items-center space-x-2 text-gray-700 hover:text-blue-700 p-2">
+        <a href="#" className="flex items-center space-x-2 text-gray-700 hover:text-[#02487F] p-2">
           <FaListAlt /> <span>Transactions</span>
         </a>
-        <a href="#" className="flex items-center space-x-2 text-gray-700 hover:text-blue-700 p-2">
-          <FaCog /> <span>Settings</span>
+        <a href="#" className="flex items-center space-x-2 text-gray-700 hover:text-[#02487F] p-2">
+          <FaUser /> <span>Profile</span>
         </a>
       </nav>
 
