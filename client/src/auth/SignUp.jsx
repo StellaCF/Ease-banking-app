@@ -62,7 +62,6 @@ const navigate = useNavigate();
                         type="text"
                         placeholder="Enter First Name"
                         className="rounded-lg border-2 h-10 border-[#1384AB] p-4 outline-none"
-                        required
                         {...register("firstName", {required: "First Name required"})}
                     />
                     {errors.firstName && <p className="text-red-500">{errors.firstName.message}</p>}
@@ -73,7 +72,6 @@ const navigate = useNavigate();
                         type="text"
                         placeholder="Enter Last Name"
                         className="rounded-lg border-2 h-10 border-[#1384AB] p-4 outline-none"
-                        required
                         {...register("lastName", {required: "Last Name required"})}
                     />
                      {errors.lastName && <p className="text-red-500">{errors.lastName.message}</p>}
@@ -85,7 +83,6 @@ const navigate = useNavigate();
                     type="text"
                     placeholder="Enter Other Names"
                     className="rounded-lg border-2 h-10 border-[#1384AB] p-4 outline-none"
-                    required
                     {...register("otherName", {required: "Other Name required"})}
                   />
                    {errors.otherName && <p className="text-red-500">{errors.otherName.message}</p>}
@@ -96,7 +93,6 @@ const navigate = useNavigate();
                     type="email"
                     placeholder="Enter Email"
                     className="rounded-lg border-2 h-10 border-[#1384AB] p-4 outline-none"
-                    required
                     {...register("email", {required: "Email required"})}
                   />
                   {errors.email && <p className="text-red-500">{errors.email.message}</p>}
@@ -107,7 +103,6 @@ const navigate = useNavigate();
                     type="tel"
                     placeholder="Enter Phone Number"
                     className="rounded-lg border-2 h-10 border-[#1384AB] p-4 outline-none"
-                    required
                     {...register("phoneNumber", {required: "Phone Number required"})}
                   />
                   {errors.phoneNumber && <p className="text-red-500">{errors.phoneNumber.message}</p>}
@@ -119,7 +114,6 @@ const navigate = useNavigate();
                 type="password"
                 placeholder="Enter Password"
                 className="rounded-lg border-2 h-10 border-[#1384AB] p-4 outline-none"
-                required
                 {...register("password", {required: "Password required"})}
               />
                {errors.password && <p className="text-red-500">{errors.password.message}</p>}
@@ -130,7 +124,6 @@ const navigate = useNavigate();
                 type="password"
                 placeholder="Confirm Password"
                 className="rounded-lg border-2 h-10 border-[#1384AB] p-4 outline-none"
-                required
                 {...register("confirmPassword", {
                   required: "Confirm Password required",
                   validate: (value) => value === watch("password") || "Passwords do not match",

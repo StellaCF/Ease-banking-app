@@ -14,7 +14,7 @@ const setPin = async (req, res) => {
          return res.status(400).json({ message: 'Pin must be 4 digits' });
       }
 
-      const hashedPin = bcrypt.hash("pin", 10);
+      const hashedPin = await bcrypt.hash(pin, 10);
    
       await pinService.createTransactionPin({id, pin: hashedPin});
       return res.status(200).json({ message: 'Transaction pin set successfully' });

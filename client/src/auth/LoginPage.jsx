@@ -6,7 +6,7 @@ import { toast } from "react-toastify";
 import { useNavigate } from "react-router-dom";
 import { useState } from "react";
 import Loader from "../components/Loader";
-import Cookies from "js-cookie"
+import Cookies from "js-cookie";
 
 const LoginPage = () => {
 
@@ -64,7 +64,6 @@ const navigate = useNavigate();
               type="email"
               placeholder="Enter Email"
               className="rounded-lg border-2 h-10 border-[#1384AB] p-4"
-              required
               {...register("email", {required: "Email required"})}
             />
              {errors.email && <p className="text-red-500">{errors.email.message}</p>}
@@ -75,7 +74,6 @@ const navigate = useNavigate();
               type="password"
               placeholder="Enter Password"
               className="rounded-lg border-2 h-10 border-[#1384AB] p-4"
-              required
               {...register("password", {required: "Password required"})}
             />
              {errors.confirmPassword && <p className="text-red-500">{errors.confirmPassword.message}</p>}
