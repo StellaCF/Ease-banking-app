@@ -6,7 +6,7 @@ const { User } = require("../data/models/users");
 exports.createUser = async ( userData ) => {
   try {
      await User.create( userData);
-     return true;
+     return userData;
   } catch (error) {
 
   if (error instanceof UniqueConstraintError) {

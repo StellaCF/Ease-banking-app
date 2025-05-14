@@ -1,10 +1,50 @@
-import React from "react";
-// import card from "../assets/card.png";
 import Finance4 from "../assets/Finance4.gif";
-// import Footer from "../components/Footer";
 import { NavLink } from "react-router-dom";
+import { useForm } from "react-hook-form";
+import axios from "axios";
+import { toast } from "react-toastify";
+import { useNavigate } from "react-router-dom";
+import { useState } from "react";
+import Loader from "../components/Loader";
 
 const SignUp = () => {
+  const [loading, setLoading] = useState(false)
+const navigate = useNavigate();
+  const {
+    register,
+    formState: { errors },
+    handleSubmit,
+    watch,
+    reset
+  } = useForm({
+    defaultValues: {
+      firstName: "",
+      lastName: "",
+      otherName: "",
+      email: "",
+      phoneNumber: "",
+      password: ""
+    }
+  });
+
+  const onSubmit = async (data) => {
+    setLoading(true);
+    try {
+      const response = await axios.post("https://ease-banking-app.onrender.com/api/register", data);
+      toast.success(response.data.message || "Registration successful!");
+      setTimeout(() => {
+        reset();
+        navigate("/login");
+      }, 2000);
+    } catch (error) {
+    console.log(error)     
+    const errorMessage = error.response?.data?.error || "Registration failed";
+    toast.error(errorMessage);
+    } finally {
+      setLoading(false);
+    }
+  }
+  
   return (
     <div>
         <div className="w-10/12 h-screen flex justify-between gap-10 mx-auto items-center">
@@ -14,70 +54,93 @@ const SignUp = () => {
                 SIGNUP
               </h1>
             </div>
-            <form action="" className="flex flex-col gap-y-2 w-100% p-4">
+            <form action="" onSubmit={handleSubmit(onSubmit)} className="flex flex-col gap-y-4 w-100% p-4">
                 <div className="flex gap-x-2">
-                  <div className="flex flex-col gap-y-2 w-1/2">
+                  <div className="flex flex-col gap-y-1 w-1/2">
                   <label className="block">First Name</label>
                     <input
                         type="text"
                         placeholder="Enter First Name"
-                        className="rounded-lg border-2 h-10 border-[#1384AB] p-4"
+                        className="rounded-lg border-2 h-10 border-[#1384AB] p-4 outline-none"
                         required
+                        {...register("firstName", {required: "First Name required"})}
                     />
+                    {errors.firstName && <p className="text-red-500">{errors.firstName.message}</p>}
                   </div>
-                  <div className="flex flex-col gap-y-2 w-1/2">
+                  <div className="flex flex-col gap-y-1 w-1/2">
                   <label>Last Name</label>
                     <input
                         type="text"
                         placeholder="Enter Last Name"
-                        className="rounded-lg border-2 h-10 border-[#1384AB] p-4"
+                        className="rounded-lg border-2 h-10 border-[#1384AB] p-4 outline-none"
                         required
+                        {...register("lastName", {required: "Last Name required"})}
                     />
+                     {errors.lastName && <p className="text-red-500">{errors.lastName.message}</p>}
                   </div>
                 </div>
-              <label>Other Names</label>
-              <input
-                type="text"
-                placeholder="Enter Other Names"
-                className="rounded-lg border-2 h-10 border-[#1384AB] p-4"
-                required
-              />
-              <label>Email</label>
-              <input
-                type="email"
-                placeholder="Enter Email"
-                className="rounded-lg border-2 h-10 border-[#1384AB] p-4"
-                required
-              />
-              <label>Phone Number</label>
-              <input
-                type="tel"
-                placeholder="Enter Phone Number"
-                className="rounded-lg border-2 h-10 border-[#1384AB] p-4"
-                required
-              />
-              <div className="flex gap-x-2">
-              <div className="flex flex-col gap-y-2 w-1/2">
+                <div className="flex flex-col gap-1">
+                  <label>Other Names</label>
+                  <input
+                    type="text"
+                    placeholder="Enter Other Names"
+                    className="rounded-lg border-2 h-10 border-[#1384AB] p-4 outline-none"
+                    required
+                    {...register("otherName", {required: "Other Name required"})}
+                  />
+                   {errors.otherName && <p className="text-red-500">{errors.otherName.message}</p>}
+                </div>
+                <div className="flex flex-col gap-1">
+                  <label>Email</label>
+                  <input
+                    type="email"
+                    placeholder="Enter Email"
+                    className="rounded-lg border-2 h-10 border-[#1384AB] p-4 outline-none"
+                    required
+                    {...register("email", {required: "Email required"})}
+                  />
+                  {errors.email && <p className="text-red-500">{errors.email.message}</p>}
+                </div>
+                <div className="flex flex-col gap-1">
+                  <label>Phone Number</label>
+                  <input
+                    type="tel"
+                    placeholder="Enter Phone Number"
+                    className="rounded-lg border-2 h-10 border-[#1384AB] p-4 outline-none"
+                    required
+                    {...register("phoneNumber", {required: "Phone Number required"})}
+                  />
+                  {errors.phoneNumber && <p className="text-red-500">{errors.phoneNumber.message}</p>}
+                </div>
+                  <div className="flex gap-x-2">
+              <div className="flex flex-col gap-y-1 w-1/2">
               <label>Password</label>
               <input
                 type="password"
                 placeholder="Enter Password"
-                className="rounded-lg border-2 h-10 border-[#1384AB] p-4"
+                className="rounded-lg border-2 h-10 border-[#1384AB] p-4 outline-none"
                 required
+                {...register("password", {required: "Password required"})}
               />
+               {errors.password && <p className="text-red-500">{errors.password.message}</p>}
               </div>
-              <div className="flex flex-col gap-y-2 w-1/2">
+              <div className="flex flex-col gap-y-1 w-1/2">
               <label>Confirm Password</label>
               <input
                 type="password"
                 placeholder="Confirm Password"
-                className="rounded-lg border-2 h-10 border-[#1384AB] p-4"
+                className="rounded-lg border-2 h-10 border-[#1384AB] p-4 outline-none"
                 required
+                {...register("confirmPassword", {
+                  required: "Confirm Password required",
+                  validate: (value) => value === watch("password") || "Passwords do not match",
+                })}
               />
+               {errors.confirmPassword && <p className="text-red-500">{errors.confirmPassword.message}</p>}
               </div>
               </div>
-              <button className="bg-[#02487F] text-white p-2 rounded-md gap-y-3 mt-5 cursor-pointer hover:bg-[#1384AB] transition duration-300 ease-in-out">
-                Sign Up
+              <button type="submit" className="bg-[#02487F] text-white p-2 rounded-md gap-y-3 mt-5 cursor-pointer hover:bg-[#1384AB] transition duration-300 ease-in-out">
+                {loading == true ? <Loader loading={true} inline={true} size={20}/> : "Sign Up"} 
               </button>
               <p className="text-center">
                 Already have an account?{" "}

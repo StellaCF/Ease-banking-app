@@ -8,6 +8,8 @@ import ForgetPassword from './auth/ForgetPassword'
 import VerifyPassword from './auth/VerifyPassword';
 import ResetPassword from './auth/ResetPassword';
 import TransactionPin from './auth/TransactionPin';
+import { ToastContainer } from "react-toastify"
+import "react-toastify/dist/ReactToastify.css";
 
 
 
@@ -26,6 +28,7 @@ const App = () => {
           <Route path="/TransactionPin" element={<TransactionPin />} />
         </Routes>
       </Router>
+      <ToastContainer/>
     </div>
   );
 };
