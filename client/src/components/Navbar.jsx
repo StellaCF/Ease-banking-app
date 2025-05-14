@@ -11,10 +11,10 @@ const Navbar = () => {
         <a href="#" className="text-white hover:underline">Contact Us</a>
         <button 
           onClick={() => navigate('/login')} 
-          className="px-4 py-2 border border-white rounded-full">Log in</button>
+          className="px-4 py-2 border border-white rounded-full cursor-pointer">Log in</button>
         <button 
         onClick={() => navigate('/signup')}
-        className="px-4 py-2 bg-white text-[#004876] rounded-full">Create Account</button>
+        className="px-4 py-2 bg-white text-[#004876] rounded-full cursor-pointer">Create Account</button>
       </div>
     </>
   )

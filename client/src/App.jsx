@@ -8,6 +8,10 @@ import ForgetPassword from './auth/ForgetPassword'
 import VerifyPassword from './auth/VerifyPassword';
 import ResetPassword from './auth/ResetPassword';
 import TransactionPin from './auth/TransactionPin';
+import DepositPage from './user/dashboard/DepositPage';
+import WithdrawPage from './user/dashboard/WithdrawPage';
+import TransferPage from './user/dashboard/TransferPage';
+import SavePage from './user/dashboard/SavePage';
 
 
 
@@ -24,6 +28,10 @@ const App = () => {
           <Route path="/VerifyPassword" element={<VerifyPassword />} />
           <Route path="/ResetPassword" element={<ResetPassword />} />
           <Route path="/TransactionPin" element={<TransactionPin />} />
+          <Route path="/DepositPage" element={<DepositPage />} />
+          <Route path="/WithdrawPage" element={<WithdrawPage />} />
+          <Route path="/TransferPage" element={<TransferPage />} />
+          <Route path="/SavePage" element={<SavePage />} />
         </Routes>
       </Router>
     </div>
