@@ -20,8 +20,7 @@ const TransactionPin = () => {
     reset
   } = useForm({
     defaultValues: {
-      email: "",
-      password: ""
+      pin: ""
     }
   });
   
