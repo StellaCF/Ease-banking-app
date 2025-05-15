@@ -217,37 +217,31 @@ const WithdrawPage = () => {
         </div>
       </main>
 
-      {/* Confirm Details Modal */}
-      <Modal
-        isOpen={showConfirmModal}
-        onClose={() => setShowConfirmModal(false)}
-        title="Confirm Withdrawal"
-      >
-        <div className="bg-transparent p-4 rounded-lg">
-        <p><strong>Bank:</strong> {banks.find((bank) => bank.code === selectedBank)?.name || selectedBank}</p>
-          <p><strong>Account Number:</strong> {accountNumber}</p>
-          <p><strong>Account Name:</strong> {accountName}</p>
-          <p><strong>Amount:</strong> ₦{amount}</p>
-          <p><strong>Description:</strong> {desc}</p>
-          <button
-            onClick={() => {
-              setShowConfirmModal(false);
-              setShowPinModal(true);
-            }}
-            className="mt-4 bg-[#02487F] hover:bg-[#1384AB] text-white px-4 py-2 rounded-lg"
-          >
-            Confirm
-          </button>
+      {showConfirmModal && (
+        <div className="absolute w-full h-screen top-0 left-0 bg-[#0006] flex items-center justify-center z-50">
+          <div className="bg-white p-4 rounded-lg">
+            <p><strong>Bank:</strong> {banks.find((bank) => bank.code === selectedBank)?.name || selectedBank}</p>
+            <p><strong>Account Number:</strong> {accountNumber}</p>
+            <p><strong>Account Name:</strong> {accountName}</p>
+            <p><strong>Amount:</strong> ₦{amount}</p>
+            <p><strong>Description:</strong> {desc}</p>
+            <button
+              onClick={() => {
+                setShowConfirmModal(false);
+                setShowPinModal(true);
+              }}
+              className="mt-4 bg-[#02487F] hover:bg-[#1384AB] text-white px-4 py-2 rounded-lg"
+            >
+              Confirm
+            </button>
+          </div>
         </div>
-      </Modal>
+      )}
 
       {/* PIN Entry Modal */}
-      <Modal
-        isOpen={showPinModal}
-        onClose={() => setShowPinModal(false)}
-        title="Enter Transaction PIN"
-      >
-        <div className="bg-white p-4 rounded-lg">
+      {showPinModal && (
+        <div className="absolute w-full h-screen top-0 left-0 bg-[#0006] flex items-center justify-center z-50">
+          <div className="bg-white p-4 rounded-lg">
           <input
             type="password"
             maxLength={4}
@@ -263,7 +257,9 @@ const WithdrawPage = () => {
             Withdraw
           </button>
         </div>
-      </Modal>
+        </div>
+      )}
+
     </div>
   );
 };

@@ -25,7 +25,7 @@ exports.withdraw = async (id, withData, pin) => {
          throw new Error('user not found')
       }
 
-      const validPin = await bcypt.compare(pin, user.transactionPin);
+      const validPin = await bcrypt.compare(pin, user.transactionPin);
 
       if (Number(user.acctBalance) < Number(withData.amount)) {
          throw new Error('Insufficient Balance')
