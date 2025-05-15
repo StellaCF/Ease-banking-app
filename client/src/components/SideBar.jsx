@@ -26,25 +26,25 @@ const Sidebar = () => {
         <nav className="space-y-6">
           <NavLink
             to="/dashboard"
-            className="flex items-center space-x-2 text-[#02487F] bg-blue-100 p-2 rounded"
+            className={({ isActive }) => `flex items-center rounded-lg space-x-2 text-gray-700 hover:text-[#20B6D9] hover:bg-[#E6F7FB] ${isActive && "bg-[#E6F7FB] text-[#20B6D9]"} p-3`}
           >
             <FaHome /> <span>Home</span>
           </NavLink>
           <NavLink
-            to="/LoanPage"
-            className="flex items-center space-x-2 text-gray-700 hover:text-[#02487F] p-2"
+            to="/loanPage"
+            className={({ isActive }) => `flex items-center rounded-lg space-x-2 text-gray-700 hover:text-[#20B6D9] hover:bg-[#E6F7FB] ${isActive && "bg-[#E6F7FB] text-[#20B6D9]"} p-3`}
           >
             <FaMoneyCheck /> <span>Ease Loan</span>
           </NavLink>
           <NavLink
             to="/#"
-            className="flex items-center space-x-2 text-gray-700 hover:text-[#02487F] p-2"
+            className={({ isActive }) => `flex items-center rounded-lg space-x-2 text-gray-700 hover:text-[#20B6D9] hover:bg-[#E6F7FB] ${isActive && "bg-[#E6F7FB] text-[#20B6D9]"} p-3`}
           >
             <FaListAlt /> <span>Transactions</span>
           </NavLink>
           <NavLink
-            to="/Profile"
-            className="flex items-center space-x-2 text-gray-700 hover:text-[#02487F] p-2"
+            to="/profile"
+            className={({ isActive }) => `flex items-center rounded-lg space-x-2 text-gray-700 hover:text-[#20B6D9] hover:bg-[#E6F7FB] ${isActive && "bg-[#E6F7FB] text-[#20B6D9]"} p-3`}
           >
             <FaUser /> <span>Profile</span>
           </NavLink>

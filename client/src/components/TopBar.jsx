@@ -39,8 +39,8 @@ const TopBar = () => {
           <div className="flex justify-between items-center">
             <div>
               <h1 className="text-lg">Hi, {user?.firstName}</h1>
-              <h2 className="text-xl font-semibold mt-4">Account Balance</h2>
-              <p className="text-3xl font-bold mt-1">₦{user?.acctBalance}</p>
+              <h2 className="text-xl font-semibold mt-6">Account Balance</h2>
+              <p className="text-3xl font-bold mt-2">₦{user?.acctBalance}</p>
             </div>
 
             <div 

@@ -8,7 +8,7 @@ import Cookies from "js-cookie"
 const Deposit = () => {
   const [user, setUser] = useState();
   const [amount, setAmount] = useState("");
-  const authToken = Cookies.get("auth_token")
+  const authToken = Cookies.get("auth_token");
 
   useEffect(() => {
     const fetchUser = async () => {
@@ -42,7 +42,8 @@ const Deposit = () => {
           Authorization: `Bearer ${authToken}`
         }
       });
-      toast.success(response?.message)
+      toast.success(response.data.message);
+      setAmount("");
     } catch (error) {
       toast.error(error.response.data.error);
     }
@@ -57,14 +58,21 @@ const Deposit = () => {
         <TopBar/>
 
         {/* Deposit Form Section */}
-        <div className="max-w-3xl mx-auto bg-white p-8 rounded-2xl shadow-xl">
+        <div className="w-full mx-auto bg-white p-8 rounded-2xl shadow-xl">
           <h2 className="text-3xl font-bold text-[#02487F] mb-6">Deposit Funds</h2>
 
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mb-6">
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mt-8 mb-6">
             <div>
               <label className="block text-gray-600 font-medium mb-2">Bank Name</label>
               <div className="bg-gray-100 border border-gray-300 rounded-lg px-4 py-3 text-gray-700">
                 Ease Bank
+              </div>
+            </div>
+
+            <div>
+              <label className="block text-gray-600 font-medium mb-2">Account Name</label>
+              <div className="bg-gray-100 border border-gray-300 rounded-lg px-4 py-3 text-gray-700">
+                Name Name
               </div>
             </div>
 
@@ -76,7 +84,7 @@ const Deposit = () => {
             </div>
           </div>
 
-          <form onSubmit={handleDeposit}>
+          <form onSubmit={handleDeposit} className="mt-8">
             <div className="mb-6">
               <label htmlFor="amount" className="block text-gray-600 font-medium mb-2">
                 Amount to Deposit
