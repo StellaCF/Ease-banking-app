@@ -1,6 +1,7 @@
 import { useState, useEffect } from "react";
 import Sidebar from "../../components/SideBar";
 import TopBar from "../../components/TopBar";
+import Modal from "../../components/Modal";
 import axios from "axios";
 import { toast } from "react-toastify";
 import Cookies from "js-cookie";
@@ -16,6 +17,9 @@ const WithdrawPage = () => {
   const [pin, setPin] = useState("");
   const [isVerified, setIsVerified] = useState(false);
   const [loading, setLoading] = useState(false);
+
+  const [showConfirmModal, setShowConfirmModal] = useState(false);
+  const [showPinModal, setShowPinModal] = useState(false);
 
   const authToken = Cookies.get("auth_token");
 
@@ -45,7 +49,6 @@ const WithdrawPage = () => {
           }
         );
         const response = axiosRes.data;
-        console.log(response)
         setUser(response.data);
       } catch (error) {
         toast.error(error.response.error.message);
@@ -86,16 +89,15 @@ const WithdrawPage = () => {
     setLoading(false);
   };
 
-  const handleWithdraw = async () => {
-    // if (!amount || Number(amount) <= 0) {
-    //   toast.error("Enter a valid withdrawal amount.");
-    //   return;
-    // }
+  const handleWithdraw = () => {
+    setShowConfirmModal(true);
+  };
 
-    // if (Number(amount) > user.acctBalance) {
-    //   toast.error("Insufficient balance.");
-    //   return;
-    // }
+  const handlePinConfirm = async () => {
+    if (pin.length !== 4) {
+      toast.error("PIN must be 4 digits.");
+      return;
+    }
 
     try {
       const axiosRes = await axios.post("https://ease-banking-app.onrender.com/api/user/withdraw",
@@ -104,7 +106,7 @@ const WithdrawPage = () => {
           acctNum: accountNumber, 
           bank: selectedBank, 
           description: desc,
-          pin: pin},
+          pin: pin },
       );
       const response = axiosRes.data;
       toast.success(`₦${amount} withdrawn successfully to ${accountName}!`);
@@ -114,11 +116,11 @@ const WithdrawPage = () => {
       setAccountName("");
       setAccountNumber("");
       setSelectedBank("");
+      setPin("");
+      setShowPinModal(false);
     } catch (error) {
-      toast.error(error.response.data.error);
-      return;
+      toast.error(error.response?.data?.error || "Invalid PIN or request failed.");
     }
-
   };
 
   return (
@@ -126,7 +128,7 @@ const WithdrawPage = () => {
       <Sidebar />
 
       <main className="flex-1 p-8 space-y-8 ml-64">
-        <TopBar username="user"/>
+        <TopBar username="user" />
 
         <div className="w-full mx-auto bg-white p-8 rounded-2xl shadow-xl">
           <h2 className="text-3xl font-bold text-[#02487F] mb-6">Withdraw Funds</h2>
@@ -200,7 +202,7 @@ const WithdrawPage = () => {
                   value={desc}
                   onChange={(e) => setDesc(e.target.value)}
                   className="w-full border border-gray-300 rounded-lg px-4 py-3 text-gray-800 outline-none"
-                  placeholder="Enter amount"
+                  placeholder="Enter description"
                 />
               </div>
 
@@ -215,6 +217,54 @@ const WithdrawPage = () => {
           )}
         </div>
       </main>
+
+      {/* Confirm Details Modal */}
+      <Modal
+        isOpen={showConfirmModal}
+        onClose={() => setShowConfirmModal(false)}
+        title="Confirm Withdrawal"
+      >
+        <div className="bg-white p-4 rounded-lg">
+        <p><strong>Bank:</strong> {banks.find((bank) => bank.code === selectedBank)?.name || selectedBank}</p>
+          <p><strong>Account Number:</strong> {accountNumber}</p>
+          <p><strong>Account Name:</strong> {accountName}</p>
+          <p><strong>Amount:</strong> ₦{amount}</p>
+          <p><strong>Description:</strong> {desc}</p>
+          <button
+            onClick={() => {
+              setShowConfirmModal(false);
+              setShowPinModal(true);
+            }}
+            className="mt-4 bg-[#02487F] hover:bg-[#1384AB] text-white px-4 py-2 rounded-lg"
+          >
+            Confirm
+          </button>
+        </div>
+      </Modal>
+
+      {/* PIN Entry Modal */}
+      <Modal
+        isOpen={showPinModal}
+        onClose={() => setShowPinModal(false)}
+        title="Enter Transaction PIN"
+      >
+        <div className="bg-white p-4 rounded-lg">
+          <input
+            type="password"
+            maxLength={4}
+            value={pin}
+            onChange={(e) => setPin(e.target.value)}
+            placeholder="Enter 4-digit PIN"
+            className="w-full border border-gray-300 rounded-lg px-4 py-3 text-gray-800 outline-none mb-4"
+          />
+          <button
+            onClick={handlePinConfirm}
+            className="w-full bg-[#02487F] hover:bg-[#1384AB] text-white font-semibold py-3 px-6 rounded-lg transition"
+          >
+            Withdraw
+          </button>
+        </div>
+      </Modal>
     </div>
   );
 };

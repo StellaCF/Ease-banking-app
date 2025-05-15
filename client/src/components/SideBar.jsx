@@ -37,7 +37,7 @@ const Sidebar = () => {
             <FaMoneyCheck /> <span>Ease Loan</span>
           </NavLink>
           <NavLink
-            to="/#"
+            to="/transaction"
             className={({ isActive }) => `flex items-center rounded-lg space-x-2 text-gray-700 hover:text-[#20B6D9] hover:bg-[#E6F7FB] ${isActive && "bg-[#E6F7FB] text-[#20B6D9]"} p-3`}
           >
             <FaListAlt /> <span>Transactions</span>
