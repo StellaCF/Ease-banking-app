@@ -53,6 +53,10 @@ module.exports.User = sequelize.define('users',
     type: DataTypes.STRING(4),
     allowNull: true
   },
+  nin: {
+    type: DataTypes.STRING,
+    allowNull: true
+  },
   otp: {
     type: DataTypes.STRING(6),
     allowNull: true

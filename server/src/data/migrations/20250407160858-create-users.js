@@ -53,6 +53,10 @@ module.exports = {
         type: Sequelize.STRING(4),
         allowNull: true
       },
+      nin: {
+        type: Sequelize.STRING,
+        allowNull: true
+      },
       otp: {
         type: Sequelize.STRING(6),
         allowNull: true
