@@ -21,7 +21,7 @@ const VerifyPassword = () => {
           <h1 className="text-center text-2xl text-[#02487F] font-extrabold mt-8">
             VERIFY OTP
           </h1>
-          <p className='text-center'>OTP was sent to your email: </p>
+          <p className='text-center'>OTP was sent to your email: {email}</p>
         </div>
         <form action="" onSubmit={handleSubmit} className="flex flex-col gap-y-2 w-100% p-4">
           <label>OTP</label>

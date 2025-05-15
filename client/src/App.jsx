@@ -36,8 +36,8 @@ const App = () => {
           <Route path="/withdrawPage" element={<WithdrawPage />} />
           <Route path="/transferPage" element={<TransferPage />} />
           <Route path="/savePage" element={<SavePage />} />
-          <Route path="/LoanPage" element={<LoanPage />} />
-          <Route path="/Profile" element={<Profile />} />
+          <Route path="/loanPage" element={<LoanPage />} />
+          <Route path="/profile" element={<Profile />} />
         </Routes>
       </Router>
       <ToastContainer/>

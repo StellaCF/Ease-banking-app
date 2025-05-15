@@ -19,9 +19,9 @@ exports.requestLoan = async (req, res) => {
     }
 
     const result = await loanService.requestLoan(userId, loanData);
-    res.status(200).json(result);
+    return res.status(200).json(result);
   } catch (error) {
-    res.status(500).json({ message: "Server error", error: error.message });
+    return res.status(500).json({ message: "Server error", error: error.message });
   }
 };
 
@@ -43,9 +43,9 @@ exports.repayLoan = async (req, res) => {
     }
 
     const data = await loanService.repayLoan(userId, loanData);
-    res.status(200).json(data);
+    return res.status(200).json(data);
   } catch (error) {
-    res.status(500).json({ message: "Server error", error: error.message });
+    return res.status(500).json({ message: "Server error", error: error.message });
   }
 };
 

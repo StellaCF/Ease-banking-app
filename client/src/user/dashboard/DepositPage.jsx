@@ -1,16 +1,51 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import Sidebar from "../../components/SideBar";
-import TopBar from "../../components/TopBar"; // import the KycBanner component
+import TopBar from "../../components/TopBar"; 
+import axios from "axios";
+import { toast } from "react-toastify";
+import Cookies from "js-cookie"
 
 const Deposit = () => {
+  const [user, setUser] = useState();
   const [amount, setAmount] = useState("");
-  const accountNumber = "1234567890"; // Replace with dynamic value if needed
-  const accountBalance = 1200.75; // Example balance
+  const authToken = Cookies.get("auth_token")
 
-  const handleDeposit = (e) => {
+  useEffect(() => {
+    const fetchUser = async () => {
+      try {
+        const axiosRes = await axios.get("https://ease-banking-app.onrender.com/api/user", 
+          {
+            headers: {
+              Authorization: `Bearer ${authToken}`
+            }
+          }
+        );
+        const response = axiosRes.data;
+        console.log(response)
+        setUser(response.data);
+      } catch (error) {
+        toast.error(error.response.error.message);
+      }
+    };
+
+    fetchUser();
+  },[authToken])
+
+  const handleDeposit = async (e) => {
     e.preventDefault();
     console.log("Depositing:", amount);
-    // Add actual deposit logic here
+    try {
+      const response = await axios.post("https://ease-banking-app.onrender.com/api/user/deposit",  
+      { amount: Number(amount) }, 
+      {
+        headers: {
+          Authorization: `Bearer ${authToken}`
+        }
+      });
+      toast.success(response?.message)
+    } catch (error) {
+      toast.error(error.response.data.error);
+    }
   };
 
   return (
@@ -19,7 +54,7 @@ const Deposit = () => {
 
       <main className="flex-1 p-8 space-y-8 ml-64">
         {/* KYC Banner */}
-        <TopBar username="user" accountBalance={accountBalance} />
+        <TopBar/>
 
         {/* Deposit Form Section */}
         <div className="max-w-3xl mx-auto bg-white p-8 rounded-2xl shadow-xl">
@@ -36,7 +71,7 @@ const Deposit = () => {
             <div>
               <label className="block text-gray-600 font-medium mb-2">Account Number</label>
               <div className="bg-gray-100 border border-gray-300 rounded-lg px-4 py-3 text-gray-700">
-                {accountNumber}
+                {user?.acctNumber}
               </div>
             </div>
           </div>

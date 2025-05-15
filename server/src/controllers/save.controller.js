@@ -18,10 +18,10 @@ exports.saveFunds = async (req, res) => {
     }
 
     const data = await saveService.saveFunds(userId, saveData);
-    res.status(200).json({ message: "save added", data});
+    return res.status(200).json({ message: "save added", data});
 
   } catch (error) {
-    res.status(500).json({ message: "Server error", error: error.message });
+    return res.status(500).json({ message: "Server error", error: error.message });
   }
 };
 
@@ -37,9 +37,9 @@ exports.addSavings = async (req, res) => {
    
       const data = await saveService.updateSave(userId, transactionId, amount)
       
-      res.status(200).json({message: "updated", data})
+      return res.status(200).json({message: "updated", data})
    } catch (error) {
-      res.status(500).json({ message: "Server error", error: error.message });
+      return res.status(500).json({ message: "Server error", error: error.message });
    }
 }
 
@@ -54,10 +54,10 @@ exports.useSavings = async (req, res) => {
      }
  
      const data = await saveService.useSavings(userId, transactionId, amount);
-     res.status(200).json(data);
+     return res.status(200).json(data);
  
    } catch (error) {
-     res.status(500).json({ message: "Server error", error: error.message });
+     return res.status(500).json({ message: "Server error", error: error.message });
    }
  };
  
@@ -65,8 +65,8 @@ exports.useSavings = async (req, res) => {
  exports.userSavings = async (req, res) => {
    try {
       const data = await saveService.userSavings(req.user.id);
-      res.status(200).json({ message: 'User saving fetched successfully', data });
+      return res.status(200).json({ message: 'User saving fetched successfully', data });
    } catch (error) {
-      res.status(500).json({message: "server error", error: error.message})
+      return res.status(500).json({message: "server error", error: error.message})
    }
  }

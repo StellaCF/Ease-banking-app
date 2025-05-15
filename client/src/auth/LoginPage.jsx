@@ -35,10 +35,14 @@ const LoginPage = () => {
         secure: true, 
         sameSite: "strict",
       });
-      // setTimeout(() => {
-      //   reset();
-      //   navigate("/transactionPin");
-      // }, 2000);
+      setTimeout(() => {
+        reset();
+        if (response.data.user.transactionPin === null) {
+          navigate("/transactionPin");
+        } else {
+          navigate("/dashboard")
+        }
+      }, 2000);
     } catch (error) {
     console.log(error)     
     const errorMessage = error.response?.data?.error || "Login failed";

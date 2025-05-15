@@ -20,9 +20,9 @@ exports.deposit = async (req, res) => {
          type: "deposit"
       }
       const data = await transactionService.deposit(userId, depositData)
-      res.status(200).json({ message: 'Deposit successful', data });
+      return res.status(200).json({ message: 'Deposit successful', data });
    } catch (error) {
-      res.status(500).json({ message: 'Server error', error: error.message });  
+      return res.status(500).json({ message: 'Server error', error: error.message });  
    }
 }
 
@@ -47,9 +47,9 @@ exports.withdrawal = async (req, res) => {
          type: "withdraw"
       }
       const data = await transactionService.withdraw(userId, withData, pin)
-      res.status(200).json({ message: 'Withdrawal successful', data });
+      return res.status(200).json({ message: 'Withdrawal successful', data });
    } catch (error) {
-      res.status(500).json({ message: 'Server error', error: error.message });  
+      return res.status(500).json({ message: 'Server error', error: error.message });  
    }
 }
 
@@ -57,9 +57,9 @@ exports.accountVerification = async (req, res) => {
    try {
       const { acctNum } = req.body;
       const data = await transactionService.verifyAcct(acctNum);
-      res.status(200).json({ message: 'user fetched', data });
+      return res.status(200).json({ message: 'user fetched', data });
    } catch (error) {
-      res.status(401).json({ message: error.message})
+      return res.status(401).json({ message: error.message})
    }
 }
 
@@ -84,8 +84,8 @@ exports.transfer = async (req, res) => {
       }
 
       const data = await transactionService.transfer(userId, transferData, pin)
-      res.status(200).json({ message: 'Transfer successful', data });
+      return res.status(200).json({ message: 'Transfer successful', data });
    } catch (error) {
-      res.status(500).json({ message: 'Server error', error: error.message });  
+      return res.status(500).json({ message: 'Server error', error: error.message });  
    }
 }
