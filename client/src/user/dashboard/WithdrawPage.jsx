@@ -1,7 +1,6 @@
 import { useState, useEffect } from "react";
 import Sidebar from "../../components/SideBar";
 import TopBar from "../../components/TopBar";
-import Modal from "../../components/Modal";
 import axios from "axios";
 import { toast } from "react-toastify";
 import Cookies from "js-cookie";
@@ -208,7 +207,7 @@ const WithdrawPage = () => {
               <button
                 onClick={handleWithdraw}
                 disabled={loading}
-                className="w-full bg-[#02487F] hover:bg-[#1384AB] text-white font-semibold py-3 px-6 rounded-lg transition"
+                className="w-full bg-[#02487F] cursor-pointer hover:bg-[#1384AB] text-white font-semibold py-3 px-6 rounded-lg transition"
               >
                 {loading ? "Processing..." : "Withdraw Now"}
               </button>
@@ -217,42 +216,52 @@ const WithdrawPage = () => {
         </div>
       </main>
 
+
       {showConfirmModal && (
-        <div className="absolute w-full h-screen top-0 left-0 bg-[#0006] flex items-center justify-center z-50">
+        <div className="fixed w-full h-screen top-0 left-0 bg-[#0006] flex items-center justify-center z-50">
           <div className="bg-white p-4 rounded-lg">
-            <p><strong>Bank:</strong> {banks.find((bank) => bank.code === selectedBank)?.name || selectedBank}</p>
-            <p><strong>Account Number:</strong> {accountNumber}</p>
-            <p><strong>Account Name:</strong> {accountName}</p>
-            <p><strong>Amount:</strong> ₦{amount}</p>
-            <p><strong>Description:</strong> {desc}</p>
-            <button
-              onClick={() => {
-                setShowConfirmModal(false);
-                setShowPinModal(true);
-              }}
-              className="mt-4 bg-[#02487F] hover:bg-[#1384AB] text-white px-4 py-2 rounded-lg"
-            >
-              Confirm
-            </button>
-          </div>
+            <div className="flex justify-between mb-4">
+              <h2 className="text-xl font-semibold text-[#02487F]">Confirm Withdrawal</h2>
+              <button onClick={() => setShowConfirmModal(false)} className="text-gray-500 hover:text-red-500 text-2xl">&times;</button>
+            </div>
+          <p><strong>Bank:</strong> {banks.find((bank) => bank.code === selectedBank)?.name || selectedBank}</p>
+          <p><strong>Account Number:</strong> {accountNumber}</p>
+          <p><strong>Account Name:</strong> {accountName}</p>
+          <p><strong>Amount:</strong> ₦{amount}</p>
+          <p><strong>Description:</strong> {desc}</p>
+          <button
+            onClick={() => {
+              setShowConfirmModal(false);
+              setShowPinModal(true);
+            }}
+            className="mt-4 bg-[#02487F] hover:bg-[#1384AB] cursor-pointer text-white px-4 py-2 rounded-lg"
+          >
+            Confirm
+          </button>
+        </div>
         </div>
       )}
 
       {/* PIN Entry Modal */}
       {showPinModal && (
-        <div className="absolute w-full h-screen top-0 left-0 bg-[#0006] flex items-center justify-center z-50">
+        <div className="fixed w-full h-screen top-0 left-0 bg-[#0006] flex items-center justify-center z-50">
+
           <div className="bg-white p-4 rounded-lg">
+            <div className="flex justify-between">
+              <h2 className="text-xl font-semibold text-[#02487F]">Enter PIN</h2>
+              <button onClick={() => setShowPinModal(false)} className="text-gray-500 hover:text-red-500 text-xl">&times;</button>
+            </div>
           <input
             type="password"
             maxLength={4}
             value={pin}
             onChange={(e) => setPin(e.target.value)}
             placeholder="Enter 4-digit PIN"
-            className="w-full border border-gray-300 rounded-lg px-4 py-3 text-gray-800 outline-none mb-4"
+            className="w-full mt-4 border border-gray-300 rounded-lg px-4 py-3 text-gray-800 outline-none mb-4"
           />
           <button
             onClick={handlePinConfirm}
-            className="w-full bg-[#02487F] hover:bg-[#1384AB] text-white font-semibold py-3 px-6 rounded-lg transition"
+            className="w-full bg-[#02487F] hover:bg-[#1384AB] cursor-pointer text-white font-semibold py-3 px-6 rounded-lg transition"
           >
             Withdraw
           </button>
