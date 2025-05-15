@@ -1,5 +1,6 @@
 const { User } = require('../data/models/users');
-const { Transaction } = require('../data/models/transactions')
+const { Transaction } = require('../data/models/transactions');
+const bcrypt = require('bcrypt');
 
 exports.deposit = async (id, depositData) => {
    try {
@@ -24,11 +25,13 @@ exports.withdraw = async (id, withData, pin) => {
          throw new Error('user not found')
       }
 
+      const validPin = await bcypt.compare(pin, user.transactionPin);
+
       if (Number(user.acctBalance) < Number(withData.amount)) {
          throw new Error('Insufficient Balance')
       } else if (user.transactionPin === null) {
          throw new Error('Transaction pin not set')
-      } else if (user.transactionPin !== pin) {
+      } else if (!validPin) {
          throw new Error('Invalid transaction pin')
       }
 
@@ -69,9 +72,10 @@ exports.transfer = async (id, transferData, pin) => {
          throw new Error('Insufficient funds')
       }
 
+      const validPin = await bcrypt.compare(pin, user.transactionPin);
       if (user.transactionPin === null) {
          throw new Error('Transaction pin not set')
-      } else if (user.transactionPin !== pin) {
+      } else if (!validPin) {
          throw new Error('Invalid transaction pin')
       }
 

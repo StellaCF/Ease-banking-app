@@ -17,7 +17,6 @@ const WithdrawPage = () => {
   const [pin, setPin] = useState("");
   const [isVerified, setIsVerified] = useState(false);
   const [loading, setLoading] = useState(false);
-
   const [showConfirmModal, setShowConfirmModal] = useState(false);
   const [showPinModal, setShowPinModal] = useState(false);
 
@@ -94,21 +93,21 @@ const WithdrawPage = () => {
   };
 
   const handlePinConfirm = async () => {
-    if (pin.length !== 4) {
-      toast.error("PIN must be 4 digits.");
-      return;
-    }
-
     try {
-      const axiosRes = await axios.post("https://ease-banking-app.onrender.com/api/user/withdraw",
+      await axios.post("https://ease-banking-app.onrender.com/api/user/withdraw",
         { amount: Number(amount), 
           acctName: accountName, 
           acctNum: accountNumber, 
           bank: selectedBank, 
           description: desc,
           pin: pin },
+        {
+          headers: {
+            Authorization: `Bearer ${authToken}`,
+          }
+        }
       );
-      const response = axiosRes.data;
+
       toast.success(`₦${amount} withdrawn successfully to ${accountName}!`);
       setAmount("");
       setDesc("");
@@ -224,7 +223,7 @@ const WithdrawPage = () => {
         onClose={() => setShowConfirmModal(false)}
         title="Confirm Withdrawal"
       >
-        <div className="bg-white p-4 rounded-lg">
+        <div className="bg-transparent p-4 rounded-lg">
         <p><strong>Bank:</strong> {banks.find((bank) => bank.code === selectedBank)?.name || selectedBank}</p>
           <p><strong>Account Number:</strong> {accountNumber}</p>
           <p><strong>Account Name:</strong> {accountName}</p>
