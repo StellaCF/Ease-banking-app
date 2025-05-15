@@ -16,6 +16,7 @@ import TransferPage from './user/dashboard/TransferPage';
 import SavePage from './user/dashboard/SavePage';
 import LoanPage from './user/dashboard/LoanPage';
 import Profile from './user/dashboard/Profile';
+import Transaction from './user/dashboard/Transaction';
 
 
 
@@ -38,6 +39,7 @@ const App = () => {
           <Route path="/savePage" element={<SavePage />} />
           <Route path="/loanPage" element={<LoanPage />} />
           <Route path="/profile" element={<Profile />} />
+          <Route path="/transaction" element={<Transaction />} />
         </Routes>
       </Router>
       <ToastContainer/>
