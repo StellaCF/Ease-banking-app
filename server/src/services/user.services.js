@@ -22,8 +22,9 @@ exports.userDetail = async (id) => {
       throw new Error('User not found');
     }
 
+    const { firstName, otherName, lastName, email, phoneNumber, acctNumber, acctBalance, savingsBalance, address, nin, transactions, loanSave } = user
 
-    return user;
+    return firstName, otherName, lastName, email, phoneNumber, acctNumber, acctBalance, savingsBalance, address, nin, transactions, loanSave;
   } catch (error) {
     throw new Error('Error fetching user details: ' + error.message);
   }
