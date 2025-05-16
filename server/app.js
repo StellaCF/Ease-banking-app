@@ -14,6 +14,9 @@ const app = express();
 app.use(cors());
 app.use(express.json());
 
+app.get("/", (req, res) => {
+   res.send("Welcome to the Ease Banking API 🚀");
+ });
 app.use('/api', authRoutes);
 app.use('/api', userRoutes);
 app.use('/api/user', transactionRoutes);
