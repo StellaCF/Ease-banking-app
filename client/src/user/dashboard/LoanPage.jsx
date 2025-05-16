@@ -94,7 +94,7 @@ const LoanPage = () => {
     //   return;
     // }
     try {
-      const axiosRes = await axios.post("https://ease-banking-app.onrender.com/api/user/loan", {amount: amount}, {
+      const axiosRes = await axios.post("https://ease-banking-app.onrender.com/api/user/repay-loan", {amount: amount}, {
         headers: {
           Authorization: `Bearer ${authToken}`
         },
