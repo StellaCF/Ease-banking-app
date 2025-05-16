@@ -24,7 +24,7 @@ exports.userDetail = async (id) => {
 
     const { firstName, otherName, lastName, email, phoneNumber, acctNumber, acctBalance, savingsBalance, address, nin, transactions, loanSave } = user
 
-    return firstName, otherName, lastName, email, phoneNumber, acctNumber, acctBalance, savingsBalance, address, nin, transactions, loanSave;
+    return { firstName, otherName, lastName, email, phoneNumber, acctNumber, acctBalance, savingsBalance, address, nin, transactions, loanSave};
   } catch (error) {
     throw new Error('Error fetching user details: ' + error.message);
   }

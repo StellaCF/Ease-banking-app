@@ -7,4 +7,4 @@ User.hasMany(LoanSave, { foreignKey: "userId", as: "loanSave" });
 Transaction.belongsTo(User, { foreignKey: "userId" });
 LoanSave.belongsTo(User, { foreignKey: "userId" });
 
-module.exports = { User, Transaction };
+module.exports = { User, Transaction, LoanSave };
