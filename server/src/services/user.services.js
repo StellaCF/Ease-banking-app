@@ -7,10 +7,12 @@ exports.userDetail = async (id) => {
       include: [
         {
           association: "transactions",
+          separate: true,
           order: [["createdAt", "DESC"]],
         },
         {
           association: "loan-save",
+          separate: true,
           order: [["createdAt", "DESC"]],
         },
       ],

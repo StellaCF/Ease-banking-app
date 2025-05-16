@@ -1,5 +1,6 @@
 const { User } = require("../data/models/users");
 const { Transaction } = require("../data/models/transactions");
+const { LoanSave } = require("../data/models/loan-save")
 const { Op } = require("sequelize");
 
 exports.verifyNIN = async (id, nin, address) => {
@@ -21,7 +22,7 @@ exports.requestLoan = async (id, loanData) => {
   
   await user.save();
 
-  await Transaction.create(loanData); 
+  await LoanSave.create(loanData); 
 
   return { message: "Loan credited", newBalance: user.acctBalance };
 };
@@ -38,14 +39,14 @@ exports.repayLoan = async (id, loanData) => {
 
   await user.save();
 
-  await Transaction.create(loanData);
+  await LoanSave.create(loanData);
 
   return { message: "Loan repaid", newBalance: user.acctBalance };
 };
 
 
 exports.autoDeductLoans = async () => {
-  const overdueLoans = await Transaction.findAll({
+  const overdueLoans = await LoanSave.findAll({
     where: {
       type: 'loan',
       createdAt: { [Op.lte]: new Date(Date.now() - 30 * 24 * 60 * 60 * 1000) }
@@ -62,7 +63,7 @@ exports.autoDeductLoans = async () => {
      console.log("No user found for loan:", loan.id, "userId:", loan.userId);
    continue;}
  
-   const hasRepaid = await Transaction.findOne({
+   const hasRepaid = await LoanSave.findOne({
      where: {
        userId: loan.userId,
        type: 'repayment',
@@ -80,7 +81,7 @@ exports.autoDeductLoans = async () => {
      user.acctBalance = (parseFloat(user.acctBalance) - parseFloat(loan.amount)).toFixed(2);
      await user.save();
  
-     await Transaction.create({
+     await LoanSave.create({
        userId: user.id,
        amount: loan.amount,
        type: "repayment",

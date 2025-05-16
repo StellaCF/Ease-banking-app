@@ -1,5 +1,5 @@
 const { User } = require("../data/models/users");
-const { Transaction } = require("../data/models/transactions");
+const { LoanSave } = require("../data/models/loan-save");
 
 exports.saveFunds = async (userId, saveData) => {
   const user = await User.findByPk(userId);
@@ -16,7 +16,7 @@ exports.saveFunds = async (userId, saveData) => {
 
   await user.save();
 
-  const result = await Transaction.create(saveData);
+  const result = await LoanSave.create(saveData);
   console.log(result)
 
   return {
@@ -32,7 +32,7 @@ exports.updateSave = async (userId, transactionId, amount) => {
    const user = await User.findByPk(userId);
    if (!user) throw new Error("User not found");
 
-   const saving = await Transaction.findOne({
+   const saving = await LoanSave.findOne({
       where: {
          id: transactionId,
          userId,
@@ -52,11 +52,11 @@ exports.updateSave = async (userId, transactionId, amount) => {
 }
 
 
-exports.useSavings = async (userId, transactionId, amount) => {
+exports.useSavings = async (userId, LoanSaveId, amount) => {
    const user = await User.findByPk(userId);
    if (!user) throw new Error("User not found");
  
-   const saving = await Transaction.findOne({
+   const saving = await LoanSave.findOne({
      where: {
        id: transactionId,
        userId,
@@ -98,7 +98,7 @@ exports.useSavings = async (userId, transactionId, amount) => {
 
 exports.userSavings = async (userId) => {
   try {
-    const savings = await Transaction.findAll({ where: {
+    const savings = await LoanSave.findAll({ where: {
       userId,
       type: 'save'
     }
