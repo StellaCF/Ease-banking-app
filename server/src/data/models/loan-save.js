@@ -20,29 +20,17 @@ module.exports.Transaction = sequelize.define("transactions",
         onDelete: 'CASCADE'
       },
       type: {
-        type: DataTypes.ENUM('deposit', 'withdraw', 'transfer'),
+        type: DataTypes.ENUM('loan', 'repayment', 'save', 'spend'),
         allowNull: false
       },
       amount: {
         type: DataTypes.DECIMAL(10, 2),
         allowNull: false
       },
-      acctName: {
-        type: DataTypes.STRING,
-        allowNull: true
-      },
-      bankAcct: {
-        type: DataTypes.STRING,
-        allowNull: true
-      },
-      acctNumber: {
-        type: DataTypes.STRING,
-        allowNull: true
-      },
       status: {
         type: DataTypes.STRING,
         allowNull: false,
-        defaultValue: 'completed'
+        defaultValue: 'approved'
       },
       description: {
         type: DataTypes.STRING,
@@ -50,7 +38,7 @@ module.exports.Transaction = sequelize.define("transactions",
       }
     },
     {
-      tableName: 'transactions',
+      tableName: 'loan-save',
       timestamps: true
     }
   );

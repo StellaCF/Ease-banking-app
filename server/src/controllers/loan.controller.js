@@ -3,7 +3,7 @@ const cron = require('node-cron');
 
 exports.requestLoan = async (req, res) => {
   try {
-    const { amount } = req.body;
+    const { amount, address, nin } = req.body;
     const userId = req.user.id;
 
     if (!amount || amount <= 0) {
@@ -13,6 +13,8 @@ exports.requestLoan = async (req, res) => {
     const loanData = {
       userId: userId,
       amount: amount,
+      address: address,
+      nin: nin,
       description: "Loan Credited",
       type: "loan",
       createdAt: new Date()

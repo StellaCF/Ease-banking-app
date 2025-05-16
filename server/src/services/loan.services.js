@@ -1,8 +1,14 @@
 const { User } = require("../data/models/users");
 const { Transaction } = require("../data/models/transactions");
 const { Op } = require("sequelize");
-const cron = require('node-cron')
 
+exports.verifyNIN = async (id, nin, address) => {
+  const user = await User.findByPk(id);
+  if (!user) throw new Error("User not found");
+
+
+  await user.save();
+}
 
 exports.requestLoan = async (id, loanData) => {
   const user = await User.findByPk(id);
@@ -10,7 +16,9 @@ exports.requestLoan = async (id, loanData) => {
 
   const loanAmount = parseFloat(loanData.amount);
   user.acctBalance = (parseFloat(user.acctBalance) + loanAmount).toFixed(2);
-
+  user.nin = nin;
+  user.address = address;
+  
   await user.save();
 
   await Transaction.create(loanData); 

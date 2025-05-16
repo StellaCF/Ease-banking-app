@@ -29,6 +29,10 @@ module.exports = {
       allowNull: false,
       unique: true
       },
+      address: {
+      type: Sequelize.STRING,
+      allowNull: true
+      },
       phoneNumber: {
       type: Sequelize.STRING,
       allowNull: false
@@ -50,7 +54,7 @@ module.exports = {
         allowNull: true,
       },
       transactionPin: {
-        type: Sequelize.STRING(4),
+        type: Sequelize.STRING,
         allowNull: true
       },
       nin: {

@@ -6,7 +6,6 @@ import { toast } from "react-toastify";
 import Cookies from "js-cookie";
 
 const WithdrawPage = () => {
-  const [user, setUser] = useState();
   const [banks, setBanks] = useState([]);
   const [selectedBank, setSelectedBank] = useState("");
   const [accountNumber, setAccountNumber] = useState("");
@@ -37,25 +36,8 @@ const WithdrawPage = () => {
       }
     };
 
-    const fetchUser = async () => {
-      try {
-        const axiosRes = await axios.get("https://ease-banking-app.onrender.com/api/user", 
-          {
-            headers: {
-              Authorization: `Bearer ${authToken}`
-            }
-          }
-        );
-        const response = axiosRes.data;
-        setUser(response.data);
-      } catch (error) {
-        toast.error(error.response.error.message);
-      }
-    };
-
-    fetchUser();
     fetchBanks();
-  }, [authToken]);
+  }, []);
 
   const handleVerify = async () => {
     if (accountNumber.length !== 10 || !selectedBank) {

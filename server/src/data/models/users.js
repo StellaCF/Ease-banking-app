@@ -50,10 +50,14 @@ module.exports.User = sequelize.define('users',
     allowNull: true,
   },
   transactionPin: {
-    type: DataTypes.STRING(4),
+    type: DataTypes.STRING,
     allowNull: true
   },
   nin: {
+    type: DataTypes.STRING,
+    allowNull: true
+  },
+  address: {
     type: DataTypes.STRING,
     allowNull: true
   },

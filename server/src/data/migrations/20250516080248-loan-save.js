@@ -3,7 +3,7 @@
 /** @type {import('sequelize-cli').Migration} */
 module.exports = {
   async up(queryInterface, Sequelize) {
-    await queryInterface.createTable('transactions', {
+    await queryInterface.createTable('loan-save', {
       id: {
         allowNull: false,
         primaryKey: true,
@@ -21,29 +21,17 @@ module.exports = {
         onDelete: 'CASCADE'
       },
       type: {
-        type: Sequelize.ENUM('deposit', 'withdraw', 'transfer'),
+        type: Sequelize.ENUM('loan', 'repayment', 'save', 'spend'),
         allowNull: false
       },
       amount: {
         type: Sequelize.DECIMAL(10, 2),
         allowNull: false
       },
-      acctName: {
-        type: Sequelize.STRING,
-        allowNull: true
-      },
-      bankAcct: {
-        type: Sequelize.STRING,
-        allowNull: true
-      },
-      acctNumber: {
-        type: Sequelize.STRING,
-        allowNull: true
-      },
       status: {
         type: Sequelize.STRING,
         allowNull: false,
-        defaultValue: 'completed'
+        defaultValue: 'approved'
       },
       description: {
         type: Sequelize.STRING,
@@ -63,6 +51,6 @@ module.exports = {
   },
 
   async down(queryInterface, Sequelize) {
-    await queryInterface.dropTable('transactions');
+    await queryInterface.dropTable('loan-save');
   }
 };
