@@ -29,6 +29,10 @@ module.exports.User = sequelize.define('users',
       isEmail: true
     }
   },
+  address: {
+    type: DataTypes.STRING,
+    allowNull: true
+  },
   phoneNumber: {
     type: DataTypes.STRING(15),
     allowNull: false
@@ -54,10 +58,6 @@ module.exports.User = sequelize.define('users',
     allowNull: true
   },
   nin: {
-    type: DataTypes.STRING,
-    allowNull: true
-  },
-  address: {
     type: DataTypes.STRING,
     allowNull: true
   },

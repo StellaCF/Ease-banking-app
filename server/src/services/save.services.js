@@ -1,5 +1,5 @@
 const { User } = require("../data/models/users");
-const { LoanSave } = require("../data/models/loan-save");
+const { LoanSave } = require("../data/models/loanSave");
 
 exports.saveFunds = async (userId, saveData) => {
   const user = await User.findByPk(userId);

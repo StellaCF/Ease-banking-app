@@ -1,6 +1,6 @@
 const { User } = require("./users");
 const { Transaction } = require("./transactions");
-const { LoanSave } = require("./loan-save");
+const { LoanSave } = require("./loanSave");
 
 User.hasMany(Transaction, { foreignKey: "userId", as: "transactions" });
 User.hasMany(LoanSave, { foreignKey: "userId", as: "loanSave" });
