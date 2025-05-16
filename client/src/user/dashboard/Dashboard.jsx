@@ -44,8 +44,8 @@ const Dashboard = () => {
   const formatDateAndTime = (isoString) => {
     const dateObj = new Date(isoString);
     const date = dateObj.toLocaleDateString("en-NG", {
-      year: "numeric",
-      month: "long",
+      // year: "numeric",
+      month: "numeric",
       day: "numeric",
     });
   
@@ -98,7 +98,7 @@ const Dashboard = () => {
                 <tr key={tx.id} className="text-sm border-b text-gray-600">
                   <td className="py-4">{tx.type}</td>
                   <td className="py-4">₦{tx.amount}</td>
-                  <td className="py-4">{formatDateAndTime(tx.createdAt).date}</td>
+                  <td className="py-4">{formatDateAndTime(tx.createdAt).date} | {formatDateAndTime(tx.createdAt).time}</td>
                   <td className="py-4">{tx.status}</td>
                 </tr>
               ))}
