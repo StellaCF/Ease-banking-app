@@ -16,8 +16,8 @@ exports.requestLoan = async (id, loanData) => {
 
   const loanAmount = parseFloat(loanData.amount);
   user.acctBalance = (parseFloat(user.acctBalance) + loanAmount).toFixed(2);
-  user.nin = nin;
-  user.address = address;
+  user.nin = loanData.nin;
+  user.address = loanData.address;
   
   await user.save();
 
