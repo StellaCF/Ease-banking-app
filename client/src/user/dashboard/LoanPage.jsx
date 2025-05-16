@@ -8,8 +8,8 @@ import Cookies from "js-cookie";
 
 const LoanPage = () => {
   const [user, setUser] = useState();
+  const [history, setHistory] = useState([]);
   const [loanAmount, setLoanAmount] = useState("");
-  const [currentLoan, setCurrentLoan] = useState(0);
   const [showRepayField, setShowRepayField] = useState(false);
   const [repayAmount, setRepayAmount] = useState("");
   const [showLoanForm, setShowLoanForm] = useState(false);
@@ -31,6 +31,7 @@ const LoanPage = () => {
         const response = axiosRes.data;
         console.log(response)
         setUser(response.data);
+        setHistory(response.data.loanSave);
       } catch (error) {
         toast.error(error.response.error.message);
       }
@@ -41,7 +42,23 @@ const LoanPage = () => {
 
   const fullname = user?.firstName + " " + user?.otherName + " " + user?.lastName;
 
+  const formatDateAndTime = (isoString) => {
+    const dateObj = new Date(isoString);
+    const date = dateObj.toLocaleDateString("en-NG", {
+      // year: "numeric",
+      month: "numeric",
+      day: "numeric",
+    });
   
+    const time = dateObj.toLocaleTimeString("en-NG", {
+      hour: "2-digit",
+      minute: "2-digit",
+      hour12: true,
+    });
+  
+    return { date, time };
+  };
+
   const handleAddLoan = async () => {
     if (!address || !nin) {
       toast.error("Please complete all application form fields.", {
@@ -51,7 +68,7 @@ const LoanPage = () => {
     }
     const amount = Number(loanAmount);
     try {
-      const axiosRes = await axios.post("https://ease-banking-app.onrender.com/api/user/loan", {amount: amount}, {
+      const axiosRes = await axios.post("https://ease-banking-app.onrender.com/api/user/loan", {amount: amount, address, nin}, {
         headers: {
           Authorization: `Bearer ${authToken}`
         },
@@ -65,25 +82,31 @@ const LoanPage = () => {
       console.log(response);
     } catch (error) {
       toast.error(error.response.data.error, { icon: "⚠️" });
-      return;
-      
+      return;  
     }
-
-    setCurrentLoan((prev) => prev + amount);
   };
 
-  const handleRepayLoan = () => {
-    const amount = parseFloat(repayAmount);
+  const handleRepayLoan = async () => {
+    const amount = Number(repayAmount);
 
-    if (!amount || amount <= 0 || amount > currentLoan) {
-      toast.error("Invalid repayment amount.", { icon: "⚠️" });
+    // if (!amount || amount <= 0 || amount > currentLoan) {
+    //   toast.error("Invalid repayment amount.", { icon: "⚠️" });
+    //   return;
+    // }
+    try {
+      const axiosRes = await axios.post("https://ease-banking-app.onrender.com/api/user/loan", {amount: amount}, {
+        headers: {
+          Authorization: `Bearer ${authToken}`
+        },
+      })
+      const response = axiosRes.data;
+      toast.success(response.message, { icon: "✅" });
+      setRepayAmount("");
+      setShowRepayField(false);
+    } catch (error) {
+      toast.error(error.response.data.error, { icon: "⚠️" });
       return;
     }
-
-    setCurrentLoan((prev) => prev - amount);
-    setRepayAmount("");
-    setShowRepayField(false);
-    toast.success("Loan repayment successful.", { icon: "✅" });
   };
 
   const toggleLoanForm = () => {
@@ -235,6 +258,34 @@ const LoanPage = () => {
             </motion.div>
           )}
         </AnimatePresence>
+
+
+        <div className="bg-white p-6 rounded-lg shadow">
+          <div className="flex justify-between items-center mb-4">
+            <h3 className="text-xl font-semibold">Loan History</h3>
+          </div> 
+
+          <table className="w-full text-left border-collapse">
+            <thead>
+              <tr className="text-gray-600 text-sm border-b">
+                <th className="py-2">Type</th>
+                <th className="py-2">Amount</th>
+                <th className="py-2">Date</th>
+                <th className="py-2">Status</th>
+              </tr>
+            </thead>
+            <tbody>
+              {history.map((tx) => (
+                <tr key={tx.id} className="text-sm border-b text-gray-600">
+                  <td className="py-4">{tx.type}</td>
+                  <td className="py-4">₦{tx.amount}</td>
+                  <td className="py-4">{formatDateAndTime(tx.createdAt).date} | {formatDateAndTime(tx.createdAt).time}</td>
+                  <td className="py-4">{tx.status}</td>
+                </tr>
+              ))}
+            </tbody>
+          </table>
+        </div>
       </main>
     </div>
   );

@@ -43,7 +43,7 @@ exports.repayLoan = async (req, res) => {
     }
 
     const data = await loanService.repayLoan(userId, loanData);
-    return res.status(200).json(data);
+    return res.status(200).json({message: `₦${amount} Loan Repaid`, data});
   } catch (error) {
     return res.status(500).json({ message: "Server error", error: error.message });
   }
