@@ -1,4 +1,3 @@
-import React from "react";
 import { useState } from "react";
 import heroimg from "../assets/heroimg.png";
 import img1 from "../assets/img1.avif";
@@ -136,7 +135,7 @@ export default function MoneyTransferLanding() {
                 <span className="mr-2">🏦</span>
                 <h4 className="text-lg font-semibold">Families and Loved ones</h4>
               </div>
-              <p>Allowances, emergencies, fees? We've got you covered. Stay connected to your loved ones no matter the distance</p>
+              <p>Allowances, emergencies, fees? We have got you covered. Stay connected to your loved ones no matter the distance</p>
             </div>
           </div>
         </div>
