@@ -13,14 +13,12 @@ exports.requestLoan = async (req, res) => {
     const loanData = {
       userId: userId,
       amount: amount,
-      address: address,
-      nin: nin,
       description: "Loan Credited",
       type: "loan",
       createdAt: new Date()
     }
 
-    const result = await loanService.requestLoan(userId, loanData);
+    const result = await loanService.requestLoan(userId, loanData, nin, address);
     return res.status(200).json(result);
   } catch (error) {
     return res.status(500).json({ message: "Server error", error: error.message });

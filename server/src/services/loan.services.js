@@ -11,14 +11,14 @@ exports.verifyNIN = async (id, nin, address) => {
   await user.save();
 }
 
-exports.requestLoan = async (id, loanData) => {
+exports.requestLoan = async (id, loanData, nin, address) => {
   const user = await User.findByPk(id);
   if (!user) throw new Error("User not found");
 
   const loanAmount = parseFloat(loanData.amount);
   user.acctBalance = (parseFloat(user.acctBalance) + loanAmount).toFixed(2);
-  user.nin = loanData.nin;
-  user.address = loanData.address;
+  user.nin = nin;
+  user.address = address;
   
   await user.save();
 
