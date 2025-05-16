@@ -16,7 +16,7 @@ exports.withdrawSchema = Joi.object({
 
 exports.transferSchema = Joi.object({
    amount: Joi.number().required(),
-   description: Joi.string().required(),
+   description: Joi.string(),
    pin: Joi.string().required(),
    acctName: Joi.string().required(),
    acctNum: Joi.string().required(),
