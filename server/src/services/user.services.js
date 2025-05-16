@@ -11,7 +11,7 @@ exports.userDetail = async (id) => {
           order: [["createdAt", "DESC"]],
         },
         {
-          association: "loan-save",
+          association: "loanSave",
           separate: true,
           order: [["createdAt", "DESC"]],
         },
