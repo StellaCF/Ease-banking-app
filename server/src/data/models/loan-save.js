@@ -1,7 +1,7 @@
 const {  DataTypes } = require('sequelize');
 const { sequelize } = require('../../config/db');
 
-module.exports.Transaction = sequelize.define("transactions", 
+module.exports.Transaction = sequelize.define("loan-save", 
     {
       id: {
         type: DataTypes.UUID,
