@@ -1,6 +1,6 @@
 const { User } = require("../data/models/users");
 const { Transaction } = require("../data/models/transactions");
-const { LoanSave } = require("../data/models/loanSave")
+const { LoanSave } = require("../data/models/loan-save")
 const { Op } = require("sequelize");
 
 exports.verifyNIN = async (id, nin, address) => {
