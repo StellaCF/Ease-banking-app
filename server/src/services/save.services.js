@@ -28,16 +28,12 @@ exports.saveFunds = async (userId, saveData) => {
 };
 
 
-exports.updateSave = async (userId, transactionId, amount) => {
+exports.updateSave = async (userId, saveId, amount) => {
    const user = await User.findByPk(userId);
    if (!user) throw new Error("User not found");
 
    const saving = await LoanSave.findOne({
-      where: {
-         id: transactionId,
-         userId,
-         type: 'save'
-      }
+      where: {id: saveId}
    });
 
    if (!saving) throw new Error("Saving entry not found");
@@ -52,15 +48,13 @@ exports.updateSave = async (userId, transactionId, amount) => {
 }
 
 
-exports.useSavings = async (userId, LoanSaveId, amount) => {
+exports.useSavings = async (userId, saveId, amount) => {
    const user = await User.findByPk(userId);
    if (!user) throw new Error("User not found");
  
    const saving = await LoanSave.findOne({
      where: {
-       id: transactionId,
-       userId,
-       type: 'save'
+       id: saveId,
      }
    });
  

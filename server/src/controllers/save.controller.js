@@ -28,14 +28,14 @@ exports.saveFunds = async (req, res) => {
 
 exports.addSavings = async (req, res) => {
    try {
-      const { transactionId, amount} = req.body;
+      const { amount} = req.body;
       const userId = req.user.id;
    
-      if (!transactionId || !amount || amount <= 0) {
-         return res.status(400).json({ message: "Transaction ID and valid amount required" });
+      if (!amount || amount <= 0) {
+         return res.status(400).json({ message: "Valid amount required" });
       }
    
-      const data = await saveService.updateSave(userId, transactionId, amount)
+      const data = await saveService.updateSave(userId, req.params.id, amount)
       
       return res.status(200).json({message: "updated", data})
    } catch (error) {
@@ -46,14 +46,14 @@ exports.addSavings = async (req, res) => {
 
 exports.useSavings = async (req, res) => {
    try {
-     const { transactionId, amount } = req.body;
+     const { amount } = req.body;
      const userId = req.user.id;
  
-     if (!transactionId || !amount || amount <= 0) {
-       return res.status(400).json({ message: "Transaction ID and valid amount required" });
+     if (!amount || amount <= 0) {
+       return res.status(400).json({ message: "Valid amount required" });
      }
  
-     const data = await saveService.useSavings(userId, transactionId, amount);
+     const data = await saveService.useSavings(userId, req.params.id, amount);
      return res.status(200).json(data);
  
    } catch (error) {

@@ -1,38 +1,62 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import Sidebar from "../../components/SideBar";
 import TopBar from "../../components/TopBar";
+import { toast } from "react-toastify";
+import axios from "axios";
+import Cookies from "js-cookie"
 
 const SavePage = () => {
   const [description, setDescription] = useState("");
   const [amount, setAmount] = useState("");
-  const [balance, setBalance] = useState(2000); // Example main balance
+  const [balance, setBalance] = useState(2000);
   const [savings, setSavings] = useState([]);
 
-  const [activeAction, setActiveAction] = useState({}); // Track open input fields for Add/Spend
-  const [actionAmount, setActionAmount] = useState({}); // Stores input value per saving
+  const [activeAction, setActiveAction] = useState({});
+  const [actionAmount, setActionAmount] = useState({}); 
 
-  const handleSave = () => {
-    const parsedAmount = parseFloat(amount);
-    if (!description || isNaN(parsedAmount) || parsedAmount <= 0) {
-      alert("Please enter valid description and amount.");
-      return;
-    }
+  const authToken = Cookies.get("auth_token");
 
-    if (parsedAmount > balance) {
-      alert("Insufficient balance.");
-      return;
-    }
-
-    const newSaving = {
-      id: Date.now(),
-      description,
-      amount: parsedAmount,
+  useEffect(() => {
+    const fetchSavings = async () => {
+      try {
+        const axiosRes = await axios.get("https://ease-banking-app.onrender.com/api/user/user-savings", {
+          headers: {
+            Authorization: `Bearer ${authToken}`
+          }
+        });
+        const response = axiosRes.data;
+        setSavings(response.data);
+        console.log(response);
+      } catch (error) {
+        console.error(error.response.data.error);
+      }
     };
 
-    setSavings([...savings, newSaving]);
-    setBalance(balance - parsedAmount);
-    setDescription("");
-    setAmount("");
+    fetchSavings();
+  }, [authToken]);
+
+  const handleSave = async () => {
+    const parsedAmount = parseFloat(amount);
+    try {
+      const axiosRes = await axios.post("https://ease-banking-app.onrender.com/api/user/save", 
+        {
+          amount: parsedAmount,
+          description
+        },
+        {
+          headers: {
+            Authorization: `Bearer ${authToken}`
+          }
+        }
+      )
+      const response = axiosRes.data;
+      toast.success(response.message);
+      console.log(response.data);
+      setDescription("");
+      setAmount("");
+    } catch (error) {
+      toast.error(error.response.data.error)
+    }
   };
 
   const toggleAction = (id, type) => {
@@ -46,48 +70,48 @@ const SavePage = () => {
     }));
   };
 
-  const handleActionSubmit = (id, type) => {
-    const input = parseFloat(actionAmount[id]);
-    if (isNaN(input) || input <= 0) {
-      alert("Enter a valid amount.");
-      return;
-    }
+  // const handleActionSubmit = (id, type) => {
+  //   const input = parseFloat(actionAmount[id]);
+  //   if (isNaN(input) || input <= 0) {
+  //     alert("Enter a valid amount.");
+  //     return;
+  //   }
 
-    setSavings((prev) =>
-      prev.map((save) => {
-        if (save.id === id) {
-          if (type === "spend") {
-            if (input > save.amount) {
-              alert("You cannot spend more than you've saved.");
-              return save;
-            }
-            setBalance((bal) => bal + input);
-            return { ...save, amount: save.amount - input };
-          }
+  //   setSavings((prev) =>
+  //     prev.map((save) => {
+  //       if (save.id === id) {
+  //         if (type === "spend") {
+  //           if (input > save.amount) {
+  //             alert("You cannot spend more than you've saved.");
+  //             return save;
+  //           }
+  //           setBalance((bal) => bal + input);
+  //           return { ...save, amount: save.amount - input };
+  //         }
 
-          if (type === "add") {
-            if (input > balance) {
-              alert("Not enough balance to add.");
-              return save;
-            }
-            setBalance((bal) => bal - input);
-            return { ...save, amount: save.amount + input };
-          }
-        }
-        return save;
-      })
-    );
+  //         if (type === "add") {
+  //           if (input > balance) {
+  //             alert("Not enough balance to add.");
+  //             return save;
+  //           }
+  //           setBalance((bal) => bal - input);
+  //           return { ...save, amount: save.amount + input };
+  //         }
+  //       }
+  //       return save;
+  //     })
+  //   );
 
-    setActiveAction((prev) => ({ ...prev, [id]: null }));
-    setActionAmount((prev) => ({ ...prev, [id]: "" }));
-  };
+  //   setActiveAction((prev) => ({ ...prev, [id]: null }));
+  //   setActionAmount((prev) => ({ ...prev, [id]: "" }));
+  // };
 
   return (
     <div className="flex min-h-screen bg-gray-100">
       <Sidebar />
 
       <main className="flex-1 p-8 space-y-8 ml-64">
-        <TopBar username="user" accountBalance={balance} />
+        <TopBar/>
 
         <div className="w-full mx-auto bg-white p-8 rounded-2xl shadow-xl space-y-6">
           <h2 className="text-3xl font-bold text-[#02487F] mb-6">Save Money</h2>
@@ -133,7 +157,7 @@ const SavePage = () => {
                   <div className="flex items-center justify-between mb-2">
                     <div>
                       <h3 className="text-xl font-semibold text-[#02487F]">{save.description}</h3>
-                      <p className="text-gray-700">₦{save.amount.toFixed(2)}</p>
+                      <p className="mt-4 text-gray-700">₦{save.amount}</p>
                     </div>
 
                     <div className="flex space-x-2">

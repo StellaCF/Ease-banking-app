@@ -71,7 +71,7 @@ const TransactionPage = () => {
 
         {/* Filter Buttons */}
         <div className="flex flex-wrap gap-4 mb-6">
-          {["All", "deposit", "transfer", "withdraw", "loan"].map((item) => (
+          {["All", "deposit", "transfer", "withdraw"].map((item) => (
             <button
               key={item}
               onClick={() => setFilter(item)}

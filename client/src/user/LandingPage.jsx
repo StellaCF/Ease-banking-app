@@ -4,6 +4,7 @@ import img1 from "../assets/img1.avif";
 import img4 from "../assets/img4.png";
 import img7 from "../assets/img7.png";
 import img6 from "../assets/img6.png";
+import logo from "../assets/banklogo.png";
 import { Swiper, SwiperSlide } from 'swiper/react';
 import 'swiper/css';
 import 'swiper/css/navigation';
@@ -82,7 +83,7 @@ export default function MoneyTransferLanding() {
      <Navbar/>
 
       {/* Main Section */}
-      <section className="flex flex-col w-10/12 mx-auto lg:flex-row items-center justify-between py-16">
+      <section className="flex flex-col w-10/12 mx-auto lg:flex-row items-center justify-between py-16 lg:py-1">
         {/* Left Content */}
         <div className="max-w-lg text-left">
           <div className="flex items-center mb-4">
@@ -112,7 +113,7 @@ export default function MoneyTransferLanding() {
         </div>
 
         {/* Right Panel - Check Rates */}
-        <div className=" p-6 mt-12 lg:mt-0 w-full max-w-sm">
+        <div className=" p-6 mt-12 lg:mt-0 w-full max-w-2xl">
           <img src={heroimg} alt="Finance" />
         </div>
       </section>
@@ -146,16 +147,12 @@ export default function MoneyTransferLanding() {
         </div>
       </section>
 
-      <section className="min-h-screen bg-gradient-to-r from-[#02487F] to-[#1384AB] flex flex-col items-center justify-center p-6 text-white">
-      <div className="max-w-6xl w-full flex flex-col md:flex-row items-center gap-10">
+      <section className=" bg-gradient-to-r from-[#02487F] to-[#1384AB] flex flex-col items-center justify-center p-6 text-white">
+      <div className="w-full mx-auto flex flex-col md:flex-row items-center gap-10">
         
         {/* Left side: Image */}
-        <div className="w-full md:w-1/2 flex justify-center">
-          <div className="w-[400px] h-[500px] overflow-hidden">
-            <div className="w-full h-full flex items-center justify-center text-gray-500 text-center p-6">
-              <img src={img7} alt="" />
-            </div>
-          </div>
+        <div className="w-1/2 h-[600px] flex justify-center">
+              <img src={img7} alt="" className="w-full"/>
         </div>
 
         {/* Right side: Text content */}
@@ -403,10 +400,10 @@ export default function MoneyTransferLanding() {
 
     
     <footer className="bg-white text-gray-700 text-sm">
-      <div className="max-w-7xl mx-auto px-4 sm:px-8 py-10 grid grid-cols-1 md:grid-cols-4 gap-10">
+      <div className="w-11/12 mx-auto px-4 sm:px-8 py-10 grid grid-cols-1 md:grid-cols-4 gap-10">
         {/* Logo & Description */}
         <div>
-          <img src="/logo-placeholder.png" alt="Ease Bank Logo" className="h-6 mb-4 opacity-80" />
+          <img src={logo} alt="Ease Bank Logo" className="w-20 h-20" />
           <p className="mb-4">
             Ease Bank allows you to send funds to your loved ones or receive payments from clients abroad with minimal fees.
           </p>

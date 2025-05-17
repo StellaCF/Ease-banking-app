@@ -9,6 +9,7 @@ import Cookies from "js-cookie";
 const LoanPage = () => {
   const [user, setUser] = useState();
   const [history, setHistory] = useState([]);
+  const safeHistory = history ?? [];
   const [loanAmount, setLoanAmount] = useState("");
   const [showRepayField, setShowRepayField] = useState(false);
   const [repayAmount, setRepayAmount] = useState("");
@@ -59,11 +60,11 @@ const LoanPage = () => {
 
   const fullname = user?.firstName + " " + user?.otherName + " " + user?.lastName;
 
-  const totalLoan = (history.filter(l => l.type === "loan").reduce((sum, l) => sum + Number(l.amount), 0));
-  const totalRepay = (history.filter(l => l.type === "repayment").reduce((sum, l) => sum + Number(l.amount), 0));
+  const totalLoan = (safeHistory.filter(l => l.type === "loan").reduce((sum, l) => sum + Number(l.amount), 0));
+  const totalRepay = (safeHistory.filter(l => l.type === "repayment").reduce((sum, l) => sum + Number(l.amount), 0));
   let loanAmt  = Number(totalLoan - totalRepay).toFixed(2);
   if (loanAmt < 0) {
-    loanAmt = 0;
+    loanAmt = 0.00;
   }
 
   const formatDateAndTime = (isoString) => {
@@ -299,7 +300,7 @@ const LoanPage = () => {
               </tr>
             </thead>
             <tbody>
-              {history.map((tx) => (
+              {history?.map?.((tx) => (
                 <tr key={tx.id} className="text-sm border-b text-gray-600">
                   <td className="py-4">{tx.type}</td>
                   <td className="py-4">₦{tx.amount}</td>
