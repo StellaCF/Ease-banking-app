@@ -76,7 +76,7 @@ const LoginPage = () => {
               />
               {errors.password && <p className="text-red-500">{errors.password.message}</p>}
             </div>
-            <button className="bg-[#02487F] text-white p-2 rounded-md gap-y-3 mt-5 cursor-pointer hover:bg-[#1384AB] transition duration-300 ease-in-out">
+            <button type="submit" disabled={loading} className="bg-[#02487F] text-white p-2 rounded-md gap-y-3 mt-5 cursor-pointer hover:bg-[#1384AB] transition duration-300 ease-in-out">
               {loading == true ? <Loader loading={true} inline={true} size={20}/> : "Reset Password"}
             </button>
           </form>

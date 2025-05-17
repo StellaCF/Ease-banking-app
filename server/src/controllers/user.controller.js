@@ -9,3 +9,13 @@ exports.userDetail = async (req, res) => {
       res.status(500).json({ message: 'Server error', error: error.message });
    }
 }
+
+
+exports.userTransaction = async (req, res) => {
+   try {
+      const data = await userService.userTransactions(req.user.id);
+      res.status(200).json({ message: 'User transactions fetched successfully', data });
+   } catch (error) {
+      res.status(500).json({ message: 'Server error', error: error.message });
+   }
+}

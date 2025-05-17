@@ -89,7 +89,7 @@ const SavePage = () => {
       <main className="flex-1 p-8 space-y-8 ml-64">
         <TopBar username="user" accountBalance={balance} />
 
-        <div className="max-w-3xl mx-auto bg-white p-8 rounded-2xl shadow-xl space-y-6">
+        <div className="w-full mx-auto bg-white p-8 rounded-2xl shadow-xl space-y-6">
           <h2 className="text-3xl font-bold text-[#02487F] mb-6">Save Money</h2>
 
           <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
@@ -128,7 +128,7 @@ const SavePage = () => {
               {savings.map((save) => (
                 <div
                   key={save.id}
-                  className="border border-gray-300 p-6 rounded-xl bg-gray-50 shadow-sm"
+                  className="border border-gray-300 p-6 rounded-xl bg-[#E6F7FB] shadow-sm"
                 >
                   <div className="flex items-center justify-between mb-2">
                     <div>

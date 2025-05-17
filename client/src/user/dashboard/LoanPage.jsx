@@ -37,10 +37,35 @@ const LoanPage = () => {
       }
     };
 
+    const fetchUserTrans = async () => {
+      try {
+        const axiosRes = await axios.get("https://ease-banking-app.onrender.com/api/user-transactions", 
+          {
+            headers: {
+              Authorization: `Bearer ${authToken}`
+            }
+          }
+        );
+        const response = axiosRes.data;
+        console.log(response)
+        setHistory(response.data.loanSave);
+      } catch (error) {
+        toast.error(error.response.error.message);
+      }
+    };
+
     fetchUser();
+    fetchUserTrans();
   }, [authToken]);
 
   const fullname = user?.firstName + " " + user?.otherName + " " + user?.lastName;
+
+  const totalLoan = (history.filter(l => l.type === "loan").reduce((sum, l) => sum + Number(l.amount), 0)).toFixed(2);
+  const totalRepay = (history.filter(l => l.type === "repayment").reduce((sum, l) => sum + Number(l.amount), 0).toFixed(2));
+  let loanAmt  = Number(totalLoan - totalRepay).toFixed(2);
+  if (loanAmt < 0) {
+    loanAmt = 0;
+  }
 
   const formatDateAndTime = (isoString) => {
     const dateObj = new Date(isoString);
@@ -125,22 +150,22 @@ const LoanPage = () => {
 
       <main className="ml-64 flex-1 p-8 space-y-8">
         {/* Top Section with Loan Info and Actions */}
-        <div className="bg-gradient-to-r from-[#1384AB] to-[#024875]  text-white p-6 h-52 rounded-2xl shadow flex flex-col md:flex-row md:justify-between">
+        <div className="bg-gradient-to-r from-[#024875] to-[#1384AB]  text-white p-6 h-52 rounded-2xl shadow flex flex-col md:flex-row md:justify-between">
           <div>
             <h4 className="text-lg mt-8 font-semibold">Current Loan Amount</h4>
-            <p className="text-3xl font-bold mt-1">₦{loanAmount}</p>
+            <p className="text-3xl font-bold mt-1">₦{loanAmt}</p>
           </div>
 
           <div className="mt-auto flex gap-4">
             <button
               onClick={toggleLoanForm}
-              className="bg-[#1384AB] hover:bg-[#0e6b8f] transition duration-300 text-white px-6 py-4 rounded-lg font-semibold"
+              className="bg-[#20B6D9] hover:bg-[#0e6b8f] transition duration-300 text-white px-6 py-3 rounded-lg font-semibold"
             >
               Request Loan
             </button>
             <button
               onClick={handleToggleRepayField}
-              className="bg-[#1384AB] hover:bg-[#0e6b8f] transition duration-300 text-white px-6 py-4 rounded-lg font-semibold"
+              className="bg-[#20B6D9] hover:bg-[#0e6b8f] transition duration-300 text-white px-6 py-3 rounded-lg font-semibold"
             >
               Repay Loan
             </button>

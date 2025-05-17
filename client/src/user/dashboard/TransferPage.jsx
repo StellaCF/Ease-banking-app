@@ -7,16 +7,16 @@ import Cookies from "js-cookie";
 
 const TransferPage = () => {
   const [accountNumber, setAccountNumber] = useState("");
-  const [accountName, setAccountName] = useState("");
+  const [fullname, setFullname] = useState("");
   const [amount, setAmount] = useState("");
   const [narration, setNarration] = useState("");
   const [isVerified, setIsVerified] = useState(false);
   const [loading, setLoading] = useState(false);
-
-  const authToken = Cookies.get("auth_token");
   const [showConfirmModal, setShowConfirmModal] = useState(false);
   const [showPinModal, setShowPinModal] = useState(false);
   const [pin, setPin] = useState("");
+
+  const authToken = Cookies.get("auth_token");
 
   const verifyAccount = async () => {
     try {
@@ -28,36 +28,48 @@ const TransferPage = () => {
       );
       const response = axiosRes.data;
       toast.success(response.message);
-      const fullName = response.data.firstName + " " + response.data.otherName + " " + response.data.lastName;
-      setTimeout(() => {
-        setAccountName(fullName);
-        setIsVerified(true);
-        setLoading(false);
-      }, 1000);
+      setFullname(response.data);
+      setIsVerified(true);
+      setLoading(false);
+      
     } catch (error) {
-      toast.error(error.response.data.error)
+      toast.error(error.response.data.message)
     }
   };
+  const fullName = fullname.firstName + " " + fullname.otherName + " " + fullname.lastName;
 
   const handleTransfer = () => {
-    if (!isVerified || !amount) {
-      toast.error("Please verify the account and enter an amount.");
+    if (!amount) {
+      toast.error("Amount is required.");
       return;
     }
     setShowConfirmModal(true);
   };
 
-  const handlePinConfirm = () => {
-    toast.success(`Transfer of ₦${amount} to ${accountName} was successful!`);
-
-    setAccountNumber("");
-    setAccountName("");
-    setAmount("");
-    setNarration("");
-    setIsVerified(false);
-    setShowConfirmModal(false);
-    setShowPinModal(false);
-    setPin("");
+  const handlePinConfirm = async () => {
+    try {
+      const axiosRes = await axios.post("https://ease-banking-app.onrender.com/api/user/transfer", 
+        { amount: Number(amount),
+          pin: pin,
+          acctNum: accountNumber,
+          acctName: fullName,
+          description: narration,
+        },
+        { headers: {
+          Authorization: `Bearer ${authToken}`,
+        }}
+      );
+      const response = axiosRes.data;
+      toast.success(response.message);
+      setAccountNumber("");
+      setAmount("");
+      setNarration("");
+      setIsVerified(false);
+      setShowPinModal(false);
+      setPin("");
+    } catch (error) {
+      toast.error(error.response.data.error);
+    }
   };
 
   return (
@@ -67,7 +79,7 @@ const TransferPage = () => {
       <main className="flex-1 p-8 space-y-8 ml-64">
         <TopBar/>
 
-        <div className="max-w-3xl mx-auto bg-white p-8 rounded-2xl shadow-xl">
+        <div className="w-full mx-auto bg-white p-8 rounded-2xl shadow-xl">
           <h2 className="text-3xl font-bold text-[#02487F] mb-6">Make a Transfer</h2>
 
           <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mb-6">
@@ -108,7 +120,7 @@ const TransferPage = () => {
                 <label className="block text-gray-600 font-medium mb-2">Account Name</label>
                 <input
                   type="text"
-                  value={accountName}
+                  value={fullName}
                   readOnly
                   className="w-full bg-gray-100 border border-gray-300 rounded-lg px-4 py-3 cursor-not-allowed"
                 />
@@ -172,7 +184,7 @@ const TransferPage = () => {
             </div>
             <p><strong>Bank:</strong> Ease Bank</p>
             <p><strong>Account Number:</strong> {accountNumber}</p>
-            <p><strong>Account Name:</strong> {accountName}</p>
+            <p><strong>Account Name:</strong> {fullName}</p>
             <p><strong>Amount:</strong> ₦{amount}</p>
             <p><strong>Narration:</strong> {narration || "N/A"}</p>
             <button
@@ -202,7 +214,7 @@ const TransferPage = () => {
               </button>
             </div>
             <input
-              type="password"
+              type="number"
               maxLength={4}
               value={pin}
               onChange={(e) => setPin(e.target.value)}

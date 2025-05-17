@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { Pencil } from "lucide-react"; // Ensure lucide-react is installed
+import { Pencil } from "lucide-react"; 
 import Sidebar from "../../components/SideBar";
 import TopBar from "../../components/TopBar";
 
@@ -40,7 +40,7 @@ const Profile = () => {
         <TopBar username="user" accountBalance={1200.75} />
 
         <div className="bg-white p-8 rounded-2xl shadow-md relative">
-          <h2 className="text-3xl font-bold text-[#02487F] mb-6">Banking Profile</h2>
+          <h2 className="text-3xl font-bold text-[#02487F] mb-6">Profile</h2>
 
           {/* Edit Icon */}
           <button

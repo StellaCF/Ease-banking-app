@@ -1,17 +1,51 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import Sidebar from "../../components/SideBar";
 import { motion, AnimatePresence } from "framer-motion";
+import Cookies from "js-cookie";
+import { toast } from "react-toastify";
+import axios from "axios";
 
 const TransactionPage = () => {
   const [filter, setFilter] = useState("All");
+  const [transactions, setTransactions] = useState([]);
 
-  const transactions = [
-    { type: "Deposit", amount: 5000, date: "2025-05-10", status: "Successful" },
-    { type: "Withdraw", amount: 2000, date: "2025-05-11", status: "Pending" },
-    { type: "Transfer", amount: 1500, date: "2025-05-12", status: "Failed" },
-    { type: "Deposit", amount: 8000, date: "2025-05-13", status: "Successful" },
-    { type: "Withdraw", amount: 1000, date: "2025-05-14", status: "Successful" },
-  ];
+  const authToken = Cookies.get("authToken");
+
+  useEffect(() => {
+    const fetchTransactions = async () => {
+      try {
+        const axiosRes = await axios.get("https://ease-banking-app.onrender.com/api/user-transactions", {
+          headers: {
+            Authorization: `Bearer ${authToken}`,
+          }
+        }) ;
+        const response = axiosRes.data;
+        toast.success(response.message);
+        setTransactions(response.data);
+        console.log(response.data);
+      } catch (error) {
+        toast.error(error.response.data.error)
+      }
+    }
+    fetchTransactions();
+  },[authToken]);
+
+  const formatDateAndTime = (isoString) => {
+    const dateObj = new Date(isoString);
+    const date = dateObj.toLocaleDateString("en-NG", {
+      // year: "numeric",
+      month: "numeric",
+      day: "numeric",
+    });
+  
+    const time = dateObj.toLocaleTimeString("en-NG", {
+      hour: "2-digit",
+      minute: "2-digit",
+      hour12: true,
+    });
+  
+    return { date, time };
+  };
 
   const filteredTransactions =
     filter === "All"
@@ -36,7 +70,7 @@ const TransactionPage = () => {
               className={`px-4 py-2 rounded-full text-sm font-medium transition ${
                 filter === item
                   ? "bg-[#02487F] text-white"
-                  : "bg-white text-[#02487F] border border-[#02487F]"
+                  : "bg-white text-[#02487F]"
               }`}
             >
               {item}
@@ -47,7 +81,7 @@ const TransactionPage = () => {
         {/* Transaction Table */}
         <div className="overflow-auto rounded-xl shadow bg-white">
           <table className="min-w-full text-left table-auto">
-            <thead className="bg-[#02487F] text-white">
+            <thead className="bg-[#E6F7FB] text-black">
               <tr>
                 <th className="py-3 px-6 font-medium text-sm">Type</th>
                 <th className="py-3 px-6 font-medium text-sm">Amount</th>
@@ -64,11 +98,11 @@ const TransactionPage = () => {
                     animate={{ opacity: 1, y: 0 }}
                     exit={{ opacity: 0 }}
                     transition={{ duration: 0.2 }}
-                    className="border-b hover:bg-gray-50"
+                    className="border-b border-b-[#02487F] hover:bg-gray-50"
                   >
                     <td className="py-4 px-6">{txn.type}</td>
                     <td className="py-4 px-6">₦{txn.amount.toLocaleString()}</td>
-                    <td className="py-4 px-6">{txn.date}</td>
+                    <td className="py-4 px-6">{formatDateAndTime(txn.createdAt).date} | {formatDateAndTime(txn.createdAt).time}</td>
                     <td className="py-4 px-6">
                       <span
                         className={`px-3 py-1 rounded-full text-sm font-medium ${

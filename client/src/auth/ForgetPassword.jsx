@@ -60,7 +60,7 @@ const ForgetPassword = () => {
               {...register("email", {required: "email required"})}
             />
             {errors.email && <p className="text-red-500">{errors.email.message}</p>}
-            <button type="submit" className="bg-[#02487F] text-center text-white p-2 rounded-md gap-y-3 mt-5 cursor-pointer hover:bg-[#1384AB] transition duration-300 ease-in-out">
+            <button type="submit" disabled={loading} className="bg-[#02487F] text-center text-white p-2 rounded-md gap-y-3 mt-5 cursor-pointer hover:bg-[#1384AB] transition duration-300 ease-in-out">
               {loading == true ? <Loader loading={true} inline={true} size={20}/> : "Send"} 
             </button>
             <p className="text-center">

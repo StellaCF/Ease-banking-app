@@ -30,14 +30,31 @@ const Dashboard = () => {
         );
         const response = axiosRes.data;
         console.log(response)
-        setHistory(response.data.transactions);
         console.log(response.data.transactions)
       } catch (error) {
         toast.error(error.response.error.message);
       }
     };
 
+    const fetchUserTrans = async () => {
+      try {
+        const axiosRes = await axios.get("https://ease-banking-app.onrender.com/api/user-transactions", 
+          {
+            headers: {
+              Authorization: `Bearer ${authToken}`
+            }
+          }
+        );
+        const response = axiosRes.data;
+        console.log(response)
+        setHistory(response.data.transactions);
+      } catch (error) {
+        toast.error(error.response.error.message);
+      }
+    };
+
     fetchUser();
+    fetchUserTrans();
   },[authToken])
 
 

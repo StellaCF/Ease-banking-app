@@ -22,11 +22,42 @@ exports.userDetail = async (id) => {
       throw new Error('User not found');
     }
 
-    const { firstName, otherName, lastName, email, phoneNumber, acctNumber, acctBalance, savingsBalance, address, nin, transactions, loanSave } = user
+    const { firstName, otherName, lastName, email, phoneNumber, acctNumber, acctBalance, savingsBalance, address, nin } = user
 
-    return { firstName, otherName, lastName, email, phoneNumber, acctNumber, acctBalance, savingsBalance, address, nin, transactions, loanSave};
+    return { firstName, otherName, lastName, email, phoneNumber, acctNumber, acctBalance, savingsBalance, address, nin};
   } catch (error) {
     throw new Error('Error fetching user details: ' + error.message);
   }
 };
 
+
+
+exports.userTransactions = async (id) => {
+  try {
+    const user = await User.findOne({
+      where: { id },
+      include: [
+        {
+          association: "transactions",
+          separate: true,
+          order: [["createdAt", "DESC"]],
+        },
+        {
+          association: "loanSave",
+          separate: true,
+          order: [["createdAt", "DESC"]],
+        },
+      ],
+    });
+
+    if (!user) {
+      throw new Error('User not found');
+    }
+
+    const { transactions, loanSave } = user
+
+    return { transactions, loanSave};
+  } catch (error) {
+    throw new Error('Error fetching user transactions: ' + error.message);
+  }
+};
