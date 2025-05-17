@@ -40,8 +40,11 @@ exports.updateSave = async (userId, saveId, amount) => {
 
    const newAmount = parseFloat(amount);
 
+   if (user.acctBalance < newAmount) throw new Error("Insufficient account balance");
+
    saving.amount = (parseFloat(saving.amount) + newAmount).toFixed(2);
    user.savingsBalance = (parseFloat(user.savingsBalance) + newAmount).toFixed(2);
+   user.acctBalance = (parseFloat(user.acctBalance) - newAmount).toFixed(2);
 
    await saving.save();
    await user.save();

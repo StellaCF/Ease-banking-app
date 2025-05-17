@@ -8,7 +8,7 @@ import Cookies from "js-cookie"
 const SavePage = () => {
   const [description, setDescription] = useState("");
   const [amount, setAmount] = useState("");
-  const [balance, setBalance] = useState(2000);
+  // const [balance, setBalance] = useState(2000);
   const [savings, setSavings] = useState([]);
 
   const [activeAction, setActiveAction] = useState({});
@@ -70,12 +70,22 @@ const SavePage = () => {
     }));
   };
 
-  // const handleActionSubmit = (id, type) => {
-  //   const input = parseFloat(actionAmount[id]);
-  //   if (isNaN(input) || input <= 0) {
-  //     alert("Enter a valid amount.");
-  //     return;
-  //   }
+  const handleActionSubmit = async (id, type) => {
+    const amount = parseFloat(actionAmount[id]);
+    try {
+      const endPoint = type === "spend" ? 
+      `https://ease-banking-app.onrender.com/api/user/spend/${id}` : 
+      `https://ease-banking-app.onrender.com/api/user/save/${id}/update`;
+      const axiosRes = await axios.patch(endPoint, { amount }, {
+        headers: {
+          Authorization: `Bearer ${authToken}`
+        }
+      });
+      const response = axiosRes.data;
+      toast.success(response.message);
+    } catch (error) {
+      toast.error(error.response.data.error);
+    }
 
   //   setSavings((prev) =>
   //     prev.map((save) => {
@@ -104,7 +114,7 @@ const SavePage = () => {
 
   //   setActiveAction((prev) => ({ ...prev, [id]: null }));
   //   setActionAmount((prev) => ({ ...prev, [id]: "" }));
-  // };
+  };
 
   return (
     <div className="flex min-h-screen bg-gray-100">
@@ -181,7 +191,7 @@ const SavePage = () => {
                       <input
                         type="number"
                         placeholder={`Enter amount to ${activeAction[save.id]}`}
-                        value={actionAmount[save.id] || ""}
+                        value={actionAmount[save.id]}
                         onChange={(e) =>
                           setActionAmount({ ...actionAmount, [save.id]: e.target.value })
                         }
