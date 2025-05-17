@@ -47,7 +47,6 @@ const LoanPage = () => {
           }
         );
         const response = axiosRes.data;
-        console.log(response)
         setHistory(response.data.loanSave);
       } catch (error) {
         toast.error(error.response.error.message);
@@ -60,8 +59,8 @@ const LoanPage = () => {
 
   const fullname = user?.firstName + " " + user?.otherName + " " + user?.lastName;
 
-  const totalLoan = (history.filter(l => l.type === "loan").reduce((sum, l) => sum + Number(l.amount), 0)).toFixed(2);
-  const totalRepay = (history.filter(l => l.type === "repayment").reduce((sum, l) => sum + Number(l.amount), 0).toFixed(2));
+  const totalLoan = (history.filter(l => l.type === "loan").reduce((sum, l) => sum + Number(l.amount), 0));
+  const totalRepay = (history.filter(l => l.type === "repayment").reduce((sum, l) => sum + Number(l.amount), 0));
   let loanAmt  = Number(totalLoan - totalRepay).toFixed(2);
   if (loanAmt < 0) {
     loanAmt = 0;

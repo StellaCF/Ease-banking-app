@@ -9,7 +9,7 @@ const TransactionPage = () => {
   const [filter, setFilter] = useState("All");
   const [transactions, setTransactions] = useState([]);
 
-  const authToken = Cookies.get("authToken");
+  const authToken = Cookies.get("auth_token");
 
   useEffect(() => {
     const fetchTransactions = async () => {
@@ -20,11 +20,19 @@ const TransactionPage = () => {
           }
         }) ;
         const response = axiosRes.data;
-        toast.success(response.message);
-        setTransactions(response.data);
+        toast.success(response.data.message);
         console.log(response.data);
+        const combinedTransactions = [
+          ...(response.data.transactions || []).map(t => ({ ...t, source: "transactions" })),
+          ...(response.data.loanSave || []).map(t => ({ ...t, source: "loanSave" }))
+        ];
+        
+        combinedTransactions.sort((a, b) => new Date(b.createdAt) - new Date(a.createdAt));
+
+        setTransactions(combinedTransactions);
+
       } catch (error) {
-        toast.error(error.response.data.error)
+        toast.error(error.response.data.message || error.response.data.error);
       }
     }
     fetchTransactions();
@@ -63,7 +71,7 @@ const TransactionPage = () => {
 
         {/* Filter Buttons */}
         <div className="flex flex-wrap gap-4 mb-6">
-          {["All", "Deposit", "Transfer", "Withdraw"].map((item) => (
+          {["All", "deposit", "transfer", "withdraw", "loan"].map((item) => (
             <button
               key={item}
               onClick={() => setFilter(item)}
@@ -105,13 +113,7 @@ const TransactionPage = () => {
                     <td className="py-4 px-6">{formatDateAndTime(txn.createdAt).date} | {formatDateAndTime(txn.createdAt).time}</td>
                     <td className="py-4 px-6">
                       <span
-                        className={`px-3 py-1 rounded-full text-sm font-medium ${
-                          txn.status === "Successful"
-                            ? "bg-green-100 text-green-600"
-                            : txn.status === "Pending"
-                            ? "bg-yellow-100 text-yellow-600"
-                            : "bg-red-100 text-red-600"
-                        }`}
+                        className="px-3 py-1 rounded-full text-sm font-medium bg-green-100 text-green-600"
                       >
                         {txn.status}
                       </span>

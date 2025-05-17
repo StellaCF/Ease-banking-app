@@ -37,8 +37,9 @@ exports.repayLoan = async (req, res) => {
     const loanData = {
       userId,
       amount,
-      type: "repayment",
+      type: "loan",
       description: "Loan repayment",
+      status: "paid",
       createdAt: new Date()
     }
 
