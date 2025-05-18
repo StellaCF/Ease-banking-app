@@ -4,8 +4,10 @@ import { motion, AnimatePresence } from "framer-motion";
 import Cookies from "js-cookie";
 import { toast } from "react-toastify";
 import axios from "axios";
+import Loader from "../../components/Loader";
 
 const TransactionPage = () => {
+  const [loading, setLoading] = useState(false);
   const [filter, setFilter] = useState("All");
   const [transactions, setTransactions] = useState([]);
 
@@ -13,6 +15,7 @@ const TransactionPage = () => {
 
   useEffect(() => {
     const fetchTransactions = async () => {
+      setLoading(true);
       try {
         const axiosRes = await axios.get("https://ease-banking-app.onrender.com/api/user-transactions", {
           headers: {
@@ -33,6 +36,8 @@ const TransactionPage = () => {
 
       } catch (error) {
         toast.error(error.response.data.message || error.response.data.error);
+      } finally {
+        setLoading(false);
       }
     }
     fetchTransactions();
@@ -125,6 +130,7 @@ const TransactionPage = () => {
           </table>
         </div>
       </main>
+      <Loader loading={loading} inline={false} size={150} />
     </div>
   );
 };

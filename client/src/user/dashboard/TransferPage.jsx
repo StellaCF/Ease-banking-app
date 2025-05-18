@@ -4,6 +4,7 @@ import TopBar from "../../components/TopBar";
 import { toast } from "react-toastify";
 import axios from "axios";
 import Cookies from "js-cookie";
+import Loader from "../../components/Loader";
 
 const TransferPage = () => {
   const [accountNumber, setAccountNumber] = useState("");
@@ -27,11 +28,9 @@ const TransferPage = () => {
         }}
       );
       const response = axiosRes.data;
-      toast.success(response.message);
       setFullname(response.data);
       setIsVerified(true);
-      setLoading(false);
-      
+      setLoading(false); 
     } catch (error) {
       toast.error(error.response.data.message)
     }
@@ -47,6 +46,7 @@ const TransferPage = () => {
   };
 
   const handlePinConfirm = async () => {
+    setLoading(true);
     try {
       const axiosRes = await axios.post("https://ease-banking-app.onrender.com/api/user/transfer", 
         { amount: Number(amount),
@@ -69,6 +69,8 @@ const TransferPage = () => {
       setPin("");
     } catch (error) {
       toast.error(error.response.data.error);
+    } finally {
+      setLoading(false);
     }
   };
 
@@ -107,10 +109,10 @@ const TransferPage = () => {
           {!isVerified && (
             <button
               onClick={verifyAccount}
-              disabled={loading}
+              // disabled={loading}
               className="bg-[#02487F] hover:bg-[#1384AB] cursor-pointer text-white font-semibold py-3 px-6 rounded-lg transition mb-6"
             >
-              {loading ? "Verifying..." : "Verify Account"}
+              {loading ? <Loader loading={true} inline={true} size={20}/> : "Verify Account"}
             </button>
           )}
 
@@ -230,6 +232,7 @@ const TransferPage = () => {
           </div>
         </div>
       )}
+      <Loader loading={loading} inline={false} size={150}/>
     </div>
   );
 };

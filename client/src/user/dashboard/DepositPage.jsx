@@ -4,14 +4,17 @@ import TopBar from "../../components/TopBar";
 import axios from "axios";
 import { toast } from "react-toastify";
 import Cookies from "js-cookie"
+import Loader from "../../components/Loader";
 
 const Deposit = () => {
+  const [loading, setLoading] = useState(false);
   const [user, setUser] = useState();
   const [amount, setAmount] = useState("");
   const authToken = Cookies.get("auth_token");
 
   useEffect(() => {
     const fetchUser = async () => {
+      setLoading(true);
       try {
         const axiosRes = await axios.get("https://ease-banking-app.onrender.com/api/user", 
           {
@@ -25,6 +28,8 @@ const Deposit = () => {
         setUser(response.data);
       } catch (error) {
         toast.error(error.response.error.message);
+      } finally {
+        setLoading(false);
       }
     };
 
@@ -34,6 +39,7 @@ const Deposit = () => {
   const handleDeposit = async (e) => {
     e.preventDefault();
     console.log("Depositing:", amount);
+    setLoading(true);
     try {
       const response = await axios.post("https://ease-banking-app.onrender.com/api/user/deposit",  
       { amount: Number(amount) }, 
@@ -46,6 +52,8 @@ const Deposit = () => {
       setAmount("");
     } catch (error) {
       toast.error(error.response.data.error);
+    } finally {
+      setLoading(false);
     }
   };
 
@@ -109,6 +117,7 @@ const Deposit = () => {
           </form>
         </div>
       </main>
+      <Loader loading={loading} inline={false} size={150}/>
     </div>
   );
 };

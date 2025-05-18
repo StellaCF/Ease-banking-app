@@ -4,13 +4,13 @@ import TopBar from "../../components/TopBar";
 import { toast } from "react-toastify";
 import axios from "axios";
 import Cookies from "js-cookie"
+import Loader from "../../components/Loader";
 
 const SavePage = () => {
+  const [loading, setLoading] = useState(false);
   const [description, setDescription] = useState("");
   const [amount, setAmount] = useState("");
-  // const [balance, setBalance] = useState(2000);
   const [savings, setSavings] = useState([]);
-
   const [activeAction, setActiveAction] = useState({});
   const [actionAmount, setActionAmount] = useState({}); 
 
@@ -18,6 +18,7 @@ const SavePage = () => {
 
   useEffect(() => {
     const fetchSavings = async () => {
+      setLoading(true);
       try {
         const axiosRes = await axios.get("https://ease-banking-app.onrender.com/api/user/user-savings", {
           headers: {
@@ -29,6 +30,8 @@ const SavePage = () => {
         console.log(response);
       } catch (error) {
         console.error(error.response.data.error);
+      } finally {
+        setLoading(false);
       }
     };
 
@@ -37,6 +40,7 @@ const SavePage = () => {
 
   const handleSave = async () => {
     const parsedAmount = parseFloat(amount);
+    setLoading(true);
     try {
       const axiosRes = await axios.post("https://ease-banking-app.onrender.com/api/user/save", 
         {
@@ -56,6 +60,8 @@ const SavePage = () => {
       setAmount("");
     } catch (error) {
       toast.error(error.response.data.error)
+    } finally {
+      setLoading(false);
     }
   };
 
@@ -72,48 +78,34 @@ const SavePage = () => {
 
   const handleActionSubmit = async (id, type) => {
     const amount = parseFloat(actionAmount[id]);
+    setLoading(true);
     try {
-      const endPoint = type === "spend" ? 
-      `https://ease-banking-app.onrender.com/api/user/spend/${id}` : 
-      `https://ease-banking-app.onrender.com/api/user/save/${id}/update`;
-      const axiosRes = await axios.patch(endPoint, { amount }, {
-        headers: {
-          Authorization: `Bearer ${authToken}`
-        }
-      });
-      const response = axiosRes.data;
-      toast.success(response.message);
+      if (type === "spend") {
+        const axiosRes = await axios.post(`https://ease-banking-app.onrender.com/api/user/spend/${id}`, { amount }, {
+          headers: {
+            Authorization: `Bearer ${authToken}`
+          }
+        });
+        const response = axiosRes.data;
+        toast.success(response.message);
+        setActiveAction((prev) => ({ ...prev, [id]: null }));
+        setActionAmount((prev) => ({ ...prev, [id]: "" }));
+      } else {
+        const axiosRes = await axios.patch(`https://ease-banking-app.onrender.com/api/user/save/${id}/update`, { amount }, {
+          headers: {
+            Authorization: `Bearer ${authToken}`
+          }
+        });
+        const response = axiosRes.data;
+        toast.success(response.message);
+        setActiveAction((prev) => ({ ...prev, [id]: null }));
+        setActionAmount((prev) => ({ ...prev, [id]: "" }));
+      }
     } catch (error) {
       toast.error(error.response.data.error);
+    } finally {
+      setLoading(false);
     }
-
-  //   setSavings((prev) =>
-  //     prev.map((save) => {
-  //       if (save.id === id) {
-  //         if (type === "spend") {
-  //           if (input > save.amount) {
-  //             alert("You cannot spend more than you've saved.");
-  //             return save;
-  //           }
-  //           setBalance((bal) => bal + input);
-  //           return { ...save, amount: save.amount - input };
-  //         }
-
-  //         if (type === "add") {
-  //           if (input > balance) {
-  //             alert("Not enough balance to add.");
-  //             return save;
-  //           }
-  //           setBalance((bal) => bal - input);
-  //           return { ...save, amount: save.amount + input };
-  //         }
-  //       }
-  //       return save;
-  //     })
-  //   );
-
-  //   setActiveAction((prev) => ({ ...prev, [id]: null }));
-  //   setActionAmount((prev) => ({ ...prev, [id]: "" }));
   };
 
   return (
@@ -211,6 +203,7 @@ const SavePage = () => {
           )}
         </div>
       </main>
+      <Loader loading={loading} inline={false} size={150} />
     </div>
   );
 };
