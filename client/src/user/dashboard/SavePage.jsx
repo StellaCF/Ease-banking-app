@@ -9,6 +9,7 @@ import Loader from "../../components/Loader";
 const SavePage = () => {
   const [loading, setLoading] = useState(false);
   const [description, setDescription] = useState("");
+  const [user, setUser] = useState();
   const [amount, setAmount] = useState("");
   const [savings, setSavings] = useState([]);
   const [activeAction, setActiveAction] = useState({});
@@ -30,12 +31,28 @@ const SavePage = () => {
         console.log(response);
       } catch (error) {
         console.error(error.response.data.error);
-      } finally {
-        setLoading(false);
-      }
+      } 
     };
 
+    const fetchUser = async () => {
+    try {
+      const axiosRes = await axios.get("https://ease-banking-app.onrender.com/api/user", {
+        headers: {
+          Authorization: `Bearer ${authToken}`
+        }
+      });
+      const response = axiosRes.data;
+      setUser(response.data);
+      console.log(response.data);
+    } catch (error) {
+      console.error(error.response.data.error);
+    } finally {
+      setLoading(false);
+    }
+  };
+
     fetchSavings();
+    fetchUser();
   }, [authToken]);
 
   const handleSave = async () => {
@@ -116,9 +133,11 @@ const SavePage = () => {
         <TopBar/>
 
         <div className="w-full mx-auto bg-white p-8 rounded-2xl shadow-xl space-y-6">
-          <h2 className="text-3xl font-bold text-[#02487F] mb-6">Save Money</h2>
-
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+          <div className="flex justify-between items-center">
+            <h2 className="text-3xl font-bold text-[#02487F] ">Save Money</h2>
+            <h3 className="text-lg text-[#02487F] font-semibold">Total Savings: ₦{user?.savingsBalance}</h3>
+          </div>
+          <div className="mt-8 grid grid-cols-1 md:grid-cols-2 gap-6">
             <div>
               <label className="block text-gray-600 font-medium mb-2">Description</label>
               <input
