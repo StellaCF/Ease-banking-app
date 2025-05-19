@@ -12,7 +12,7 @@ const Sidebar = () => {
     try {
       Cookies.remove("auth_token"); 
       toast.success("Logged Out");
-      navigate("/login")
+      navigate("/")
     } catch (error) {
       toast.error(error);
     }

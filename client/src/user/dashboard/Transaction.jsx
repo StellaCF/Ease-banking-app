@@ -4,14 +4,15 @@ import { motion, AnimatePresence } from "framer-motion";
 import Cookies from "js-cookie";
 import { toast } from "react-toastify";
 import axios from "axios";
+import { useNavigate } from "react-router-dom"; // 👈 Import useNavigate
 import Loader from "../../components/Loader";
 
 const TransactionPage = () => {
   const [loading, setLoading] = useState(false);
   const [filter, setFilter] = useState("All");
   const [transactions, setTransactions] = useState([]);
-
   const authToken = Cookies.get("auth_token");
+  const navigate = useNavigate(); // 👈 Initialize useNavigate
 
   useEffect(() => {
     const fetchTransactions = async () => {
@@ -21,42 +22,38 @@ const TransactionPage = () => {
           headers: {
             Authorization: `Bearer ${authToken}`,
           }
-        }) ;
+        });
         const response = axiosRes.data;
         toast.success(response.data.message);
-        console.log(response.data);
         const combinedTransactions = [
           ...(response.data.transactions || []).map(t => ({ ...t, source: "transactions" })),
           ...(response.data.loanSave || []).map(t => ({ ...t, source: "loanSave" }))
         ];
-        
+
         combinedTransactions.sort((a, b) => new Date(b.createdAt) - new Date(a.createdAt));
-
         setTransactions(combinedTransactions);
-
       } catch (error) {
         toast.error(error.response.data.message || error.response.data.error);
       } finally {
         setLoading(false);
       }
-    }
+    };
     fetchTransactions();
-  },[authToken]);
+  }, [authToken]);
 
   const formatDateAndTime = (isoString) => {
     const dateObj = new Date(isoString);
     const date = dateObj.toLocaleDateString("en-NG", {
-      // year: "numeric",
       month: "numeric",
       day: "numeric",
     });
-  
+
     const time = dateObj.toLocaleTimeString("en-NG", {
       hour: "2-digit",
       minute: "2-digit",
       hour12: true,
     });
-  
+
     return { date, time };
   };
 
@@ -111,15 +108,21 @@ const TransactionPage = () => {
                     animate={{ opacity: 1, y: 0 }}
                     exit={{ opacity: 0 }}
                     transition={{ duration: 0.2 }}
-                    className="border-b border-b-[#02487F] hover:bg-gray-50"
+                    className="border-b border-b-[#02487F] hover:bg-gray-50 cursor-pointer"
+                    onClick={() =>
+                      navigate(`/transactiondetails`, {
+                        state: { txn },
+                      })
+                    }
                   >
                     <td className="py-4 px-6">{txn.type}</td>
                     <td className="py-4 px-6">₦{txn.amount.toLocaleString()}</td>
-                    <td className="py-4 px-6">{formatDateAndTime(txn.createdAt).date} | {formatDateAndTime(txn.createdAt).time}</td>
                     <td className="py-4 px-6">
-                      <span
-                        className="px-3 py-1 rounded-full text-sm font-medium bg-green-100 text-green-600"
-                      >
+                      {formatDateAndTime(txn.createdAt).date} |{" "}
+                      {formatDateAndTime(txn.createdAt).time}
+                    </td>
+                    <td className="py-4 px-6">
+                      <span className="px-3 py-1 rounded-full text-sm font-medium bg-green-100 text-green-600">
                         {txn.status}
                       </span>
                     </td>

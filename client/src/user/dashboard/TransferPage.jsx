@@ -184,11 +184,11 @@ const TransferPage = () => {
                 &times;
               </button>
             </div>
-            <p><strong>Bank:</strong> Ease Bank</p>
-            <p><strong>Account Number:</strong> {accountNumber}</p>
-            <p><strong>Account Name:</strong> {fullName}</p>
-            <p><strong>Amount:</strong> ₦{amount}</p>
-            <p><strong>Narration:</strong> {narration || "N/A"}</p>
+            <p className="mt-4"><strong>Bank:</strong> Ease Bank</p>
+            <p className="mt-4"><strong>Account Number:</strong> {accountNumber}</p>
+            <p className="mt-4"><strong>Account Name:</strong> {fullName}</p>
+            <p className="mt-4"><strong>Amount:</strong> ₦{amount}</p>
+            <p className="mt-4"><strong>Narration:</strong> {narration || "N/A"}</p>
             <button
               onClick={() => {
                 setShowConfirmModal(false);
