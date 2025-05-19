@@ -4,15 +4,18 @@ import Sidebar from "../../components/SideBar";
 import TopBar from "../../components/TopBar";
 import axios from "axios";
 import Cookies from "js-cookie";
+import Loader from "../../components/Loader";
 
 const Profile = () => {
   const [isEditing, setIsEditing] = useState(false);
   const [userData, setUserData] = useState();
+  const [loading, setLoading] = useState(false);
 
   const authToken  = Cookies.get("auth_token");
 
   useEffect(() => {
     const fetchUser = async () => {
+      setLoading(true);
       try {
         const axiosRes = await axios.get("https://ease-banking-app.onrender.com/api/user",
           {
@@ -25,6 +28,8 @@ const Profile = () => {
         setUserData(response.data)
       } catch (error) {
         console.log(error.response.data.error)
+      } finally {
+        setLoading(false);
       }
     };
 
@@ -175,6 +180,7 @@ const Profile = () => {
           )}
         </div>
       </main>
+      <Loader loading={loading} inline={false} size={150} />
     </div>
   );
 };
