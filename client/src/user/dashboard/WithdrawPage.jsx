@@ -206,11 +206,11 @@ const WithdrawPage = () => {
               <h2 className="text-xl font-semibold text-[#02487F]">Confirm Withdrawal</h2>
               <button onClick={() => setShowConfirmModal(false)} className="text-gray-500 hover:text-red-500 text-2xl">&times;</button>
             </div>
-          <p><strong>Bank:</strong> {banks.find((bank) => bank.code === selectedBank)?.name || selectedBank}</p>
-          <p><strong>Account Number:</strong> {accountNumber}</p>
-          <p><strong>Account Name:</strong> {accountName}</p>
-          <p><strong>Amount:</strong> ₦{amount}</p>
-          <p><strong>Description:</strong> {desc}</p>
+          <p className="mt-4"><strong>Bank:</strong> {banks.find((bank) => bank.code === selectedBank)?.name || selectedBank}</p>
+          <p className="mt-4"><strong>Account Number:</strong> {accountNumber}</p>
+          <p className="mt-4"><strong>Account Name:</strong> {accountName}</p>
+          <p className="mt-4"><strong>Amount:</strong> ₦{amount}</p>
+          <p className="mt-4"><strong>Description:</strong> {desc}</p>
           <button
             onClick={() => {
               setShowConfirmModal(false);
