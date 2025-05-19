@@ -74,6 +74,6 @@ module.exports.User = sequelize.define('users',
     defaultValue: 'client'
   },
 }, {
-    timestamps: false,
+    timestamps: true,
     tableName: 'users',
 });

@@ -25,23 +25,24 @@ const Profile = () => {
           }
         )
         const response = axiosRes.data;
-        setUserData(response.data)
+        setUserData(response.data);
       } catch (error) {
         console.log(error.response.data.error)
       } finally {
         setLoading(false);
       }
     };
-
+    
     fetchUser();
   },[authToken])
+  // console.log(userData.createdAt, userData.updatedAt);
 
   const fullname = userData?.firstName + " " + userData?.otherName + " " + userData?.lastName;
 
   const formatDateAndTime = (isoString) => {
     const dateObj = new Date(isoString);
     const date = dateObj.toLocaleDateString("en-NG", {
-      // year: "numeric",
+      year: "numeric",
       month: "numeric",
       day: "numeric",
     });
