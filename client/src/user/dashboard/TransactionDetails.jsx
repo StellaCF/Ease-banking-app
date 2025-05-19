@@ -7,14 +7,6 @@ const TransactionDetails = () => {
 
   const txn = state?.txn;
 
-  if (!txn) {
-    return (
-      <div className="flex justify-center items-center h-screen">
-        <p className="text-gray-500 text-lg">Transaction not found.</p>
-      </div>
-    );
-  }
-
   const { date, time } = new Date(txn.createdAt).toLocaleString("en-NG", {
     dateStyle: "medium",
     timeStyle: "short",
