@@ -35,7 +35,6 @@ const Profile = () => {
     
     fetchUser();
   },[authToken])
-  // console.log(userData.createdAt, userData.updatedAt);
 
   const fullname = userData?.firstName + " " + userData?.otherName + " " + userData?.lastName;
 
@@ -43,7 +42,7 @@ const Profile = () => {
     const dateObj = new Date(isoString);
     const date = dateObj.toLocaleDateString("en-NG", {
       year: "numeric",
-      month: "numeric",
+      month: "long",
       day: "numeric",
     });
   

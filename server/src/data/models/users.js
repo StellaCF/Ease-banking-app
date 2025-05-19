@@ -69,6 +69,14 @@ module.exports.User = sequelize.define('users',
     type: DataTypes.STRING,
     allowNull: true
   },
+  DOB: {
+    type: DataTypes.STRING,
+    allowNull: true
+  },
+  gender: {
+    type: DataTypes.STRING,
+    allowNull: true
+  },
   role: {
     type: DataTypes.ENUM('admin', 'client'),
     defaultValue: 'client'

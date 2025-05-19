@@ -93,7 +93,7 @@ const LoanPage = () => {
   };
 
   const handleAddLoan = async () => {
-    if (!address || !nin) {
+    if ((!user.address && !address.trim()) || (!user.nin && !nin.trim())) {
       toast.error("Please complete all application form fields.", {
         icon: "❌",
       });
@@ -110,12 +110,10 @@ const LoanPage = () => {
       const response = axiosRes.data;
       toast.success(response.message, { icon: "✅" });
       setLoanAmount("");
-      setAddress("");
-      setNIN("");
       setShowLoanForm(false);
       console.log(response);
     } catch (error) {
-      toast.error(error.response.data.error, { icon: "⚠️" });
+      toast.error(error.response.error, { icon: "⚠️" });
       return;  
     } finally {
       setLoading(false);

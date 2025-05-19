@@ -37,7 +37,7 @@ const LoginPage = () => {
       });
       setTimeout(() => {
         reset();
-        if (response.data.user.transactionPin === null) {
+        if (response.data.user.pin === null) {
           navigate("/transactionPin");
         } else {
           navigate("/dashboard")
