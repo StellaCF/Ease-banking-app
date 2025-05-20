@@ -1,6 +1,8 @@
 import { useLocation, useNavigate } from "react-router-dom";
 import Sidebar from "../../components/SideBar";
 import { CheckCircle } from "lucide-react";
+import PropTypes from "prop-types";
+
 
 const TransactionDetails = () => {
   const { state } = useLocation();
@@ -15,7 +17,7 @@ const TransactionDetails = () => {
       month: "numeric",
       day: "numeric",
     });
-
+    
     const time = dateObj.toLocaleTimeString("en-NG", {
       hour: "2-digit",
       minute: "2-digit",
@@ -24,7 +26,7 @@ const TransactionDetails = () => {
 
     return { date, time };
   };
-
+  
   return (
     <div className="flex min-h-screen bg-gray-100">
       <Sidebar />
@@ -78,4 +80,8 @@ const Detail = ({ label, value }) => (
   </div>
 );
 
+Detail.propTypes = {
+  label: PropTypes.string.isRequired,
+  value: PropTypes.oneOfType([PropTypes.string, PropTypes.number]).isRequired,
+};
 export default TransactionDetails;
