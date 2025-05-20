@@ -140,7 +140,7 @@ const TransferPage = () => {
               </div>
 
               <div className="mb-6">
-                <label className="block text-gray-600 font-medium mb-2">Narration (optional)</label>
+                <label className="block text-gray-600 font-medium mb-2">Description (optional)</label>
                 <input
                   type="text"
                   value={narration}
@@ -184,11 +184,11 @@ const TransferPage = () => {
                 &times;
               </button>
             </div>
-            <p className="mt-4"><strong>Bank:</strong> Ease Bank</p>
-            <p className="mt-4"><strong>Account Number:</strong> {accountNumber}</p>
-            <p className="mt-4"><strong>Account Name:</strong> {fullName}</p>
-            <p className="mt-4"><strong>Amount:</strong> ₦{amount}</p>
-            <p className="mt-4"><strong>Narration:</strong> {narration || "N/A"}</p>
+            <p className="mt-4 flex justify-between"><strong>Bank:</strong> Ease Bank</p>
+            <p className="mt-4 flex justify-between"><strong>Account Number:</strong> {accountNumber}</p>
+            <p className="mt-4 flex justify-between"><strong>Account Name:</strong> {fullName}</p>
+            <p className="mt-4 flex justify-between"><strong>Amount:</strong> ₦{amount}</p>
+            <p className="mt-4 flex justify-between"><strong>Description:</strong> {narration || "N/A"}</p>
             <button
               onClick={() => {
                 setShowConfirmModal(false);

@@ -5,13 +5,16 @@ import TopBar from "../../components/TopBar";
 import axios from "axios";
 import Cookies from "js-cookie";
 import Loader from "../../components/Loader";
+import { toast } from "react-toastify";
+import { useForm } from "react-hook-form";
 
 const Profile = () => {
   const [isEditing, setIsEditing] = useState(false);
   const [userData, setUserData] = useState();
   const [loading, setLoading] = useState(false);
+  const { register, handleSubmit, reset } = useForm();
 
-  const authToken  = Cookies.get("auth_token");
+  const authToken = Cookies.get("auth_token");
 
   useEffect(() => {
     const fetchUser = async () => {
@@ -23,18 +26,28 @@ const Profile = () => {
               Authorization: `Bearer ${authToken}`
             }
           }
-        )
+        );
         const response = axiosRes.data;
         setUserData(response.data);
+        reset({
+          firstName: response.data.firstName,
+          otherName: response.data.otherName,
+          lastName: response.data.lastName,
+          phoneNumber: response.data.phoneNumber,
+          address: response.data.address,
+          gender: response.data.gender,
+          DOB: response.data.DOB,
+          nin: response.data.nin,
+        });
       } catch (error) {
-        console.log(error.response.data.error)
+        console.log(error.response.data.error);
       } finally {
         setLoading(false);
       }
     };
-    
+
     fetchUser();
-  },[authToken])
+  }, [authToken, reset]);
 
   const fullname = userData?.firstName + " " + userData?.otherName + " " + userData?.lastName;
 
@@ -45,39 +58,64 @@ const Profile = () => {
       month: "long",
       day: "numeric",
     });
-  
+
     const time = dateObj.toLocaleTimeString("en-NG", {
       hour: "2-digit",
       minute: "2-digit",
       hour12: true,
     });
-  
+
     return { date, time };
   };
 
-  const handleChange = (field, value) => {
-    setUserData((prev) => ({
-      ...prev,
-      [field]: value,
-    }));
-  };
-
-  const handleSave = () => {
+  const handleSave = async (data) => {
     setIsEditing(false);
-    // Save logic here (e.g., API call)
-    console.log("Saved changes:", userData);
+    try {
+      const axiosRes = await axios.put("https://ease-banking-app.onrender.com/api/user",
+        {
+          firstName: data.firstName,
+          otherName: data.otherName,
+          lastName: data.lastName,
+          phoneNumber: data.phoneNumber,
+          address: data.address,
+          gender: data.gender,
+          DOB: data.DOB,
+          nin: data.nin,
+        },
+        {
+          headers: {
+            Authorization: `Bearer ${authToken}`
+          }
+        }
+      );
+      const response = axiosRes.data;
+      const updatedUser = response.data;
+      toast.success(response.message);
+      setUserData(updatedUser);
+      reset({
+        firstName: updatedUser.firstName,
+        otherName: updatedUser.otherName,
+        lastName: updatedUser.lastName,
+        phoneNumber: updatedUser.phoneNumber,
+        gender: updatedUser.gender,
+        address: updatedUser.address,
+        DOB: updatedUser.DOB,
+        nin: updatedUser.nin,
+      });
+    } catch (error) {
+      toast.error(error.response.data.error);
+    }
   };
 
   return (
     <div className="flex min-h-screen bg-gray-100">
       <Sidebar />
       <main className="ml-64 flex-1 p-8 space-y-6">
-        <TopBar username="user" accountBalance={1200.75} />
+        <TopBar />
 
         <div className="bg-white p-8 rounded-2xl shadow-md relative">
           <h2 className="text-3xl font-bold text-[#02487F] mb-6">Profile</h2>
 
-          {/* Edit Icon */}
           <button
             onClick={() => setIsEditing(!isEditing)}
             className="absolute top-8 right-8 text-blue-600 hover:text-blue-800 transition"
@@ -85,94 +123,74 @@ const Profile = () => {
             <Pencil />
           </button>
 
-          {/* Basic Details */}
           <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mb-8">
             <Detail
               label="Full Name"
-              value={fullname}
               editable={isEditing}
-              onChange={(e) => handleChange("fullName", e.target.value)}
+              {...register("fullName")}
+              defaultValue={fullname}
             />
             <Detail
               label="Email Address"
-              value={userData?.email}
-              editable={isEditing}
-              onChange={(e) => handleChange("email", e.target.value)}
+              defaultValue={userData?.email}
             />
             <Detail
               label="Phone Number"
-              value={userData?.phoneNumber}
               editable={isEditing}
-              onChange={(e) => handleChange("phone", e.target.value)}
+              {...register("phoneNumber")}
+              defaultValue={userData?.phoneNumber}
             />
             <Detail
               label="Residential Address"
-              value={userData?.address}
               editable={isEditing}
-              onChange={(e) => handleChange("address", e.target.value)}
+              {...register("address")}
+              defaultValue={userData?.address}
             />
             <Detail
               label="Date of Birth"
-              value={userData?.dateOfBirth}
               editable={isEditing}
-              onChange={(e) => handleChange("dateOfBirth", e.target.value)}
+              {...register("DOB")}
+              defaultValue={userData?.DOB}
             />
             <Detail
               label="Gender"
-              value={userData?.gender}
               editable={isEditing}
-              onChange={(e) => handleChange("gender", e.target.value)}
+              {...register("gender")}
+              defaultValue={userData?.gender}
             />
           </div>
 
-          {/* Account Details */}
           <div className="border-t pt-6 grid grid-cols-1 md:grid-cols-2 gap-6 mb-8">
             <Detail
               label="Account Number"
-              value={userData?.acctNumber}
-              editable={isEditing}
-              onChange={(e) => handleChange("accountNumber", e.target.value)}
+              defaultValue={userData?.acctNumber}
             />
             <Detail
               label="Account Type"
-              value={userData?.accountType}
-              editable={isEditing}
-              onChange={(e) => handleChange("accountType", e.target.value)}
+              defaultValue="Savings"
             />
             <Detail
               label="Account Status"
-              value={userData?.accountStatus}
-              editable={isEditing}
-              onChange={(e) => handleChange("accountStatus", e.target.value)}
+              defaultValue="Active"
             />
             <Detail
               label="Date Joined"
-              value={formatDateAndTime(userData?.createdAt).date}
-              editable={isEditing}
-              onChange={(e) => handleChange("joinedDate", e.target.value)}
+              defaultValue={formatDateAndTime(userData?.createdAt).date}
             />
           </div>
 
-          {/* Identification */}
           <div className="border-t pt-6 grid grid-cols-1 md:grid-cols-2 gap-6">
             <Detail
-              label="BVN"
-              value={userData?.bvn}
-              editable={isEditing}
-              onChange={(e) => handleChange("bvn", e.target.value)}
-            />
-            <Detail
               label="National ID Number (NIN)"
-              value={userData?.nin}
               editable={isEditing}
-              onChange={(e) => handleChange("nin", e.target.value)}
+              {...register("nin")}
+              defaultValue={userData?.nin}
             />
           </div>
 
-          {/* Save Button */}
           {isEditing && (
             <button
-              onClick={handleSave}
+              onClick={handleSubmit(handleSave)}
               className="mt-6 bg-[#02487F] hover:bg-[#1384AB] text-white font-semibold py-3 px-6 rounded-lg transition"
             >
               Save Changes
@@ -185,17 +203,19 @@ const Profile = () => {
   );
 };
 
-const Detail = ({ label, value, editable, onChange }) => (
+const Detail = ({ label, editable, defaultValue, ...inputProps }) => (
   <div>
     <p className="text-sm text-gray-500 font-medium mb-1">{label}</p>
     {editable ? (
       <input
-        value={value}
-        onChange={onChange}
-        className="w-full border border-gray-300 rounded-lg px-4 py-2 text-gray-800"
+        {...inputProps}
+        defaultValue={defaultValue}
+        className="w-full border border-gray-300 rounded-lg px-4 py-2 text-gray-800 outline-none"
       />
     ) : (
-      <p className="text-lg font-semibold text-gray-800">{value}</p>
+      <p className="text-lg font-semibold text-gray-800 cursor-not-allowed">
+        {defaultValue || ""}
+      </p>
     )}
   </div>
 );

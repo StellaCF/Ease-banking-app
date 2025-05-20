@@ -98,12 +98,18 @@ const Dashboard = () => {
               </tr>
             </thead>
             <tbody>
-              {history.map((tx) => (
-                <tr key={tx.id} className="text-sm border-b text-gray-600">
-                  <td className="py-4">{tx.type}</td>
-                  <td className="py-4">₦{tx.amount}</td>
-                  <td className="py-4">{formatDateAndTime(tx.createdAt).date} | {formatDateAndTime(tx.createdAt).time}</td>
-                  <td className="py-4">{tx.status}</td>
+              {history.map((txn) => (
+                <tr key={txn.id}
+                  onClick={() =>
+                    navigate(`/transactiondetails`, {
+                      state: { txn },
+                    })
+                  }
+                  className="text-sm border-b text-gray-600">
+                  <td className="py-4">{txn.type}</td>
+                  <td className="py-4">₦{txn.amount}</td>
+                  <td className="py-4">{formatDateAndTime(txn.createdAt).date} | {formatDateAndTime(txn.createdAt).time}</td>
+                  <td className="py-4">{txn.status}</td>
                 </tr>
               ))}
             </tbody>

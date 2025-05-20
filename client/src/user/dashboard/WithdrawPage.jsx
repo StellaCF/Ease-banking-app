@@ -206,16 +206,16 @@ const WithdrawPage = () => {
 
       {showConfirmModal && (
         <div className="fixed w-full h-screen top-0 left-0 bg-[#0006] flex items-center justify-center z-50">
-          <div className="bg-white p-4 rounded-lg">
+          <div className="bg-white w-lg p-4 rounded-lg">
             <div className="flex justify-between mb-4">
               <h2 className="text-xl font-semibold text-[#02487F]">Confirm Withdrawal</h2>
               <button onClick={() => setShowConfirmModal(false)} className="text-gray-500 hover:text-red-500 text-2xl">&times;</button>
             </div>
-          <p className="mt-4"><strong>Bank:</strong> {banks.find((bank) => bank.code === selectedBank)?.name || selectedBank}</p>
-          <p className="mt-4"><strong>Account Number:</strong> {accountNumber}</p>
-          <p className="mt-4"><strong>Account Name:</strong> {accountName}</p>
-          <p className="mt-4"><strong>Amount:</strong> ₦{amount}</p>
-          <p className="mt-4"><strong>Description:</strong> {desc}</p>
+          <p className="mt-4 flex justify-between"><strong>Bank:</strong> {banks.find((bank) => bank.code === selectedBank)?.name || selectedBank}</p>
+          <p className="mt-4 flex justify-between"><strong>Account Number:</strong> {accountNumber}</p>
+          <p className="mt-4 flex justify-between"><strong>Account Name:</strong> {accountName}</p>
+          <p className="mt-4 flex justify-between"><strong>Amount:</strong> ₦{amount}</p>
+          <p className="mt-4 flex justify-between"><strong>Description:</strong> {desc}</p>
           <button
             onClick={() => {
               setShowConfirmModal(false);
