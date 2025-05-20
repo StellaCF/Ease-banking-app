@@ -172,7 +172,7 @@ export default function MoneyTransferLanding() {
           {/* Left side: Image */}
           <div className="flex flex-col sm:flex-row">
             <img
-              src="image.jpg"
+              src={img7}  
               alt="..."
               className="hidden sm:block w-full sm:w-1/2 object-cover"
             />
