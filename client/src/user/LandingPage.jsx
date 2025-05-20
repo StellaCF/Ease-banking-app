@@ -1,9 +1,10 @@
 import { useState } from "react";
 import heroimg from "../assets/heroimg.png";
-import img1 from "../assets/img1.avif";
+import financeapp from "../assets/financeapp.png";
 import img4 from "../assets/img4.png";
 import img7 from "../assets/img7.png";
 import img6 from "../assets/img6.png";
+import finance1 from "../assets/finance1.png";
 import logo from "../assets/banklogo.png";
 import { Swiper, SwiperSlide } from "swiper/react";
 import "swiper/css";
@@ -296,7 +297,7 @@ export default function MoneyTransferLanding() {
         <div className="mt-8 lg:mt-0 lg:ml-12 w-full lg:w-1/2">
           <div className="w-full h-96 rounded-xl flex items-center justify-center">
             <span className="text-gray-500">
-              <img src={img1} alt="" />
+              <img className="max-h-[90vh]" src={financeapp} alt="" />
             </span>
           </div>
         </div>
@@ -357,7 +358,7 @@ export default function MoneyTransferLanding() {
         {/* Right Panel - Static Image */}
         <div className="hidden md:flex w-1/2 items-center justify-center p-6">
           <img
-            src={img6}
+            src={finance1}
             alt="Dashboard Screenshot"
             className="max-w-full max-h-[90vh] rounded-lg"
           />
