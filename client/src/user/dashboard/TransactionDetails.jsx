@@ -7,21 +7,28 @@ const TransactionDetails = () => {
 
   const txn = state?.txn;
 
-  const { date, time } = new Date(txn.createdAt).toLocaleString("en-NG", {
+  const [date, time] = new Date(txn.createdAt).toLocaleString("en-NG", {
     dateStyle: "medium",
     timeStyle: "short",
   }).split(", ");
 
   return (
-    <div className="flex min-h-screen bg-gray-100">
+    <div className="flex flex-col md:flex-row min-h-screen bg-gray-100">
       <Sidebar />
-      <main className="ml-64 flex-1 p-8 space-y-8">
-        <button onClick={() => navigate(-1)} className="text-white bg-[#02487F] hover:bg-[#1384AB] rounded-md p-2">
-          ←
+
+      <main className="flex-1 p-4 md:p-8 space-y-6 md:ml-64">
+        {/* Back Button */}
+        <button
+          onClick={() => navigate(-1)}
+          className="text-white bg-[#02487F] hover:bg-[#1384AB] rounded-md px-4 py-2 w-max"
+        >
+          ← Back
         </button>
 
-        <div className="bg-white p-6 rounded-xl shadow-md">
-          <h2 className="text-2xl font-bold mb-4 text-[#02487F]">Transaction Details</h2>
+        <div className="bg-white p-4 md:p-6 rounded-xl shadow-md">
+          <h2 className="text-xl md:text-2xl font-bold mb-6 text-[#02487F]">
+            Transaction Details
+          </h2>
 
           <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
             <Detail label="Type" value={txn.type} />
@@ -44,7 +51,7 @@ const TransactionDetails = () => {
 const Detail = ({ label, value }) => (
   <div>
     <p className="text-sm text-gray-500">{label}</p>
-    <p className="text-lg font-semibold text-gray-800">{value}</p>
+    <p className="text-base md:text-lg font-semibold text-gray-800">{value}</p>
   </div>
 );
 

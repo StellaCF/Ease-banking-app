@@ -63,7 +63,7 @@ const WithdrawPage = () => {
         toast.error("Account verification failed. Please check the details.");
       }
     } catch (error) {
-      toast.error(error);
+      toast.error("Verification error. Please try again.");
       setIsVerified(false);
     }
     setLoading(false);
@@ -75,17 +75,20 @@ const WithdrawPage = () => {
 
   const handlePinConfirm = async () => {
     try {
-      await axios.post("https://ease-banking-app.onrender.com/api/user/withdraw",
-        { amount: Number(amount), 
-          acctName: accountName, 
-          acctNum: accountNumber, 
-          bank: selectedBank, 
+      await axios.post(
+        "https://ease-banking-app.onrender.com/api/user/withdraw",
+        {
+          amount: Number(amount),
+          acctName: accountName,
+          acctNum: accountNumber,
+          bank: selectedBank,
           description: desc,
-          pin: pin },
+          pin: pin,
+        },
         {
           headers: {
             Authorization: `Bearer ${authToken}`,
-          }
+          },
         }
       );
 
@@ -104,16 +107,16 @@ const WithdrawPage = () => {
   };
 
   return (
-    <div className="flex min-h-screen bg-gray-100">
+    <div className="flex flex-col md:flex-row min-h-screen bg-gray-100">
       <Sidebar />
 
-      <main className="flex-1 p-8 space-y-8 ml-64">
+      <main className="flex-1 px-4 sm:px-6 lg:px-8 py-8 space-y-8 md:ml-64">
         <TopBar username="user" />
 
-        <div className="w-full mx-auto bg-white p-8 rounded-2xl shadow-xl">
-          <h2 className="text-3xl font-bold text-[#02487F] mb-6">Withdraw Funds</h2>
+        <div className="w-full mx-auto bg-white p-6 sm:p-8 rounded-2xl shadow-xl">
+          <h2 className="text-2xl sm:text-3xl font-bold text-[#02487F] mb-6">Withdraw Funds</h2>
 
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mb-6">
+          <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 sm:gap-6 mb-6">
             <div>
               <label className="block text-gray-600 font-medium mb-2">Select Bank</label>
               <select
@@ -189,7 +192,7 @@ const WithdrawPage = () => {
               <button
                 onClick={handleWithdraw}
                 disabled={loading}
-                className="w-full bg-[#02487F] cursor-pointer hover:bg-[#1384AB] text-white font-semibold py-3 px-6 rounded-lg transition"
+                className="w-full bg-[#02487F] hover:bg-[#1384AB] text-white font-semibold py-3 px-6 rounded-lg transition"
               >
                 {loading ? "Processing..." : "Withdraw Now"}
               </button>
@@ -198,59 +201,57 @@ const WithdrawPage = () => {
         </div>
       </main>
 
-
       {showConfirmModal && (
-        <div className="fixed w-full h-screen top-0 left-0 bg-[#0006] flex items-center justify-center z-50">
-          <div className="bg-white p-4 rounded-lg">
-            <div className="flex justify-between mb-4">
+        <div className="fixed inset-0 bg-[#0006] flex items-center justify-center z-50 px-4">
+          <div className="bg-white w-full max-w-md sm:max-w-lg p-6 rounded-xl shadow-lg">
+            <div className="flex justify-between items-center mb-4">
               <h2 className="text-xl font-semibold text-[#02487F]">Confirm Withdrawal</h2>
               <button onClick={() => setShowConfirmModal(false)} className="text-gray-500 hover:text-red-500 text-2xl">&times;</button>
             </div>
-          <p className="mt-4"><strong>Bank:</strong> {banks.find((bank) => bank.code === selectedBank)?.name || selectedBank}</p>
-          <p className="mt-4"><strong>Account Number:</strong> {accountNumber}</p>
-          <p className="mt-4"><strong>Account Name:</strong> {accountName}</p>
-          <p className="mt-4"><strong>Amount:</strong> ₦{amount}</p>
-          <p className="mt-4"><strong>Description:</strong> {desc}</p>
-          <button
-            onClick={() => {
-              setShowConfirmModal(false);
-              setShowPinModal(true);
-            }}
-            className="mt-4 bg-[#02487F] hover:bg-[#1384AB] cursor-pointer text-white px-4 py-2 rounded-lg"
-          >
-            Confirm
-          </button>
-        </div>
-        </div>
-      )}
-
-      {/* PIN Entry Modal */}
-      {showPinModal && (
-        <div className="fixed w-full h-screen top-0 left-0 bg-[#0006] flex items-center justify-center z-50">
-
-          <div className="bg-white p-4 rounded-lg">
-            <div className="flex justify-between">
-              <h2 className="text-xl font-semibold text-[#02487F]">Enter PIN</h2>
-              <button onClick={() => setShowPinModal(false)} className="text-gray-500 hover:text-red-500 text-xl">&times;</button>
+            <div className="space-y-2 text-sm text-gray-700">
+              <p><strong>Bank:</strong> {banks.find((bank) => bank.code === selectedBank)?.name || selectedBank}</p>
+              <p><strong>Account Number:</strong> {accountNumber}</p>
+              <p><strong>Account Name:</strong> {accountName}</p>
+              <p><strong>Amount:</strong> ₦{amount}</p>
+              <p><strong>Description:</strong> {desc}</p>
             </div>
-          <input
-            type="password"
-            maxLength={4}
-            value={pin}
-            onChange={(e) => setPin(e.target.value)}
-            placeholder="Enter 4-digit PIN"
-            className="w-full mt-4 border border-gray-300 rounded-lg px-4 py-3 text-gray-800 outline-none mb-4"
-          />
-          <button
-            onClick={handlePinConfirm}
-            className="w-full bg-[#02487F] hover:bg-[#1384AB] cursor-pointer text-white font-semibold py-3 px-6 rounded-lg transition"
-          >
-            Withdraw
-          </button>
-        </div>
+            <button
+              onClick={() => {
+                setShowConfirmModal(false);
+                setShowPinModal(true);
+              }}
+              className="mt-6 w-full bg-[#02487F] hover:bg-[#1384AB] text-white px-4 py-3 rounded-lg font-semibold"
+            >
+              Confirm
+            </button>
+          </div>
         </div>
       )}
 
+      {showPinModal && (
+        <div className="fixed inset-0 bg-[#0006] flex items-center justify-center z-50 px-4">
+          <div className="bg-white w-full max-w-md sm:max-w-sm p-6 rounded-xl shadow-lg">
+            <div className="flex justify-between items-center mb-4">
+              <h2 className="text-xl font-semibold text-[#02487F]">Enter PIN</h2>
+              <button onClick={() => setShowPinModal(false)} className="text-gray-500 hover:text-red-500 text-2xl">&times;</button>
+            </div>
+            <input
+              type="password"
+              maxLength={4}
+              value={pin}
+              onChange={(e) => setPin(e.target.value)}
+              placeholder="Enter 4-digit PIN"
+              className="w-full mt-4 border border-gray-300 rounded-lg px-4 py-3 text-gray-800 outline-none mb-4"
+            />
+            <button
+              onClick={handlePinConfirm}
+              className="w-full bg-[#02487F] hover:bg-[#1384AB] text-white font-semibold py-3 px-6 rounded-lg"
+            >
+              Withdraw
+            </button>
+          </div>
+        </div>
+      )}
     </div>
   );
 };

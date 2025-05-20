@@ -1,9 +1,9 @@
 import { useEffect, useState } from "react";
 import Sidebar from "../../components/SideBar";
-import TopBar from "../../components/TopBar"; 
+import TopBar from "../../components/TopBar";
 import axios from "axios";
 import { toast } from "react-toastify";
-import Cookies from "js-cookie"
+import Cookies from "js-cookie";
 
 const Deposit = () => {
   const [user, setUser] = useState();
@@ -13,55 +13,51 @@ const Deposit = () => {
   useEffect(() => {
     const fetchUser = async () => {
       try {
-        const axiosRes = await axios.get("https://ease-banking-app.onrender.com/api/user", 
-          {
-            headers: {
-              Authorization: `Bearer ${authToken}`
-            }
-          }
-        );
+        const axiosRes = await axios.get("https://ease-banking-app.onrender.com/api/user", {
+          headers: {
+            Authorization: `Bearer ${authToken}`,
+          },
+        });
         const response = axiosRes.data;
-        console.log(response)
         setUser(response.data);
       } catch (error) {
-        toast.error(error.response.error.message);
+        toast.error(error?.response?.data?.message || "Failed to fetch user data");
       }
     };
 
     fetchUser();
-  },[authToken])
+  }, [authToken]);
 
   const handleDeposit = async (e) => {
     e.preventDefault();
-    console.log("Depositing:", amount);
     try {
-      const response = await axios.post("https://ease-banking-app.onrender.com/api/user/deposit",  
-      { amount: Number(amount) }, 
-      {
-        headers: {
-          Authorization: `Bearer ${authToken}`
+      const response = await axios.post(
+        "https://ease-banking-app.onrender.com/api/user/deposit",
+        { amount: Number(amount) },
+        {
+          headers: {
+            Authorization: `Bearer ${authToken}`,
+          },
         }
-      });
+      );
       toast.success(response.data.message);
       setAmount("");
     } catch (error) {
-      toast.error(error.response.data.error);
+      toast.error(error?.response?.data?.error || "Deposit failed");
     }
   };
 
   return (
-    <div className="flex min-h-screen bg-gray-100">
+    <div className="flex flex-col lg:flex-row min-h-screen bg-gray-100">
       <Sidebar />
 
-      <main className="flex-1 p-8 space-y-8 ml-64">
-        {/* KYC Banner */}
-        <TopBar/>
+      <main className="flex-1 px-4 sm:px-6 md:px-8 py-8 space-y-8 transition-all duration-300 ml-0 lg:ml-64">
+        <TopBar />
 
-        {/* Deposit Form Section */}
-        <div className="w-full mx-auto bg-white p-8 rounded-2xl shadow-xl">
-          <h2 className="text-3xl font-bold text-[#02487F] mb-6">Deposit Funds</h2>
+        <div className="w-full mx-auto bg-white p-4 sm:p-6 md:p-8 rounded-2xl shadow-xl">
+          <h2 className="text-2xl sm:text-3xl font-bold text-[#02487F] mb-6">Deposit Funds</h2>
 
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mt-8 mb-6">
+          <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6 mt-6 mb-6">
             <div>
               <label className="block text-gray-600 font-medium mb-2">Bank Name</label>
               <div className="bg-gray-100 border border-gray-300 rounded-lg px-4 py-3 text-gray-700">
@@ -79,7 +75,7 @@ const Deposit = () => {
             <div>
               <label className="block text-gray-600 font-medium mb-2">Account Number</label>
               <div className="bg-gray-100 border border-gray-300 rounded-lg px-4 py-3 text-gray-700">
-                {user?.acctNumber}
+                {user?.acctNumber || "Loading..."}
               </div>
             </div>
           </div>

@@ -30,7 +30,6 @@ const LoanPage = () => {
           }
         );
         const response = axiosRes.data;
-        console.log(response)
         setUser(response.data);
         setHistory(response.data.loanSave);
       } catch (error) {
@@ -70,17 +69,16 @@ const LoanPage = () => {
   const formatDateAndTime = (isoString) => {
     const dateObj = new Date(isoString);
     const date = dateObj.toLocaleDateString("en-NG", {
-      // year: "numeric",
       month: "numeric",
       day: "numeric",
     });
-  
+
     const time = dateObj.toLocaleTimeString("en-NG", {
       hour: "2-digit",
       minute: "2-digit",
       hour12: true,
     });
-  
+
     return { date, time };
   };
 
@@ -104,7 +102,6 @@ const LoanPage = () => {
       setAddress("");
       setNIN("");
       setShowLoanForm(false);
-      console.log(response);
     } catch (error) {
       toast.error(error.response.data.error, { icon: "⚠️" });
       return;  
@@ -113,11 +110,6 @@ const LoanPage = () => {
 
   const handleRepayLoan = async () => {
     const amount = Number(repayAmount);
-
-    // if (!amount || amount <= 0 || amount > currentLoan) {
-    //   toast.error("Invalid repayment amount.", { icon: "⚠️" });
-    //   return;
-    // }
     try {
       const axiosRes = await axios.post("https://ease-banking-app.onrender.com/api/user/repay-loan", {amount: amount}, {
         headers: {
@@ -145,34 +137,32 @@ const LoanPage = () => {
   };
 
   return (
-    <div className="flex min-h-screen bg-gray-100">
+    <div className="flex flex-col lg:flex-row min-h-screen bg-gray-100">
       <Sidebar />
 
-      <main className="ml-64 flex-1 p-8 space-y-8">
-        {/* Top Section with Loan Info and Actions */}
-        <div className="bg-gradient-to-r from-[#024875] to-[#1384AB]  text-white p-6 h-52 rounded-2xl shadow flex flex-col md:flex-row md:justify-between">
+      <main className="flex-1 lg:ml-64 p-4 sm:p-6 md:p-8 space-y-8">
+        <div className="bg-gradient-to-r from-[#024875] to-[#1384AB] text-white p-6 rounded-2xl shadow flex flex-col md:flex-row md:justify-between gap-4">
           <div>
-            <h4 className="text-lg mt-8 font-semibold">Current Loan Amount</h4>
+            <h4 className="text-lg font-semibold">Current Loan Amount</h4>
             <p className="text-3xl font-bold mt-1">₦{loanAmt}</p>
           </div>
 
-          <div className="mt-auto flex gap-4">
+          <div className="flex gap-2 md:gap-4">
             <button
               onClick={toggleLoanForm}
-              className="bg-[#20B6D9] hover:bg-[#0e6b8f] transition duration-300 text-white px-6 py-3 rounded-lg font-semibold"
+              className="bg-[#20B6D9] hover:bg-[#0e6b8f] text-white px-4 py-2 md:px-6 md:py-3 rounded-lg font-semibold"
             >
               Request Loan
             </button>
             <button
               onClick={handleToggleRepayField}
-              className="bg-[#20B6D9] hover:bg-[#0e6b8f] transition duration-300 text-white px-6 py-3 rounded-lg font-semibold"
+              className="bg-[#20B6D9] hover:bg-[#0e6b8f] text-white px-4 py-2 md:px-6 md:py-3 rounded-lg font-semibold"
             >
               Repay Loan
             </button>
           </div>
         </div>
 
-        {/* Loan Form Animation */}
         <AnimatePresence>
           {showLoanForm && (
             <motion.div
@@ -180,14 +170,14 @@ const LoanPage = () => {
               animate={{ opacity: 1, y: 0 }}
               exit={{ opacity: 0, y: -30 }}
               transition={{ duration: 0.3 }}
-              className="w-full bg-white p-8 rounded-2xl shadow-xl"
+              className="w-full bg-white p-4 sm:p-6 md:p-8 rounded-2xl shadow-xl"
             >
-              <h2 className="text-3xl font-bold text-[#02487F] mb-6">Loan Management</h2>
+              <h2 className="text-xl md:text-3xl font-bold text-[#02487F] mb-6">Loan Management</h2>
               <p className="text-red-600 text-sm mb-4">
                 ⚠️ If a loan is not repaid within 30 days, it will be automatically deducted from your account.
               </p>
 
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mb-8">
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-4 md:gap-6 mb-8">
                 <div>
                   <label className="block text-gray-600 font-medium mb-2">Full Name</label>
                   <input
@@ -195,7 +185,6 @@ const LoanPage = () => {
                     value={fullname}
                     disabled
                     className="w-full border border-gray-300 rounded-lg px-4 py-3 text-gray-800"
-                    placeholder="Enter full name"
                   />
                 </div>
                 <div>
@@ -205,7 +194,6 @@ const LoanPage = () => {
                     value={user?.phoneNumber}
                     disabled
                     className="w-full border border-gray-300 rounded-lg px-4 py-3 text-gray-800"
-                    placeholder="Enter phone number"
                   />
                 </div>
                 <div>
@@ -217,7 +205,6 @@ const LoanPage = () => {
                     disabled={!!user.address}
                     required
                     className="w-full border border-gray-300 rounded-lg px-4 py-3 text-gray-800"
-                    placeholder="Enter address"
                   />
                 </div>
                 <div>
@@ -229,7 +216,6 @@ const LoanPage = () => {
                     disabled={!!user.nin}
                     required
                     className="w-full border border-gray-300 rounded-lg px-4 py-3 text-gray-800"
-                    placeholder="Enter NIN"
                   />
                 </div>
               </div>
@@ -247,7 +233,7 @@ const LoanPage = () => {
 
               <button
                 onClick={handleAddLoan}
-                className="bg-[#02487F] hover:bg-[#1384AB] text-white font-semibold py-3 px-6 rounded-lg transition w-full"
+                className="bg-[#02487F] hover:bg-[#1384AB] text-white font-semibold py-3 px-6 rounded-lg w-full"
               >
                 Submit Loan Request
               </button>
@@ -255,7 +241,6 @@ const LoanPage = () => {
           )}
         </AnimatePresence>
 
-        {/* Repayment Form Animation */}
         <AnimatePresence>
           {showRepayField && (
             <motion.div
@@ -263,9 +248,9 @@ const LoanPage = () => {
               animate={{ opacity: 1, y: 0 }}
               exit={{ opacity: 0, y: -30 }}
               transition={{ duration: 0.3 }}
-              className="w-full bg-white p-8 rounded-2xl shadow-xl"
+              className="w-full bg-white p-4 sm:p-6 md:p-8 rounded-2xl shadow-xl"
             >
-              <h2 className="text-2xl font-bold text-[#02487F] mb-4">Repay Loan</h2>
+              <h2 className="text-xl md:text-2xl font-bold text-[#02487F] mb-4">Repay Loan</h2>
               <label className="block text-gray-600 font-medium mb-2">Repayment Amount</label>
               <input
                 type="number"
@@ -276,7 +261,7 @@ const LoanPage = () => {
               />
               <button
                 onClick={handleRepayLoan}
-                className="mt-4 w-full bg-[#02487F] hover:bg-[#1384AB] text-white font-semibold py-3 px-6 rounded-lg transition"
+                className="mt-4 w-full bg-[#02487F] hover:bg-[#1384AB] text-white font-semibold py-3 px-6 rounded-lg"
               >
                 Confirm Repayment
               </button>
@@ -284,10 +269,9 @@ const LoanPage = () => {
           )}
         </AnimatePresence>
 
-
-        <div className="bg-white p-6 rounded-lg shadow">
+        <div className="bg-white p-4 sm:p-6 md:p-8 rounded-lg shadow overflow-x-auto">
           <div className="flex justify-between items-center mb-4">
-            <h3 className="text-xl font-semibold">Loan History</h3>
+            <h3 className="text-lg md:text-xl font-semibold">Loan History</h3>
           </div> 
 
           <table className="w-full text-left border-collapse">
