@@ -176,12 +176,12 @@ const SavePage = () => {
                   className="border border-gray-300 p-4 md:p-6 rounded-xl bg-[#E6F7FB] shadow-sm"
                 >
                   <div className="flex flex-col md:flex-row md:items-center md:justify-between mb-2">
-                    <div>
+                    <div className="flex justify-between items-center">
                       <h3 className="text-lg md:text-xl font-semibold text-[#02487F]">{save.description}</h3>
                       <p className="mt-2 md:mt-4 text-gray-700">₦{save.amount}</p>
                     </div>
 
-                    <div className="flex space-x-2 mt-4 md:mt-0">
+                    <div className="flex space-x-2 mt-4 md:mt-0 justify-end">
                       <button
                         onClick={() => toggleAction(save.id, "spend")}
                         className="bg-[#02487F] hover:bg-[#1384AB] cursor-pointer text-white py-1 px-4 rounded-lg"

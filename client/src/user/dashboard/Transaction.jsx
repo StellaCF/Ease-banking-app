@@ -15,22 +15,37 @@ const TransactionPage = () => {
   useEffect(() => {
     const fetchTransactions = async () => {
       try {
-        const axiosRes = await axios.get("https://ease-banking-app.onrender.com/api/user-transactions", {
-          headers: {
-            Authorization: `Bearer ${authToken}`,
+        const axiosRes = await axios.get(
+          "https://ease-banking-app.onrender.com/api/user-transactions",
+          {
+            headers: {
+              Authorization: `Bearer ${authToken}`,
+            },
           }
-        });
+        );
         const response = axiosRes.data;
         toast.success(response.data.message);
         const combinedTransactions = [
-          ...(response.data.transactions || []).map(t => ({ ...t, source: "transactions" })),
-          ...(response.data.loanSave || []).map(t => ({ ...t, source: "loanSave" }))
+          ...(response.data.transactions || []).map((t) => ({
+            ...t,
+            source: "transactions",
+          })),
+          ...(response.data.loanSave || []).map((t) => ({
+            ...t,
+            source: "loanSave",
+          })),
         ];
 
-        combinedTransactions.sort((a, b) => new Date(b.createdAt) - new Date(a.createdAt));
+        combinedTransactions.sort(
+          (a, b) => new Date(b.createdAt) - new Date(a.createdAt)
+        );
         setTransactions(combinedTransactions);
       } catch (error) {
-        toast.error(error.response?.data?.message || error.response?.data?.error || "Error fetching transactions");
+        toast.error(
+          error.response?.data?.message ||
+            error.response?.data?.error ||
+            "Error fetching transactions"
+        );
       }
     };
     fetchTransactions();
@@ -63,11 +78,29 @@ const TransactionPage = () => {
 
       <main className="flex-1 p-4 md:p-8 space-y-6 md:ml-64">
         <div className="flex items-center justify-between mb-4">
-          <h2 className="text-xl md:text-2xl font-bold text-[#02487F]">Transaction History</h2>
+          <h2 className="text-xl md:text-2xl font-bold text-[#02487F]">
+            Transaction History
+          </h2>
         </div>
 
-        {/* Filter Buttons */}
-        <div className="flex flex-wrap gap-3 mb-4">
+
+        {/* Dropdown - only visible on small screens */}
+        <div className="mb-4 block md:hidden">
+          <select
+            value={filter}
+            onChange={(e) => setFilter(e.target.value)}
+            className="w-full px-4 py-2 rounded-md border border-[#02487F] text-[#02487F] text-sm font-medium focus:outline-none focus:ring-2 focus:ring-[#02487F]"
+          >
+            {["All", "deposit", "transfer", "withdraw"].map((item) => (
+              <option key={item} value={item}>
+                {item.charAt(0).toUpperCase() + item.slice(1)}
+              </option>
+            ))}
+          </select>
+        </div>
+
+        {/* Button filters - only visible on medium screens and larger */}
+        <div className=" flex-wrap gap-3 mb-4 hidden md:flex">
           {["All", "deposit", "transfer", "withdraw"].map((item) => (
             <button
               key={item}
@@ -88,10 +121,18 @@ const TransactionPage = () => {
           <table className="min-w-full text-left table-auto">
             <thead className="bg-[#E6F7FB] text-black">
               <tr>
-                <th className="py-3 px-4 md:px-6 text-xs md:text-sm font-medium">Type</th>
-                <th className="py-3 px-4 md:px-6 text-xs md:text-sm font-medium">Amount</th>
-                <th className="py-3 px-4 md:px-6 text-xs md:text-sm font-medium">Date</th>
-                <th className="py-3 px-4 md:px-6 text-xs md:text-sm font-medium">Status</th>
+                <th className="py-3 px-4 md:px-6 text-xs md:text-sm font-medium">
+                  Type
+                </th>
+                <th className="py-3 px-4 md:px-6 text-xs md:text-sm font-medium">
+                  Amount
+                </th>
+                <th className="py-3 px-4 md:px-6 text-xs md:text-sm font-medium hidden md:table-cell">
+                  Date
+                </th>
+                <th className="py-3 px-4 md:px-6 text-xs md:text-sm font-medium">
+                  Status
+                </th>
               </tr>
             </thead>
             <tbody>
@@ -111,8 +152,10 @@ const TransactionPage = () => {
                     }
                   >
                     <td className="py-4 px-4 md:px-6 text-sm">{txn.type}</td>
-                    <td className="py-4 px-4 md:px-6 text-sm">₦{txn.amount.toLocaleString()}</td>
                     <td className="py-4 px-4 md:px-6 text-sm">
+                      ₦{txn.amount.toLocaleString()}
+                    </td>
+                    <td className="py-4 px-4 md:px-6 text-sm hidden md:table-cell">
                       {formatDateAndTime(txn.createdAt).date} |{" "}
                       {formatDateAndTime(txn.createdAt).time}
                     </td>

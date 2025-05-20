@@ -83,7 +83,7 @@ const Dashboard = () => {
               <tr className="text-gray-600 border-b">
                 <th className="py-2 pr-4">Type</th>
                 <th className="py-2 pr-4">Amount</th>
-                <th className="py-2 pr-4">Date</th>
+                <th className="py-2 pr-4 hidden md:table-cell">Date</th>
                 <th className="py-2 pr-4">Status</th>
               </tr>
             </thead>
@@ -92,7 +92,7 @@ const Dashboard = () => {
                 <tr key={tx.id} className="border-b text-gray-700">
                   <td className="py-3 pr-4">{tx.type}</td>
                   <td className="py-3 pr-4">₦{tx.amount}</td>
-                  <td className="py-3 pr-4">
+                  <td className="py-3 pr-4 hidden md:table-cell">
                     {formatDateAndTime(tx.createdAt).date} | {formatDateAndTime(tx.createdAt).time}
                   </td>
                   <td className="py-3 pr-4">{tx.status}</td>
