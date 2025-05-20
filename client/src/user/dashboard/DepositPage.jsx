@@ -3,12 +3,8 @@ import Sidebar from "../../components/SideBar";
 import TopBar from "../../components/TopBar";
 import axios from "axios";
 import { toast } from "react-toastify";
-<<<<<<< HEAD
 import Cookies from "js-cookie";
-=======
-import Cookies from "js-cookie"
 import Loader from "../../components/Loader";
->>>>>>> 8c509cd2cf3ef9dba30c11520884d4443d9cf843
 
 const Deposit = () => {
   const [loading, setLoading] = useState(false);
@@ -28,13 +24,10 @@ const Deposit = () => {
         const response = axiosRes.data;
         setUser(response.data);
       } catch (error) {
-<<<<<<< HEAD
         toast.error(error?.response?.data?.message || "Failed to fetch user data");
-=======
         toast.error(error.response.error.message);
       } finally {
         setLoading(false);
->>>>>>> 8c509cd2cf3ef9dba30c11520884d4443d9cf843
       }
     };
 
@@ -43,11 +36,8 @@ const Deposit = () => {
 
   const handleDeposit = async (e) => {
     e.preventDefault();
-<<<<<<< HEAD
-=======
     console.log("Depositing:", amount);
     setLoading(true);
->>>>>>> 8c509cd2cf3ef9dba30c11520884d4443d9cf843
     try {
       const response = await axios.post(
         "https://ease-banking-app.onrender.com/api/user/deposit",
@@ -61,13 +51,10 @@ const Deposit = () => {
       toast.success(response.data.message);
       setAmount("");
     } catch (error) {
-<<<<<<< HEAD
       toast.error(error?.response?.data?.error || "Deposit failed");
-=======
       toast.error(error.response.data.error);
     } finally {
       setLoading(false);
->>>>>>> 8c509cd2cf3ef9dba30c11520884d4443d9cf843
     }
   };
 

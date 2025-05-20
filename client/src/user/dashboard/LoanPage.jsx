@@ -119,10 +119,7 @@ const LoanPage = () => {
 
   const handleRepayLoan = async () => {
     const amount = Number(repayAmount);
-<<<<<<< HEAD
-=======
     setLoading(true);
->>>>>>> 8c509cd2cf3ef9dba30c11520884d4443d9cf843
     try {
       const axiosRes = await axios.post("https://ease-banking-app.onrender.com/api/user/repay-loan", {amount: amount}, {
         headers: {

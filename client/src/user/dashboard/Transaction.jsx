@@ -4,14 +4,9 @@ import { motion, AnimatePresence } from "framer-motion";
 import Cookies from "js-cookie";
 import { toast } from "react-toastify";
 import axios from "axios";
-<<<<<<< HEAD
 import { useNavigate } from "react-router-dom";
-=======
-import Loader from "../../components/Loader";
->>>>>>> 8c509cd2cf3ef9dba30c11520884d4443d9cf843
 
 const TransactionPage = () => {
-  const [loading, setLoading] = useState(false);
   const [filter, setFilter] = useState("All");
   const [transactions, setTransactions] = useState([]);
   const authToken = Cookies.get("auth_token");
@@ -19,7 +14,6 @@ const TransactionPage = () => {
 
   useEffect(() => {
     const fetchTransactions = async () => {
-      setLoading(true);
       try {
         const axiosRes = await axios.get("https://ease-banking-app.onrender.com/api/user-transactions", {
           headers: {
@@ -36,13 +30,7 @@ const TransactionPage = () => {
         combinedTransactions.sort((a, b) => new Date(b.createdAt) - new Date(a.createdAt));
         setTransactions(combinedTransactions);
       } catch (error) {
-<<<<<<< HEAD
         toast.error(error.response?.data?.message || error.response?.data?.error || "Error fetching transactions");
-=======
-        toast.error(error.response.data.message || error.response.data.error);
-      } finally {
-        setLoading(false);
->>>>>>> 8c509cd2cf3ef9dba30c11520884d4443d9cf843
       }
     };
     fetchTransactions();
@@ -140,7 +128,6 @@ const TransactionPage = () => {
           </table>
         </div>
       </main>
-      <Loader loading={loading} inline={false} size={150} />
     </div>
   );
 };

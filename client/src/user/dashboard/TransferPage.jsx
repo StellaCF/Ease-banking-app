@@ -34,10 +34,7 @@ const TransferPage = () => {
       const response = axiosRes.data;
       setFullname(response.data);
       setIsVerified(true);
-<<<<<<< HEAD
-=======
       setLoading(false); 
->>>>>>> 8c509cd2cf3ef9dba30c11520884d4443d9cf843
     } catch (error) {
       toast.error(error.response.data.message);
     } finally {

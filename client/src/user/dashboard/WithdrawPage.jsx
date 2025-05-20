@@ -78,21 +78,11 @@ const WithdrawPage = () => {
   const handlePinConfirm = async () => {
     setLoader(true);
     try {
-<<<<<<< HEAD
-      await axios.post(
-        "https://ease-banking-app.onrender.com/api/user/withdraw",
-        {
-          amount: Number(amount),
-          acctName: accountName,
-          acctNum: accountNumber,
-          bank: selectedBank,
-=======
       const axiosRes = await axios.post("https://ease-banking-app.onrender.com/api/user/withdraw",
         { amount: Number(amount), 
           acctName: accountName, 
           acctNum: accountNumber, 
           bank: selectedBank, 
->>>>>>> 8c509cd2cf3ef9dba30c11520884d4443d9cf843
           description: desc,
           pin: pin,
         },
@@ -240,35 +230,7 @@ const WithdrawPage = () => {
           </div>
         </div>
       )}
-<<<<<<< HEAD
-
-      {showPinModal && (
-        <div className="fixed inset-0 bg-[#0006] flex items-center justify-center z-50 px-4">
-          <div className="bg-white w-full max-w-md sm:max-w-sm p-6 rounded-xl shadow-lg">
-            <div className="flex justify-between items-center mb-4">
-              <h2 className="text-xl font-semibold text-[#02487F]">Enter PIN</h2>
-              <button onClick={() => setShowPinModal(false)} className="text-gray-500 hover:text-red-500 text-2xl">&times;</button>
-            </div>
-            <input
-              type="password"
-              maxLength={4}
-              value={pin}
-              onChange={(e) => setPin(e.target.value)}
-              placeholder="Enter 4-digit PIN"
-              className="w-full mt-4 border border-gray-300 rounded-lg px-4 py-3 text-gray-800 outline-none mb-4"
-            />
-            <button
-              onClick={handlePinConfirm}
-              className="w-full bg-[#02487F] hover:bg-[#1384AB] text-white font-semibold py-3 px-6 rounded-lg"
-            >
-              Withdraw
-            </button>
-          </div>
-        </div>
-      )}
-=======
       <Loader loading={loader} inline={false} size={150} />
->>>>>>> 8c509cd2cf3ef9dba30c11520884d4443d9cf843
     </div>
   );
 };
