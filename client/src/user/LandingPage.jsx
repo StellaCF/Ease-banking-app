@@ -365,7 +365,7 @@ export default function MoneyTransferLanding() {
         </div>
       </section>
 
-      <section className="py-16 px-4 sm:px-8 max-w-3xl mx-auto">
+      <section className="py-16 px-4 sm:px-8 max-w-3xl mx-auto" id="faq">
         <div className="text-center mb-10">
           <h5 className="text-sm font-semibold text-white uppercase">FAQ</h5>
           <h2 className="text-3xl font-bold text-white mt-1">
@@ -441,7 +441,7 @@ export default function MoneyTransferLanding() {
         </div>
       </section>
 
-      <footer className="bg-white text-gray-700 text-sm">
+      <footer className="bg-white text-gray-700 text-sm" id="contact us">
         <div className="w-11/12 mx-auto px-4 sm:px-8 py-10 grid grid-cols-1 md:grid-cols-4 gap-10">
           {/* Logo & Description */}
           <div>

@@ -23,8 +23,8 @@ const Navbar = () => {
 
         {/* Desktop Links */}
         <div className="hidden sm:flex justify-end items-center space-x-6 text-sm">
-          <a href="#" className="text-white hover:underline">FAQ</a>
-          <a href="#" className="text-white hover:underline">Contact Us</a>
+          <a href="#faq" className="text-white">FAQ</a>
+          <a href="#contact us" className="text-white">Contact Us</a>
           <button 
             onClick={() => navigate('/login')} 
             className="px-4 py-2 border border-white rounded-full cursor-pointer text-white hover:bg-white hover:text-[#004876] transition"
