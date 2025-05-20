@@ -3,10 +3,13 @@ import Sidebar from "../../components/SideBar";
 import TopBar from "../../components/TopBar";
 import { toast } from "react-toastify";
 import axios from "axios";
-import Cookies from "js-cookie";
+import Cookies from "js-cookie"
+import Loader from "../../components/Loader";
 
 const SavePage = () => {
+  const [loading, setLoading] = useState(false);
   const [description, setDescription] = useState("");
+  const [user, setUser] = useState();
   const [amount, setAmount] = useState("");
   const [savings, setSavings] = useState([]);
   const [activeAction, setActiveAction] = useState({});
@@ -16,6 +19,7 @@ const SavePage = () => {
 
   useEffect(() => {
     const fetchSavings = async () => {
+      setLoading(true);
       try {
         const axiosRes = await axios.get("https://ease-banking-app.onrender.com/api/user/user-savings", {
           headers: {
@@ -27,14 +31,33 @@ const SavePage = () => {
         console.log(response);
       } catch (error) {
         console.error(error.response.data.error);
-      }
+      } 
     };
 
+    const fetchUser = async () => {
+    try {
+      const axiosRes = await axios.get("https://ease-banking-app.onrender.com/api/user", {
+        headers: {
+          Authorization: `Bearer ${authToken}`
+        }
+      });
+      const response = axiosRes.data;
+      setUser(response.data);
+      console.log(response.data);
+    } catch (error) {
+      console.error(error.response.data.error);
+    } finally {
+      setLoading(false);
+    }
+  };
+
     fetchSavings();
+    fetchUser();
   }, [authToken]);
 
   const handleSave = async () => {
     const parsedAmount = parseFloat(amount);
+    setLoading(true);
     try {
       const axiosRes = await axios.post("https://ease-banking-app.onrender.com/api/user/save", 
         {
@@ -54,6 +77,8 @@ const SavePage = () => {
       setAmount("");
     } catch (error) {
       toast.error(error.response.data.error)
+    } finally {
+      setLoading(false);
     }
   };
 
@@ -70,19 +95,33 @@ const SavePage = () => {
 
   const handleActionSubmit = async (id, type) => {
     const amount = parseFloat(actionAmount[id]);
+    setLoading(true);
     try {
-      const endPoint = type === "spend" ? 
-      `https://ease-banking-app.onrender.com/api/user/spend/${id}` : 
-      `https://ease-banking-app.onrender.com/api/user/save/${id}/update`;
-      const axiosRes = await axios.patch(endPoint, { amount }, {
-        headers: {
-          Authorization: `Bearer ${authToken}`
-        }
-      });
-      const response = axiosRes.data;
-      toast.success(response.message);
+      if (type === "spend") {
+        const axiosRes = await axios.post(`https://ease-banking-app.onrender.com/api/user/spend/${id}`, { amount }, {
+          headers: {
+            Authorization: `Bearer ${authToken}`
+          }
+        });
+        const response = axiosRes.data;
+        toast.success(response.message);
+        setActiveAction((prev) => ({ ...prev, [id]: null }));
+        setActionAmount((prev) => ({ ...prev, [id]: "" }));
+      } else {
+        const axiosRes = await axios.patch(`https://ease-banking-app.onrender.com/api/user/save/${id}/update`, { amount }, {
+          headers: {
+            Authorization: `Bearer ${authToken}`
+          }
+        });
+        const response = axiosRes.data;
+        toast.success(response.message);
+        setActiveAction((prev) => ({ ...prev, [id]: null }));
+        setActionAmount((prev) => ({ ...prev, [id]: "" }));
+      }
     } catch (error) {
       toast.error(error.response.data.error);
+    } finally {
+      setLoading(false);
     }
   };
 
@@ -95,10 +134,12 @@ const SavePage = () => {
       <main className="flex-1 p-4 md:p-8 space-y-8">
         <TopBar/>
 
-        <div className="w-full mx-auto bg-white p-4 md:p-8 rounded-2xl shadow-xl space-y-6">
-          <h2 className="text-2xl md:text-3xl font-bold text-[#02487F] mb-4 md:mb-6">Save Money</h2>
-
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-4 md:gap-6">
+        <div className="w-full mx-auto bg-white p-8 rounded-2xl shadow-xl space-y-6">
+          <div className="flex justify-between items-center">
+            <h2 className="text-3xl font-bold text-[#02487F] ">Save Money</h2>
+            <h3 className="text-lg text-[#02487F] font-semibold">Total Savings: ₦{user?.savingsBalance}</h3>
+          </div>
+          <div className="mt-8 grid grid-cols-1 md:grid-cols-2 gap-6">
             <div>
               <label className="block text-gray-600 font-medium mb-2">Description</label>
               <input
@@ -183,6 +224,7 @@ const SavePage = () => {
           )}
         </div>
       </main>
+      <Loader loading={loading} inline={false} size={150} />
     </div>
   );
 };

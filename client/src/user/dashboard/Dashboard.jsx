@@ -5,7 +5,11 @@ import Cookies from "js-cookie";
 import { toast } from "react-toastify";
 import Sidebar from "../../components/SideBar";
 import TopBar from "../../components/TopBar";
+<<<<<<< HEAD
 import { FaBars } from "react-icons/fa";
+=======
+import Loader from "../../components/Loader";
+>>>>>>> 8c509cd2cf3ef9dba30c11520884d4443d9cf843
 
 const features = [
   { title: "Deposit", description: "Fund your account securely", color: "bg-[#1384AB]", path: "/depositPage" },
@@ -15,12 +19,14 @@ const features = [
 ];
 
 const Dashboard = () => {
+  const [loading, setLoading] = useState(false);
   const [history, setHistory] = useState([]);
   const [sidebarOpen, setSidebarOpen] = useState(false);
   const navigate = useNavigate();
   const authToken = Cookies.get("auth_token");
 
   useEffect(() => {
+<<<<<<< HEAD
     const fetchUser = async () => {
       try {
         await axios.get("https://ease-banking-app.onrender.com/api/user", {
@@ -31,18 +37,26 @@ const Dashboard = () => {
       }
     };
 
+=======
+>>>>>>> 8c509cd2cf3ef9dba30c11520884d4443d9cf843
     const fetchUserTrans = async () => {
+      setLoading(true);
       try {
         const axiosRes = await axios.get("https://ease-banking-app.onrender.com/api/user-transactions", {
           headers: { Authorization: `Bearer ${authToken}` },
         });
         setHistory(axiosRes.data.data.transactions);
       } catch (error) {
+<<<<<<< HEAD
         toast.error(error?.response?.data?.message || "Error fetching transactions");
+=======
+        toast.error(error.response.error.message);
+      } finally {
+        setLoading(false);
+>>>>>>> 8c509cd2cf3ef9dba30c11520884d4443d9cf843
       }
     };
 
-    fetchUser();
     fetchUserTrans();
   }, [authToken]);
 
@@ -109,6 +123,7 @@ const Dashboard = () => {
           </table>
         </div>
       </main>
+      <Loader loading={loading} inline={false} size={150}/>
     </div>
   );
 };

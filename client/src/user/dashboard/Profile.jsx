@@ -1,24 +1,59 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { Pencil } from "lucide-react"; 
 import Sidebar from "../../components/SideBar";
 import TopBar from "../../components/TopBar";
+import axios from "axios";
+import Cookies from "js-cookie";
+import Loader from "../../components/Loader";
 
 const Profile = () => {
   const [isEditing, setIsEditing] = useState(false);
-  const [userData, setUserData] = useState({
-    fullName: "John Doe",
-    email: "john.doe@example.com",
-    phone: "+234 801 234 5678",
-    address: "12, Marina Street, Lagos, Nigeria",
-    accountNumber: "1234567890",
-    bvn: "22334455667",
-    nin: "14567892109",
-    accountType: "Savings",
-    gender: "Male",
-    dateOfBirth: "1990-05-14",
-    joinedDate: "2021-08-01",
-    accountStatus: "Active",
-  });
+  const [userData, setUserData] = useState();
+  const [loading, setLoading] = useState(false);
+
+  const authToken  = Cookies.get("auth_token");
+
+  useEffect(() => {
+    const fetchUser = async () => {
+      setLoading(true);
+      try {
+        const axiosRes = await axios.get("https://ease-banking-app.onrender.com/api/user",
+          {
+            headers: {
+              Authorization: `Bearer ${authToken}`
+            }
+          }
+        )
+        const response = axiosRes.data;
+        setUserData(response.data);
+      } catch (error) {
+        console.log(error.response.data.error)
+      } finally {
+        setLoading(false);
+      }
+    };
+    
+    fetchUser();
+  },[authToken])
+
+  const fullname = userData?.firstName + " " + userData?.otherName + " " + userData?.lastName;
+
+  const formatDateAndTime = (isoString) => {
+    const dateObj = new Date(isoString);
+    const date = dateObj.toLocaleDateString("en-NG", {
+      year: "numeric",
+      month: "long",
+      day: "numeric",
+    });
+  
+    const time = dateObj.toLocaleTimeString("en-NG", {
+      hour: "2-digit",
+      minute: "2-digit",
+      hour12: true,
+    });
+  
+    return { date, time };
+  };
 
   const handleChange = (field, value) => {
     setUserData((prev) => ({
@@ -56,37 +91,37 @@ const Profile = () => {
           <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 md:gap-6 mb-8">
             <Detail
               label="Full Name"
-              value={userData.fullName}
+              value={fullname}
               editable={isEditing}
               onChange={(e) => handleChange("fullName", e.target.value)}
             />
             <Detail
               label="Email Address"
-              value={userData.email}
+              value={userData?.email}
               editable={isEditing}
               onChange={(e) => handleChange("email", e.target.value)}
             />
             <Detail
               label="Phone Number"
-              value={userData.phone}
+              value={userData?.phoneNumber}
               editable={isEditing}
               onChange={(e) => handleChange("phone", e.target.value)}
             />
             <Detail
               label="Residential Address"
-              value={userData.address}
+              value={userData?.address}
               editable={isEditing}
               onChange={(e) => handleChange("address", e.target.value)}
             />
             <Detail
               label="Date of Birth"
-              value={userData.dateOfBirth}
+              value={userData?.dateOfBirth}
               editable={isEditing}
               onChange={(e) => handleChange("dateOfBirth", e.target.value)}
             />
             <Detail
               label="Gender"
-              value={userData.gender}
+              value={userData?.gender}
               editable={isEditing}
               onChange={(e) => handleChange("gender", e.target.value)}
             />
@@ -96,25 +131,25 @@ const Profile = () => {
           <div className="border-t pt-6 grid grid-cols-1 sm:grid-cols-2 gap-4 md:gap-6 mb-8">
             <Detail
               label="Account Number"
-              value={userData.accountNumber}
+              value={userData?.acctNumber}
               editable={isEditing}
               onChange={(e) => handleChange("accountNumber", e.target.value)}
             />
             <Detail
               label="Account Type"
-              value={userData.accountType}
+              value={userData?.accountType}
               editable={isEditing}
               onChange={(e) => handleChange("accountType", e.target.value)}
             />
             <Detail
               label="Account Status"
-              value={userData.accountStatus}
+              value={userData?.accountStatus}
               editable={isEditing}
               onChange={(e) => handleChange("accountStatus", e.target.value)}
             />
             <Detail
               label="Date Joined"
-              value={userData.joinedDate}
+              value={formatDateAndTime(userData?.createdAt).date}
               editable={isEditing}
               onChange={(e) => handleChange("joinedDate", e.target.value)}
             />
@@ -124,13 +159,13 @@ const Profile = () => {
           <div className="border-t pt-6 grid grid-cols-1 sm:grid-cols-2 gap-4 md:gap-6">
             <Detail
               label="BVN"
-              value={userData.bvn}
+              value={userData?.bvn}
               editable={isEditing}
               onChange={(e) => handleChange("bvn", e.target.value)}
             />
             <Detail
               label="National ID Number (NIN)"
-              value={userData.nin}
+              value={userData?.nin}
               editable={isEditing}
               onChange={(e) => handleChange("nin", e.target.value)}
             />
@@ -147,6 +182,7 @@ const Profile = () => {
           )}
         </div>
       </main>
+      <Loader loading={loading} inline={false} size={150} />
     </div>
   );
 };

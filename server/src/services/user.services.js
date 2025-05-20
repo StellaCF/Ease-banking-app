@@ -2,31 +2,32 @@ const { User } = require('../data/models/association');
 
 exports.userDetail = async (id) => {
   try {
-    const user = await User.findOne({
-      where: { id },
-      include: [
-        {
-          association: "transactions",
-          separate: true,
-          order: [["createdAt", "DESC"]],
-        },
-        {
-          association: "loanSave",
-          separate: true,
-          order: [["createdAt", "DESC"]],
-        },
-      ],
-    });
+    const user = await User.findByPk(id);
 
     if (!user) {
       throw new Error('User not found');
     }
 
-    const { firstName, otherName, lastName, email, phoneNumber, acctNumber, acctBalance, savingsBalance, address, nin } = user
-
-    return { firstName, otherName, lastName, email, phoneNumber, acctNumber, acctBalance, savingsBalance, address, nin};
+    return user;
   } catch (error) {
     throw new Error('Error fetching user details: ' + error.message);
+  }
+};
+
+
+exports.updateUser = async (id, data) => {
+  try {
+    const user = await User.findByPk(id);
+
+    if (!user) {
+      throw new Error('User not found');
+    }
+
+    const updatedUser = await user.update(data);
+
+    return updatedUser;
+  } catch (error) {
+    throw new Error('Error updating user: ' + error.message);
   }
 };
 

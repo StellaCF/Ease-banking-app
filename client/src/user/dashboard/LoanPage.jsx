@@ -5,8 +5,10 @@ import { motion, AnimatePresence } from "framer-motion";
 import "react-toastify/dist/ReactToastify.css";
 import axios from "axios";
 import Cookies from "js-cookie";
+import Loader from "../../components/Loader";
 
 const LoanPage = () => {
+  const [loading, setLoading] = useState(false);
   const [user, setUser] = useState();
   const [history, setHistory] = useState([]);
   const safeHistory = history ?? [];
@@ -21,6 +23,7 @@ const LoanPage = () => {
 
   useEffect(() => {
     const fetchUser = async () => {
+      setLoading(true);
       try {
         const axiosRes = await axios.get("https://ease-banking-app.onrender.com/api/user", 
           {
@@ -50,6 +53,8 @@ const LoanPage = () => {
         setHistory(response.data.loanSave);
       } catch (error) {
         toast.error(error.response.error.message);
+      } finally {
+        setLoading(false);
       }
     };
 
@@ -58,6 +63,9 @@ const LoanPage = () => {
   }, [authToken]);
 
   const fullname = user?.firstName + " " + user?.otherName + " " + user?.lastName;
+
+  const filteredHistory = history?.filter((h) => h.type === "loan" || h.type === "repayment");
+  console.log(filteredHistory);
 
   const totalLoan = (safeHistory.filter(l => l.type === "loan").reduce((sum, l) => sum + Number(l.amount), 0));
   const totalRepay = (safeHistory.filter(l => l.type === "repayment").reduce((sum, l) => sum + Number(l.amount), 0));
@@ -83,13 +91,14 @@ const LoanPage = () => {
   };
 
   const handleAddLoan = async () => {
-    if (!address || !nin) {
+    if ((!user.address && !address.trim()) || (!user.nin && !nin.trim())) {
       toast.error("Please complete all application form fields.", {
         icon: "❌",
       });
       return;
     }
     const amount = Number(loanAmount);
+    setLoading(true);
     try {
       const axiosRes = await axios.post("https://ease-banking-app.onrender.com/api/user/loan", {amount: amount, address, nin}, {
         headers: {
@@ -99,17 +108,21 @@ const LoanPage = () => {
       const response = axiosRes.data;
       toast.success(response.message, { icon: "✅" });
       setLoanAmount("");
-      setAddress("");
-      setNIN("");
       setShowLoanForm(false);
     } catch (error) {
-      toast.error(error.response.data.error, { icon: "⚠️" });
+      toast.error(error.response.error, { icon: "⚠️" });
       return;  
+    } finally {
+      setLoading(false);
     }
   };
 
   const handleRepayLoan = async () => {
     const amount = Number(repayAmount);
+<<<<<<< HEAD
+=======
+    setLoading(true);
+>>>>>>> 8c509cd2cf3ef9dba30c11520884d4443d9cf843
     try {
       const axiosRes = await axios.post("https://ease-banking-app.onrender.com/api/user/repay-loan", {amount: amount}, {
         headers: {
@@ -123,6 +136,8 @@ const LoanPage = () => {
     } catch (error) {
       toast.error(error.response.data.error, { icon: "⚠️" });
       return;
+    } finally {
+      setLoading(false);
     }
   };
 
@@ -284,7 +299,7 @@ const LoanPage = () => {
               </tr>
             </thead>
             <tbody>
-              {history?.map?.((tx) => (
+              {filteredHistory?.map?.((tx) => (
                 <tr key={tx.id} className="text-sm border-b text-gray-600">
                   <td className="py-4">{tx.type}</td>
                   <td className="py-4">₦{tx.amount}</td>
@@ -296,6 +311,7 @@ const LoanPage = () => {
           </table>
         </div>
       </main>
+      <Loader loading={loading} inline={false} size={150} />
     </div>
   );
 };

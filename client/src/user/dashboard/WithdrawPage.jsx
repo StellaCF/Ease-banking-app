@@ -4,6 +4,7 @@ import TopBar from "../../components/TopBar";
 import axios from "axios";
 import { toast } from "react-toastify";
 import Cookies from "js-cookie";
+import Loader from "../../components/Loader";
 
 const WithdrawPage = () => {
   const [banks, setBanks] = useState([]);
@@ -14,6 +15,7 @@ const WithdrawPage = () => {
   const [amount, setAmount] = useState("");
   const [pin, setPin] = useState("");
   const [isVerified, setIsVerified] = useState(false);
+  const [loader, setLoader] = useState(false);
   const [loading, setLoading] = useState(false);
   const [showConfirmModal, setShowConfirmModal] = useState(false);
   const [showPinModal, setShowPinModal] = useState(false);
@@ -74,7 +76,9 @@ const WithdrawPage = () => {
   };
 
   const handlePinConfirm = async () => {
+    setLoader(true);
     try {
+<<<<<<< HEAD
       await axios.post(
         "https://ease-banking-app.onrender.com/api/user/withdraw",
         {
@@ -82,6 +86,13 @@ const WithdrawPage = () => {
           acctName: accountName,
           acctNum: accountNumber,
           bank: selectedBank,
+=======
+      const axiosRes = await axios.post("https://ease-banking-app.onrender.com/api/user/withdraw",
+        { amount: Number(amount), 
+          acctName: accountName, 
+          acctNum: accountNumber, 
+          bank: selectedBank, 
+>>>>>>> 8c509cd2cf3ef9dba30c11520884d4443d9cf843
           description: desc,
           pin: pin,
         },
@@ -91,8 +102,8 @@ const WithdrawPage = () => {
           },
         }
       );
-
-      toast.success(`₦${amount} withdrawn successfully to ${accountName}!`);
+      const response = axiosRes.data;
+      toast.success(response.message);
       setAmount("");
       setDesc("");
       setIsVerified(false);
@@ -103,6 +114,8 @@ const WithdrawPage = () => {
       setShowPinModal(false);
     } catch (error) {
       toast.error(error.response?.data?.error || "Invalid PIN or request failed.");
+    } finally {
+      setLoader(false);
     }
   };
 
@@ -227,6 +240,7 @@ const WithdrawPage = () => {
           </div>
         </div>
       )}
+<<<<<<< HEAD
 
       {showPinModal && (
         <div className="fixed inset-0 bg-[#0006] flex items-center justify-center z-50 px-4">
@@ -252,6 +266,9 @@ const WithdrawPage = () => {
           </div>
         </div>
       )}
+=======
+      <Loader loading={loader} inline={false} size={150} />
+>>>>>>> 8c509cd2cf3ef9dba30c11520884d4443d9cf843
     </div>
   );
 };
