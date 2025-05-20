@@ -291,7 +291,7 @@ const LoanPage = () => {
               <tr className="text-gray-600 text-sm border-b">
                 <th className="py-2">Type</th>
                 <th className="py-2">Amount</th>
-                <th className="py-2">Date</th>
+                <th className="py-2 hidden md:table-cell">Date</th>
                 <th className="py-2">Status</th>
               </tr>
             </thead>
@@ -300,7 +300,7 @@ const LoanPage = () => {
                 <tr key={tx.id} className="text-sm border-b text-gray-600">
                   <td className="py-4">{tx.type}</td>
                   <td className="py-4">₦{tx.amount}</td>
-                  <td className="py-4">{formatDateAndTime(tx.createdAt).date} | {formatDateAndTime(tx.createdAt).time}</td>
+                  <td className="py-4 hidden md:table-cell">{formatDateAndTime(tx.createdAt).date} | {formatDateAndTime(tx.createdAt).time}</td>
                   <td className="py-4">{tx.status}</td>
                 </tr>
               ))}
