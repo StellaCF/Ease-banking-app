@@ -98,7 +98,9 @@ const TransactionPin = () => {
             <button
               type="submit"
               disabled={loading}
-              className="bg-[#02487F] text-white p-2 rounded-md mt-5 hover:bg-[#1384AB] transition duration-300 ease-in-out"
+              className={`p-2 rounded-md gap-y-3 mt-5 transition duration-300 ease-in-out
+                ${loading ? "bg-gray-300 cursor-not-allowed" : "bg-[#02487F] hover:bg-[#1384AB] text-white"}
+              `}
             >
               {loading ? (
                 <Loader loading={true} inline={true} size={20} />

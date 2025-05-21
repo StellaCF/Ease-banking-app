@@ -373,7 +373,7 @@ export default function MoneyTransferLanding() {
           </h2>
         </div>
 
-        <div className="space-y-3">
+        <div className="space-y-3 w-11/12 md:w-3xl">
           {faqItems.map((item, index) => (
             <div
               key={index}
