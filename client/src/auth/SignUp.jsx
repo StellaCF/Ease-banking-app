@@ -11,7 +11,7 @@ import { Eye, EyeOff } from "lucide-react";
 const SignUp = () => {
   const [loading, setLoading] = useState(false);
   const [showPassword, setShowPassword] = useState(false);
-  
+
   const navigate = useNavigate();
   const {
     register,
@@ -130,7 +130,15 @@ const SignUp = () => {
             </div>
             <div className="flex gap-x-2">
               <div className="flex flex-col gap-y-1 w-1/2">
-                <label>Password</label>
+                <div className="flex justify-between items-center">
+                  <label>Password</label>
+                  <button
+                    type="button"
+                    onClick={() => setShowPassword(!showPassword)}
+                    >
+                    {showPassword ? <Eye size={20} /> : <EyeOff size={20} />}
+                  </button>
+                </div>
                 <input
                   type={showPassword ? "text" : "password"}
                   placeholder="Enter Password"
@@ -143,25 +151,17 @@ const SignUp = () => {
               </div>
               <div className="flex flex-col gap-y-1 w-1/2">
                 <label>Confirm Password</label>
-                <div className="flex">
-                  <input
-                    type={showPassword ? "text" : "password"}
-                    placeholder="Confirm Password"
-                    className="rounded-lg border-2 h-10 border-[#1384AB] p-4 outline-none"
-                    {...register("confirmPassword", {
-                      required: "Confirm Password required",
-                      validate: (value) =>
-                        value === watch("password") || "Passwords do not match",
-                    })}
-                  />
-                  <button
-                    type="button"
-                    onClick={() => setShowPassword(!showPassword)}
-                    className="absolute right-4 top-1/2 transform -translate-y-1/2 text-gray-500"
-                  >
-                    {showPassword ? <EyeOff size={20} /> : <Eye size={20} />}
-                  </button>
-                </div>
+                <input
+                  type={showPassword ? "text" : "password"}
+                  placeholder="Confirm Password"
+                  className="rounded-lg border-2 h-10 border-[#1384AB] p-4 outline-none"
+                  {...register("confirmPassword", {
+                    required: "Confirm Password required",
+                    validate: (value) =>
+                      value === watch("password") || "Passwords do not match",
+                  })}
+                />
+                
                 {errors.confirmPassword && (
                   <p className="text-red-500">{errors.confirmPassword.message}</p>
                 )}

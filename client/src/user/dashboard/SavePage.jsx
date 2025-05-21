@@ -9,7 +9,7 @@ import Loader from "../../components/Loader";
 const SavePage = () => {
   const [loading, setLoading] = useState(false);
   const [description, setDescription] = useState("");
-  // const [user, setUser] = useState();
+  const [user, setUser] = useState();
   const [amount, setAmount] = useState("");
   const [savings, setSavings] = useState([]);
   const [activeAction, setActiveAction] = useState({});
@@ -31,30 +31,28 @@ const SavePage = () => {
         console.log(response);
       } catch (error) {
         console.error(error.response.data.error);
-      } finally {
-        setLoading(false);
-      }
+      } 
     };
 
-  //   const fetchUser = async () => {
-  //   try {
-  //     const axiosRes = await axios.get("https://ease-banking-app.onrender.com/api/user", {
-  //       headers: {
-  //         Authorization: `Bearer ${authToken}`
-  //       }
-  //     });
-  //     const response = axiosRes.data;
-  //     setUser(response.data);
-  //     console.log(response.data);
-  //   } catch (error) {
-  //     console.error(error.response.data.error);
-  //   } finally {
-  //     setLoading(false);
-  //   }
-  // };
+    const fetchUser = async () => {
+    try {
+      const axiosRes = await axios.get("https://ease-banking-app.onrender.com/api/user", {
+        headers: {
+          Authorization: `Bearer ${authToken}`
+        }
+      });
+      const response = axiosRes.data;
+      setUser(response.data);
+      console.log(response.data);
+    } catch (error) {
+      console.error(error.response.data.error);
+    } finally {
+      setLoading(false);
+    }
+  };
 
     fetchSavings();
-    // fetchUser();
+    fetchUser();
   }, [authToken]);
 
   const handleSave = async () => {
@@ -99,8 +97,8 @@ const SavePage = () => {
     const amount = parseFloat(actionAmount[id]);
     setLoading(true);
     try {
-      if (type === "spend") {
-        const axiosRes = await axios.post(`https://ease-banking-app.onrender.com/api/user/spend/${id}`, { amount }, {
+      if (type === "add") {
+        const axiosRes = await axios.patch(`https://ease-banking-app.onrender.com/api/user/save/${id}/update`, { amount }, {
           headers: {
             Authorization: `Bearer ${authToken}`
           }
@@ -110,7 +108,7 @@ const SavePage = () => {
         setActiveAction((prev) => ({ ...prev, [id]: null }));
         setActionAmount((prev) => ({ ...prev, [id]: "" }));
       } else {
-        const axiosRes = await axios.patch(`https://ease-banking-app.onrender.com/api/user/save/${id}/update`, { amount }, {
+        const axiosRes = await axios.post(`https://ease-banking-app.onrender.com/api/user/spend/${id}`, { amount }, {
           headers: {
             Authorization: `Bearer ${authToken}`
           }
@@ -137,8 +135,13 @@ const SavePage = () => {
         <TopBar/>
 
         <div className="w-full mx-auto bg-white p-4 md:p-8 rounded-2xl shadow-xl space-y-6">
-          <h2 className="text-2xl md:text-3xl font-bold text-[#02487F] mb-4 md:mb-6">Save Money</h2>
-
+          <div className="flex flex-col lg:flex-row lg:justify-between lg:items-center">
+            <h2 className="text-2xl md:text-3xl font-bold text-[#02487F] mb-4 md:mb-6">Save Money</h2>
+            <h3 className="text-xl text-[#02487f] font-semibold"> <span className="text-md">Total Amount Saved: </span>₦{Number(user?.savingsBalance).toLocaleString("en-NG", {
+                minimumFractionDigits: 2,
+                maximumFractionDigits: 2,
+              })}</h3>
+          </div>
           <div className="grid grid-cols-1 md:grid-cols-2 gap-4 md:gap-6">
             <div>
               <label className="block text-gray-600 font-medium mb-2">Description</label>
@@ -178,9 +181,9 @@ const SavePage = () => {
                   className="border border-gray-300 p-4 md:p-6 rounded-xl bg-[#E6F7FB] shadow-sm"
                 >
                   <div className="flex flex-col md:flex-row md:items-center md:justify-between mb-2">
-                    <div className="flex justify-between items-center">
+                    <div className="flex md:flex-col justify-between items-center md:items-start">
                       <h3 className="text-lg md:text-xl font-semibold text-[#02487F]">{save.description}</h3>
-                      <p className="mt-2 md:mt-4 text-gray-700">₦{save.amount.toLocaleString("en-NG", {
+                      <p className="mt-2 md:mt-4 text-gray-700">₦{Number(save.amount).toLocaleString("en-NG", {
                           minimumFractionDigits: 2,
                           maximumFractionDigits: 2,
                         })}</p>

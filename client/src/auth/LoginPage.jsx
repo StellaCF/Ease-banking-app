@@ -7,9 +7,11 @@ import { useNavigate } from "react-router-dom";
 import { useState } from "react";
 import Loader from "../components/Loader";
 import Cookies from "js-cookie";
+import { Eye, EyeOff } from "lucide-react";
 
 const LoginPage = () => {
   const [loading, setLoading] = useState(false);
+  const [showPassword, setShowPassword] = useState(false);
   const navigate = useNavigate();
   const {
     register,
@@ -73,7 +75,7 @@ const LoginPage = () => {
               <input
                 type="email"
                 placeholder="Enter Email"
-                className="rounded-lg border-2 h-10 border-[#1384AB] p-4"
+                className="rounded-lg border-2 h-10 border-[#1384AB] p-4 outline-none"
                 {...register("email", { required: "Email required" })}
               />
               {errors.email && (
@@ -81,11 +83,20 @@ const LoginPage = () => {
               )}
             </div>
             <div className="flex flex-col gap-1">
-              <label>Password</label>
+              <div className="flex justify-between ">
+                <label>Password</label>
+                <button
+                  type="button"
+                  onClick={() => setShowPassword(!showPassword)}
+                  className="pr-2"
+                  >
+                  {showPassword ? <Eye size={20} /> : <EyeOff size={20} />}
+                </button>
+              </div>
               <input
-                type="password"
+                type={showPassword ? "text" : "password"}
                 placeholder="Enter Password"
-                className="rounded-lg border-2 h-10 border-[#1384AB] p-4"
+                className="rounded-lg border-2 h-10 border-[#1384AB] p-4 outline-none"
                 {...register("password", { required: "Password required" })}
               />
               {errors.password && (

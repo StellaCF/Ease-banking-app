@@ -10,11 +10,13 @@ import Loader from "../../components/Loader";
 const TransactionPage = () => {
   const [filter, setFilter] = useState("All");
   const [transactions, setTransactions] = useState([]);
+  const [loading, setLoading] = useState(false);
   const authToken = Cookies.get("auth_token");
   const navigate = useNavigate();
 
   useEffect(() => {
     const fetchTransactions = async () => {
+      setLoading(true);
       try {
         const axiosRes = await axios.get(
           "https://ease-banking-app.onrender.com/api/user-transactions",
@@ -152,7 +154,10 @@ const TransactionPage = () => {
                   >
                     <td className="py-4 px-4 md:px-6 text-sm">{txn.type}</td>
                     <td className="py-4 px-4 md:px-6 text-sm">
-                      ₦{txn.amount.toLocaleString()}
+                      ₦{Number(txn.amount).toLocaleString("en-NG", {
+                        minimumFractionDigits: 2,
+                        maximumFractionDigits: 2,
+                      })}
                     </td>
                     <td className="py-4 px-4 md:px-6 text-sm hidden md:table-cell">
                       {formatDateAndTime(txn.createdAt).date} |{" "}
@@ -170,6 +175,7 @@ const TransactionPage = () => {
           </table>
         </div>
       </main>
+      <Loader loading={loading} inline={false} size={150} />
     </div>
   );
 };

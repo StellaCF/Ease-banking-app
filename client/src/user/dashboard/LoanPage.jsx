@@ -99,6 +99,9 @@ const LoanPage = () => {
       });
       return;
     }
+    if(!loanAmount){
+      toast.error("Amount required")
+    }
     const amount = Number(loanAmount);
     setLoading(true);
     try {
@@ -120,6 +123,13 @@ const LoanPage = () => {
   };
 
   const handleRepayLoan = async () => {
+    if(!repayAmount){
+      toast.error("Amount required")
+    }
+    if (repayAmount > loanAmt) {
+      toast.error("Repayment amount cannot exceed loan amount");
+      return;
+    }
     const amount = Number(repayAmount);
     setLoading(true);
     try {
@@ -155,16 +165,16 @@ const LoanPage = () => {
       <Sidebar />
 
       <main className="flex-1 lg:ml-64 p-4 sm:p-6 md:p-8 space-y-8">
-        <div className="bg-gradient-to-r from-[#024875] to-[#1384AB] text-white p-6 rounded-2xl shadow flex flex-col md:flex-row md:justify-between gap-4">
+        <div className="bg-gradient-to-r from-[#024875] to-[#1384AB] text-white h-40 p-6 rounded-2xl shadow flex flex-col md:flex-row md:justify-between gap-4">
           <div>
             <h4 className="text-lg font-semibold">Current Loan Amount</h4>
-            <p className="text-3xl font-bold mt-1">₦{loanAmt.toLocaleString("en-NG", {
+            <p className="text-3xl font-bold mt-2">₦{Number(loanAmt).toLocaleString("en-NG", {
                 minimumFractionDigits: 2,
                 maximumFractionDigits: 2,
               })}</p>
           </div>
 
-          <div className="flex justify-end gap-2 mt-6 md:gap-4">
+          <div className="flex items-center justify-end gap-2 lg:mt-6 md:gap-4">
             <button
               onClick={toggleLoanForm}
               className="bg-[#20B6D9] hover:bg-[#0e6b8f] text-white px-4 py-2 md:px-6 md:py-3 rounded-lg font-semibold"
@@ -173,6 +183,7 @@ const LoanPage = () => {
             </button>
             <button
               onClick={handleToggleRepayField}
+              disabled={Number(loanAmt) === 0.00}
               className="bg-[#20B6D9] hover:bg-[#0e6b8f] text-white px-4 py-2 md:px-6 md:py-3 rounded-lg font-semibold"
             >
               Repay Loan
@@ -310,7 +321,10 @@ const LoanPage = () => {
                 }
                   className="text-sm border-b text-gray-600">
                   <td className="py-4">{txn.type}</td>
-                  <td className="py-4">₦{txn.amount}</td>
+                  <td className="py-4">₦{Number(txn.amount).toLocaleString("en-NG", {
+                      minimumFractionDigits: 2,
+                      maximumFractionDigits: 2,
+                    })}</td>
                   <td className="py-4">{formatDateAndTime(txn.createdAt).date} | {formatDateAndTime(txn.createdAt).time}</td>
                   <td className="py-4">{txn.status}</td>
                 </tr>

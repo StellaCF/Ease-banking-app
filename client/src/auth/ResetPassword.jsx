@@ -5,9 +5,11 @@ import { toast } from "react-toastify";
 import { useNavigate } from "react-router-dom";
 import { useState } from "react";
 import Loader from "../components/Loader";
+import { Eye, EyeOff } from "lucide-react";
 
 const ResetPasswordPage = () => {
   const [loading, setLoading] = useState(false);
+  const [showPassword, setShowPassword] = useState(false);
   const navigate = useNavigate();
 
   // Get query params safely
@@ -67,9 +69,18 @@ const ResetPasswordPage = () => {
             className="flex flex-col gap-y-2 w-full p-4"
           >
             <div className="flex flex-col gap-1">
-              <label>Password</label>
+              <div className="flex justify-between ">
+                <label>Password</label>
+                <button
+                  type="button"
+                  onClick={() => setShowPassword(!showPassword)}
+                  className="pr-2"
+                  >
+                  {showPassword ? <Eye size={20} /> : <EyeOff size={20} />}
+                </button>
+              </div>
               <input
-                type="password"
+                type={showPassword ? "text" : "password"}
                 placeholder="Enter Password"
                 className="rounded-lg border-2 h-10 border-[#1384AB] p-4"
                 {...register("password", { required: "Password is required" })}

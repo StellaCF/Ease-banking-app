@@ -96,8 +96,11 @@ const Dashboard = () => {
                     })
                   }
                   className="text-sm border-b text-gray-600">
-                  <td className="py-4">{txn.type}</td>
-                  <td className="py-4">₦{txn.amount}</td>
+                  <td className="py-4">{txn.type.charAt(0).toUpperCase() + txn.type.slice(1)}</td>
+                  <td className="py-4">₦{Number(txn.amount).toLocaleString("en-NG", {
+                      minimumFractionDigits: 2,
+                      maximumFractionDigits: 2,
+                    })}</td>
                   <td className="py-4 hidden md:table-cell">{formatDateAndTime(txn.createdAt).date} | {formatDateAndTime(txn.createdAt).time}</td>
                   <td className="py-4">{txn.status}</td>
                 </tr>
