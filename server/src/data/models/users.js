@@ -35,7 +35,12 @@ module.exports.User = sequelize.define('users',
   },
   phoneNumber: {
     type: DataTypes.STRING(15),
-    allowNull: false
+    allowNull: false,
+    unique: true,
+    validate: {
+      isNumeric: true,
+      len: [10, 15]
+    }
   },
   password: {
     type: DataTypes.STRING,

@@ -4,7 +4,8 @@ import { motion, AnimatePresence } from "framer-motion";
 import Cookies from "js-cookie";
 import { toast } from "react-toastify";
 import axios from "axios";
-import { useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom"; // 👈 Import useNavigate
+import Loader from "../../components/Loader";
 
 const TransactionPage = () => {
   const [filter, setFilter] = useState("All");
@@ -41,11 +42,9 @@ const TransactionPage = () => {
         );
         setTransactions(combinedTransactions);
       } catch (error) {
-        toast.error(
-          error.response?.data?.message ||
-            error.response?.data?.error ||
-            "Error fetching transactions"
-        );
+        toast.error(error.response.data.message || error.response.data.error);
+      } finally {
+        setLoading(false);
       }
     };
     fetchTransactions();

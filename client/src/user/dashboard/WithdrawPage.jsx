@@ -205,29 +205,27 @@ const WithdrawPage = () => {
       </main>
 
       {showConfirmModal && (
-        <div className="fixed inset-0 bg-[#0006] flex items-center justify-center z-50 px-4">
-          <div className="bg-white w-full max-w-md sm:max-w-lg p-6 rounded-xl shadow-lg">
-            <div className="flex justify-between items-center mb-4">
+        <div className="fixed w-full h-screen top-0 left-0 bg-[#0006] flex items-center justify-center z-50">
+          <div className="bg-white w-lg p-4 rounded-lg">
+            <div className="flex justify-between mb-4">
               <h2 className="text-xl font-semibold text-[#02487F]">Confirm Withdrawal</h2>
               <button onClick={() => setShowConfirmModal(false)} className="text-gray-500 hover:text-red-500 text-2xl">&times;</button>
             </div>
-            <div className="space-y-2 text-sm text-gray-700">
-              <p><strong>Bank:</strong> {banks.find((bank) => bank.code === selectedBank)?.name || selectedBank}</p>
-              <p><strong>Account Number:</strong> {accountNumber}</p>
-              <p><strong>Account Name:</strong> {accountName}</p>
-              <p><strong>Amount:</strong> ₦{amount}</p>
-              <p><strong>Description:</strong> {desc}</p>
-            </div>
-            <button
-              onClick={() => {
-                setShowConfirmModal(false);
-                setShowPinModal(true);
-              }}
-              className="mt-6 w-full bg-[#02487F] hover:bg-[#1384AB] text-white px-4 py-3 rounded-lg font-semibold"
-            >
-              Confirm
-            </button>
-          </div>
+          <p className="mt-4 flex justify-between"><strong>Bank:</strong> {banks.find((bank) => bank.code === selectedBank)?.name || selectedBank}</p>
+          <p className="mt-4 flex justify-between"><strong>Account Number:</strong> {accountNumber}</p>
+          <p className="mt-4 flex justify-between"><strong>Account Name:</strong> {accountName}</p>
+          <p className="mt-4 flex justify-between"><strong>Amount:</strong> ₦{amount}</p>
+          <p className="mt-4 flex justify-between"><strong>Description:</strong> {desc}</p>
+          <button
+            onClick={() => {
+              setShowConfirmModal(false);
+              setShowPinModal(true);
+            }}
+            className="mt-4 bg-[#02487F] hover:bg-[#1384AB] cursor-pointer text-white px-4 py-2 rounded-lg"
+          >
+            Confirm
+          </button>
+        </div>
         </div>
       )}
       <Loader loading={loader} inline={false} size={150} />
