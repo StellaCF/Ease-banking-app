@@ -1,12 +1,11 @@
 import { FaHome, FaMoneyCheck, FaListAlt, FaUser, FaSignOutAlt } from 'react-icons/fa';
-import { NavLink, useLocation, useNavigate } from 'react-router-dom';
+import { NavLink, useNavigate } from 'react-router-dom';
 import Cookies from "js-cookie";
 import { toast } from 'react-toastify';
 import logo from "../assets/banklogo.png";
 
 const Sidebar = () => {
   const navigate = useNavigate();
-  const location = useLocation();
 
   const logout = () => {
     try {

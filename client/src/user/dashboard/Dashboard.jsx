@@ -6,7 +6,6 @@ import { toast } from "react-toastify";
 import Sidebar from "../../components/SideBar";
 import TopBar from "../../components/TopBar";
 import Loader from "../../components/Loader";
-// import Logo from "../../components/logo";
 
 const features = [
   { title: "Deposit", description: "Fund your account securely", color: "bg-[#1384AB]", path: "/depositPage" },
@@ -53,7 +52,7 @@ const Dashboard = () => {
       <Sidebar isOpen={sidebarOpen} setIsOpen={setSidebarOpen} />
       {/* Main Content */}
       <main className="flex-1 px-4 sm:px-6 md:px-8 py-8 space-y-8 transition-all duration-300 lg:ml-64">
-        {/* <Logo/> */}
+
         <TopBar />
 
         {/* Quick Actions */}

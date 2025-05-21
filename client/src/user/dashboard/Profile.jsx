@@ -229,6 +229,7 @@ const Detail = ({ type="text", label, editable, defaultValue, ...inputProps }) =
 
 
 Detail.propTypes = {
+  type: PropTypes.string,
   label: PropTypes.string.isRequired,
   editable: PropTypes.bool,
   defaultValue: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
