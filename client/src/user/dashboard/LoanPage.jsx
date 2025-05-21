@@ -161,7 +161,7 @@ const LoanPage = () => {
             <p className="text-3xl font-bold mt-1">₦{loanAmt}</p>
           </div>
 
-          <div className="flex gap-2 md:gap-4">
+          <div className="flex justify-end gap-2 mt-6 md:gap-4">
             <button
               onClick={toggleLoanForm}
               className="bg-[#20B6D9] hover:bg-[#0e6b8f] text-white px-4 py-2 md:px-6 md:py-3 rounded-lg font-semibold"
@@ -283,7 +283,7 @@ const LoanPage = () => {
           )}
         </AnimatePresence>
 
-        <div className="bg-white p-4 sm:p-6 md:p-8 rounded-lg shadow overflow-x-auto">
+        <div className="bg-white p-4 sm:p-6 md:p-8 rounded-lg shadow mb-20 overflow-x-auto">
           <div className="flex justify-between items-center mb-4">
             <h3 className="text-lg md:text-xl font-semibold">Loan History</h3>
           </div> 

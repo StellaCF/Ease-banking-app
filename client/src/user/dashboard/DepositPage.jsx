@@ -23,6 +23,7 @@ const Deposit = () => {
         });
         const response = axiosRes.data;
         setUser(response.data);
+        console.log(response.data)
       } catch (error) {
         toast.error(error?.response?.data?.message || "Failed to fetch user data");
         toast.error(error.response.error.message);
@@ -33,6 +34,8 @@ const Deposit = () => {
 
     fetchUser();
   }, [authToken]);
+
+  const fullname = user?.firstName + " " + user?.otherName + " " + user?.lastName;
 
   const handleDeposit = async (e) => {
     e.preventDefault();
@@ -79,7 +82,7 @@ const Deposit = () => {
             <div>
               <label className="block text-gray-600 font-medium mb-2">Account Name</label>
               <div className="bg-gray-100 border border-gray-300 rounded-lg px-4 py-3 text-gray-700">
-                Name Name
+                {fullname || "Loading..."}
               </div>
             </div>
 

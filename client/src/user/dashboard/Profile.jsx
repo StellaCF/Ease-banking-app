@@ -116,7 +116,7 @@ const Profile = () => {
       <main className="flex-1 md:ml-64 p-4 md:p-6 lg:p-8 space-y-6">
         <TopBar/>
 
-        <div className="bg-white p-4 md:p-6 lg:p-8 rounded-2xl shadow-md relative">
+        <div className="bg-white p-4 md:p-6 lg:p-8 rounded-2xl shadow-md mb-24 relative">
           <h2 className="text-2xl md:text-3xl font-bold text-[#02487F] mb-6">Profile</h2>
 
           <button

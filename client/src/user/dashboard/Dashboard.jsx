@@ -6,6 +6,7 @@ import { toast } from "react-toastify";
 import Sidebar from "../../components/SideBar";
 import TopBar from "../../components/TopBar";
 import Loader from "../../components/Loader";
+import Logo from "../../components/logo";
 
 const features = [
   { title: "Deposit", description: "Fund your account securely", color: "bg-[#1384AB]", path: "/depositPage" },
@@ -50,9 +51,9 @@ const Dashboard = () => {
     <div className="flex min-h-screen bg-gray-100 relative">
       {/* Sidebar */}
       <Sidebar isOpen={sidebarOpen} setIsOpen={setSidebarOpen} />
-
       {/* Main Content */}
       <main className="flex-1 px-4 sm:px-6 md:px-8 py-8 space-y-8 transition-all duration-300 lg:ml-64">
+        {/* <Logo/> */}
         <TopBar />
 
         {/* Quick Actions */}
@@ -98,7 +99,7 @@ const Dashboard = () => {
                   className="text-sm border-b text-gray-600">
                   <td className="py-4">{txn.type}</td>
                   <td className="py-4">₦{txn.amount}</td>
-                  <td className="py-4">{formatDateAndTime(txn.createdAt).date} | {formatDateAndTime(txn.createdAt).time}</td>
+                  <td className="py-4 hidden md:table-cell">{formatDateAndTime(txn.createdAt).date} | {formatDateAndTime(txn.createdAt).time}</td>
                   <td className="py-4">{txn.status}</td>
                 </tr>
               ))}

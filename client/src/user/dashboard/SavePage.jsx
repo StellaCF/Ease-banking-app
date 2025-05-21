@@ -9,7 +9,7 @@ import Loader from "../../components/Loader";
 const SavePage = () => {
   const [loading, setLoading] = useState(false);
   const [description, setDescription] = useState("");
-  const [user, setUser] = useState();
+  // const [user, setUser] = useState();
   const [amount, setAmount] = useState("");
   const [savings, setSavings] = useState([]);
   const [activeAction, setActiveAction] = useState({});
@@ -31,28 +31,30 @@ const SavePage = () => {
         console.log(response);
       } catch (error) {
         console.error(error.response.data.error);
-      } 
+      } finally {
+        setLoading(false);
+      }
     };
 
-    const fetchUser = async () => {
-    try {
-      const axiosRes = await axios.get("https://ease-banking-app.onrender.com/api/user", {
-        headers: {
-          Authorization: `Bearer ${authToken}`
-        }
-      });
-      const response = axiosRes.data;
-      setUser(response.data);
-      console.log(response.data);
-    } catch (error) {
-      console.error(error.response.data.error);
-    } finally {
-      setLoading(false);
-    }
-  };
+  //   const fetchUser = async () => {
+  //   try {
+  //     const axiosRes = await axios.get("https://ease-banking-app.onrender.com/api/user", {
+  //       headers: {
+  //         Authorization: `Bearer ${authToken}`
+  //       }
+  //     });
+  //     const response = axiosRes.data;
+  //     setUser(response.data);
+  //     console.log(response.data);
+  //   } catch (error) {
+  //     console.error(error.response.data.error);
+  //   } finally {
+  //     setLoading(false);
+  //   }
+  // };
 
     fetchSavings();
-    fetchUser();
+    // fetchUser();
   }, [authToken]);
 
   const handleSave = async () => {
@@ -169,7 +171,7 @@ const SavePage = () => {
           </button>
 
           {savings.length > 0 && (
-            <div className="grid gap-4">
+            <div className="grid gap-4 mb-20">
               {savings.map((save) => (
                 <div
                   key={save.id}
@@ -181,7 +183,7 @@ const SavePage = () => {
                       <p className="mt-2 md:mt-4 text-gray-700">₦{save.amount}</p>
                     </div>
 
-                    <div className="flex space-x-2 mt-4 md:mt-0 justify-end">
+                    <div className="flex space-x-2 mt-6 md:mt-0 justify-end">
                       <button
                         onClick={() => toggleAction(save.id, "spend")}
                         className="bg-[#02487F] hover:bg-[#1384AB] cursor-pointer text-white py-1 px-4 rounded-lg"
