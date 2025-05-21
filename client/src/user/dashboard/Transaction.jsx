@@ -152,7 +152,7 @@ const TransactionPage = () => {
                       })
                     }
                   >
-                    <td className="py-4 px-4 md:px-6 text-sm">{txn.type}</td>
+                    <td className="py-4 px-4 md:px-6 text-sm">{txn.type.charAt(0).toUpperCase() + txn.type.slice(1)}</td>
                     <td className="py-4 px-4 md:px-6 text-sm">
                       ₦{Number(txn.amount).toLocaleString("en-NG", {
                         minimumFractionDigits: 2,

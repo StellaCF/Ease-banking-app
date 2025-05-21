@@ -319,13 +319,13 @@ const LoanPage = () => {
                     state: { txn },
                   })
                 }
-                  className="text-sm border-b text-gray-600">
-                  <td className="py-4">{txn.type}</td>
+                  className="text-sm border-b text-gray-600 cursor-pointer">
+                  <td className="py-4">{txn.type.charAt(0).toUpperCase() + txn.type.slice(1)}</td>
                   <td className="py-4">₦{Number(txn.amount).toLocaleString("en-NG", {
                       minimumFractionDigits: 2,
                       maximumFractionDigits: 2,
                     })}</td>
-                  <td className="py-4">{formatDateAndTime(txn.createdAt).date} | {formatDateAndTime(txn.createdAt).time}</td>
+                  <td className="py-4 hidden md:block">{formatDateAndTime(txn.createdAt).date} | {formatDateAndTime(txn.createdAt).time}</td>
                   <td className="py-4">{txn.status}</td>
                 </tr>
               ))}

@@ -182,7 +182,7 @@ const SavePage = () => {
                 >
                   <div className="flex flex-col md:flex-row md:items-center md:justify-between mb-2">
                     <div className="flex md:flex-col justify-between items-center md:items-start">
-                      <h3 className="text-lg md:text-xl font-semibold text-[#02487F]">{save.description}</h3>
+                      <h3 className="text-lg md:text-xl font-semibold text-[#02487F]">{save.description.charAt(0).toUpperCase() + save.description.slice(1)}</h3>
                       <p className="mt-2 md:mt-4 text-gray-700">₦{Number(save.amount).toLocaleString("en-NG", {
                           minimumFractionDigits: 2,
                           maximumFractionDigits: 2,

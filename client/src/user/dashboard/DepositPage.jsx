@@ -25,7 +25,6 @@ const Deposit = () => {
         setUser(response.data);
         console.log(response.data)
       } catch (error) {
-        toast.error(error?.response?.data?.message || "Failed to fetch user data");
         toast.error(error.response.error.message);
       } finally {
         setLoading(false);
@@ -39,7 +38,10 @@ const Deposit = () => {
 
   const handleDeposit = async (e) => {
     e.preventDefault();
-    console.log("Depositing:", amount);
+    if (!amount) {
+      toast.error("Amount is required.");
+      return;
+    }
     setLoading(true);
     try {
       const response = await axios.post(
@@ -53,8 +55,8 @@ const Deposit = () => {
       );
       toast.success(response.data.message);
       setAmount("");
+      handleDepositSuccess(amount);
     } catch (error) {
-      toast.error(error?.response?.data?.error || "Deposit failed");
       toast.error(error.response.data.error);
     } finally {
       setLoading(false);
@@ -66,7 +68,7 @@ const Deposit = () => {
       <Sidebar />
 
       <main className="flex-1 px-4 sm:px-6 md:px-8 py-8 space-y-8 transition-all duration-300 ml-0 lg:ml-64">
-        <TopBar />
+        <TopBar amount={amount}/>
 
         <div className="w-full mx-auto bg-white p-4 sm:p-6 md:p-8 rounded-2xl shadow-xl">
           <h2 className="text-2xl sm:text-3xl font-bold text-[#02487F] mb-6">Deposit Funds</h2>

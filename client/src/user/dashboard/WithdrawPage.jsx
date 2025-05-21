@@ -211,7 +211,7 @@ const WithdrawPage = () => {
               <h2 className="text-xl font-semibold text-[#02487F]">Confirm Withdrawal</h2>
               <button onClick={() => setShowConfirmModal(false)} className="text-gray-500 hover:text-red-500 text-2xl">&times;</button>
             </div>
-            
+
           <p className="mt-4 flex justify-between"><strong>Bank:</strong> {banks.find((bank) => bank.code === selectedBank)?.name || selectedBank}</p>
           <p className="mt-4 flex justify-between"><strong>Account Number:</strong> {accountNumber}</p>
           <p className="mt-4 flex justify-between"><strong>Account Name:</strong> {accountName}</p>
@@ -240,7 +240,7 @@ const WithdrawPage = () => {
               <button onClick={() => setShowPinModal(false)} className="text-gray-500 hover:text-red-500 text-xl">&times;</button>
             </div>
           <input
-            type="password"
+            type="number"
             maxLength={4}
             value={pin}
             onChange={(e) => setPin(e.target.value)}

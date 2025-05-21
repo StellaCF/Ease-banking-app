@@ -95,7 +95,7 @@ const Dashboard = () => {
                       state: { txn },
                     })
                   }
-                  className="text-sm border-b text-gray-600">
+                  className="text-sm border-b text-gray-600 cursor-pointer">
                   <td className="py-4">{txn.type.charAt(0).toUpperCase() + txn.type.slice(1)}</td>
                   <td className="py-4">₦{Number(txn.amount).toLocaleString("en-NG", {
                       minimumFractionDigits: 2,
