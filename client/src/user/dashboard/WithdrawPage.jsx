@@ -84,11 +84,12 @@ const WithdrawPage = () => {
           acctNum: accountNumber, 
           bank: selectedBank, 
           description: desc,
-          pin: pin },
+          pin: pin,
+        },
         {
           headers: {
             Authorization: `Bearer ${authToken}`,
-          }
+          },
         }
       );
       const response = axiosRes.data;
@@ -109,16 +110,16 @@ const WithdrawPage = () => {
   };
 
   return (
-    <div className="flex min-h-screen bg-gray-100">
+    <div className="flex flex-col md:flex-row min-h-screen bg-gray-100">
       <Sidebar />
 
-      <main className="flex-1 p-8 space-y-8 ml-64">
+      <main className="flex-1 px-4 sm:px-6 lg:px-8 py-8 space-y-8 md:ml-64">
         <TopBar username="user" />
 
-        <div className="w-full mx-auto bg-white p-8 rounded-2xl shadow-xl">
-          <h2 className="text-3xl font-bold text-[#02487F] mb-6">Withdraw Funds</h2>
+        <div className="w-full mx-auto bg-white p-6 sm:p-8 rounded-2xl shadow-xl">
+          <h2 className="text-2xl sm:text-3xl font-bold text-[#02487F] mb-6">Withdraw Funds</h2>
 
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mb-6">
+          <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 sm:gap-6 mb-6">
             <div>
               <label className="block text-gray-600 font-medium mb-2">Select Bank</label>
               <select
@@ -194,7 +195,7 @@ const WithdrawPage = () => {
               <button
                 onClick={handleWithdraw}
                 disabled={loading}
-                className="w-full bg-[#02487F] cursor-pointer hover:bg-[#1384AB] text-white font-semibold py-3 px-6 rounded-lg transition"
+                className="w-full bg-[#02487F] hover:bg-[#1384AB] text-white font-semibold py-3 px-6 rounded-lg transition"
               >
                 {loading ? "Processing..." : "Withdraw Now"}
               </button>
@@ -203,14 +204,14 @@ const WithdrawPage = () => {
         </div>
       </main>
 
-
       {showConfirmModal && (
-        <div className="fixed w-full h-screen top-0 left-0 bg-[#0006] flex items-center justify-center z-50">
-          <div className="bg-white w-lg p-4 rounded-lg">
-            <div className="flex justify-between mb-4">
+        <div className="fixed inset-0 bg-[#0006] flex items-center justify-center z-50 px-4">
+          <div className="bg-white w-full max-w-md sm:max-w-lg p-6 rounded-xl shadow-lg">
+            <div className="flex justify-between items-center mb-4">
               <h2 className="text-xl font-semibold text-[#02487F]">Confirm Withdrawal</h2>
               <button onClick={() => setShowConfirmModal(false)} className="text-gray-500 hover:text-red-500 text-2xl">&times;</button>
             </div>
+            
           <p className="mt-4 flex justify-between"><strong>Bank:</strong> {banks.find((bank) => bank.code === selectedBank)?.name || selectedBank}</p>
           <p className="mt-4 flex justify-between"><strong>Account Number:</strong> {accountNumber}</p>
           <p className="mt-4 flex justify-between"><strong>Account Name:</strong> {accountName}</p>
@@ -255,6 +256,7 @@ const WithdrawPage = () => {
         </div>
         </div>
       )}
+
       <Loader loading={loader} inline={false} size={150} />
     </div>
   );

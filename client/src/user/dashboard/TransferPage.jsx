@@ -20,22 +20,30 @@ const TransferPage = () => {
   const authToken = Cookies.get("auth_token");
 
   const verifyAccount = async () => {
+    setLoading(true);
     try {
-      const axiosRes = await axios.post("https://ease-banking-app.onrender.com/api/user/verify-account", 
-        {acctNum: accountNumber},
-        { headers: {
-          Authorization: `Bearer ${authToken}`,
-        }}
+      const axiosRes = await axios.post(
+        "https://ease-banking-app.onrender.com/api/user/verify-account",
+        { acctNum: accountNumber },
+        {
+          headers: {
+            Authorization: `Bearer ${authToken}`,
+          },
+        }
       );
       const response = axiosRes.data;
       setFullname(response.data);
       setIsVerified(true);
       setLoading(false); 
     } catch (error) {
-      toast.error(error.response.data.message)
+      toast.error(error.response.data.message);
+    } finally {
+      setLoading(false);
     }
   };
-  const fullName = fullname.firstName + " " + fullname.otherName + " " + fullname.lastName;
+
+  const fullName =
+    fullname.firstName + " " + fullname.otherName + " " + fullname.lastName;
 
   const handleTransfer = () => {
     if (!amount) {
@@ -48,16 +56,20 @@ const TransferPage = () => {
   const handlePinConfirm = async () => {
     setLoading(true);
     try {
-      const axiosRes = await axios.post("https://ease-banking-app.onrender.com/api/user/transfer", 
-        { amount: Number(amount),
+      const axiosRes = await axios.post(
+        "https://ease-banking-app.onrender.com/api/user/transfer",
+        {
+          amount: Number(amount),
           pin: pin,
           acctNum: accountNumber,
           acctName: fullName,
           description: narration,
         },
-        { headers: {
-          Authorization: `Bearer ${authToken}`,
-        }}
+        {
+          headers: {
+            Authorization: `Bearer ${authToken}`,
+          },
+        }
       );
       const response = axiosRes.data;
       toast.success(response.message);
@@ -78,19 +90,19 @@ const TransferPage = () => {
     <div className="flex min-h-screen bg-gray-100">
       <Sidebar />
 
-      <main className="flex-1 p-8 space-y-8 ml-64">
-        <TopBar/>
+      <main className="flex-1 p-4 md:p-8 space-y-8 md:ml-64">
+        <TopBar />
 
-        <div className="w-full mx-auto bg-white p-8 rounded-2xl shadow-xl">
-          <h2 className="text-3xl font-bold text-[#02487F] mb-6">Make a Transfer</h2>
+        <div className="w-full mx-auto bg-white p-6 md:p-8 rounded-2xl shadow-xl">
+          <h2 className="text-2xl md:text-3xl font-bold text-[#02487F] mb-6">Make a Transfer</h2>
 
           <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mb-6">
             <div>
               <label className="block text-gray-600 font-medium mb-2">Bank</label>
               <input
-                value={"Ease Bank"}
+                value="Ease Bank"
                 disabled
-                className="w-full border border-gray-300 rounded-lg px-4 py-3 cursor-not-allowed"
+                className="w-full border border-gray-300 rounded-lg px-4 py-3 bg-gray-100 cursor-not-allowed"
               />
             </div>
 
@@ -150,16 +162,6 @@ const TransferPage = () => {
                 />
               </div>
 
-              {/* <div className="flex items-center mb-6">
-                <input
-                  type="checkbox"
-                  checked={saveBeneficiary}
-                  onChange={() => setSaveBeneficiary(!saveBeneficiary)}
-                  className="mr-2"
-                />
-                <label className="text-gray-600">Save beneficiary for future transfers</label>
-              </div> */}
-
               <button
                 onClick={handleTransfer}
                 className="w-full bg-[#02487F] hover:bg-[#1384AB] text-white font-semibold py-3 px-6 rounded-lg transition"
@@ -173,8 +175,8 @@ const TransferPage = () => {
 
       {/* Confirm Modal */}
       {showConfirmModal && (
-        <div className="fixed w-full h-screen top-0 left-0 bg-[#0006] flex items-center justify-center z-50">
-          <div className="bg-white p-4 rounded-lg w-[90%] max-w-md">
+        <div className="fixed w-full h-screen top-0 left-0 bg-[#0006] flex items-center justify-center z-50 p-4">
+          <div className="bg-white p-6 rounded-lg w-[95%] sm:w-[80%] md:w-[60%] lg:w-[40%] max-w-lg">
             <div className="flex justify-between mb-4">
               <h2 className="text-xl font-semibold text-[#02487F]">Confirm Transfer</h2>
               <button
@@ -194,7 +196,7 @@ const TransferPage = () => {
                 setShowConfirmModal(false);
                 setShowPinModal(true);
               }}
-              className="mt-4 bg-[#02487F] hover:bg-[#1384AB] text-white px-4 py-2 rounded-lg w-full"
+              className="mt-6 bg-[#02487F] hover:bg-[#1384AB] text-white px-4 py-2 rounded-lg w-full"
             >
               Confirm
             </button>
@@ -204,8 +206,8 @@ const TransferPage = () => {
 
       {/* PIN Modal */}
       {showPinModal && (
-        <div className="fixed w-full h-screen top-0 left-0 bg-[#0006] flex items-center justify-center z-50">
-          <div className="bg-white p-4 rounded-lg w-[90%] max-w-md">
+        <div className="fixed w-full h-screen top-0 left-0 bg-[#0006] flex items-center justify-center z-50 p-4">
+          <div className="bg-white p-6 rounded-lg w-[95%] sm:w-[80%] md:w-[60%] lg:w-[40%] max-w-lg">
             <div className="flex justify-between mb-4">
               <h2 className="text-xl font-semibold text-[#02487F]">Enter PIN</h2>
               <button

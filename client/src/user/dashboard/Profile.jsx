@@ -110,22 +110,24 @@ const Profile = () => {
   };
   
   return (
-    <div className="flex min-h-screen bg-gray-100">
+    <div className="flex flex-col md:flex-row min-h-screen bg-gray-100">
       <Sidebar />
-      <main className="ml-64 flex-1 p-8 space-y-6">
-        <TopBar />
 
-        <div className="bg-white p-8 rounded-2xl shadow-md relative">
-          <h2 className="text-3xl font-bold text-[#02487F] mb-6">Profile</h2>
+      <main className="flex-1 md:ml-64 p-4 md:p-6 lg:p-8 space-y-6">
+        <TopBar/>
+
+        <div className="bg-white p-4 md:p-6 lg:p-8 rounded-2xl shadow-md relative">
+          <h2 className="text-2xl md:text-3xl font-bold text-[#02487F] mb-6">Profile</h2>
 
           <button
             onClick={() => setIsEditing(!isEditing)}
-            className="absolute top-8 right-8 text-blue-600 hover:text-blue-800 transition"
+            className="absolute top-4 right-4 md:top-8 md:right-8 text-blue-600 hover:text-blue-800 transition"
           >
             <Pencil />
           </button>
 
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mb-8">
+          {/* Basic Details */}
+          <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 md:gap-6 mb-8">
             <Detail
               label="Full Name"
               editable={isEditing}
@@ -163,7 +165,8 @@ const Profile = () => {
               />
           </div>
 
-          <div className="border-t pt-6 grid grid-cols-1 md:grid-cols-2 gap-6 mb-8">
+          {/* Account Details */}
+          <div className="border-t pt-6 grid grid-cols-1 sm:grid-cols-2 gap-4 md:gap-6 mb-8">
             <Detail
               label="Account Number"
               defaultValue={userData?.acctNumber}

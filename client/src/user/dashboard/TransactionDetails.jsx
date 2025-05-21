@@ -28,7 +28,7 @@ const TransactionDetails = () => {
   };
   
   return (
-    <div className="flex min-h-screen bg-gray-100">
+    <div className="flex flex-col md:flex-row min-h-screen bg-gray-100">
       <Sidebar />
       <main className="ml-64 flex-1 p-8 space-y-8">
         <div className="flex justify-between items-center">
@@ -75,8 +75,8 @@ const TransactionDetails = () => {
 
 const Detail = ({ label, value }) => (
   <div className="flex justify-between">
-    <p className="text-md text-gray-700">{label}:</p>
-    <p className="text-md font-semibold text-gray-800">{value}</p>
+    <p className="text-sm text-gray-700">{label}</p>
+    <p className="text-base md:text-lg font-semibold text-gray-800">{value}</p>
   </div>
 );
 
