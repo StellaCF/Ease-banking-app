@@ -1,5 +1,5 @@
 import { NavLink } from "react-router-dom";
-import payment from "../assets/payment.png";
+import payment from "../assets/Payment.png";
 import { useForm } from "react-hook-form";
 import axios from "axios";
 import { toast } from "react-toastify";

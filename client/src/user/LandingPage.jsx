@@ -1,6 +1,6 @@
 import { useState } from "react";
 import heroimg from "../assets/heroimg.png";
-import financeapp from "../assets/financeapp.png";
+import financeapp from "../assets/Financeapp.png";
 import img4 from "../assets/img4.png";
 import img7 from "../assets/img7.png";
 import img6 from "../assets/img6.png";
