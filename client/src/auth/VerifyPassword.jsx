@@ -1,4 +1,4 @@
-import payment from "../assets/payment.png";
+import payment from "../assets/Payment.png";
 import { useNavigate } from "react-router-dom";
 import { useState } from "react";
 

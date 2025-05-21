@@ -107,7 +107,7 @@ const LoginPage = () => {
               )}
             </button>
             <p className="text-center">
-              Don't have an account?{" "}
+              Dont have an account?{" "}
               <NavLink to="/signup" className="text-[#02487F]">
                 Signup
               </NavLink>
