@@ -12,7 +12,7 @@ const emptyReqBody = require('./src/middlewares/emptyReqBody');
 const app = express();
 
 app.use(cors({
-   origin: "http://localhost:5173",
+   origin: "https://easebank-drab.vercel.app",
    credentials: true,
  }));
 app.use(express.json());
