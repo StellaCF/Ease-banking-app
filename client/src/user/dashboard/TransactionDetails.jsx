@@ -37,7 +37,7 @@ const TransactionDetails = () => {
             ←
           </button>
         </div>
-        <div className="w-11/12 lg:w-5/12 mx-auto rounded-xl shadow-md p-1 bg-linear-to-br from-[#02487F] to-[#1384AB]">
+        <div className="w-11/12 md:w-9/12 lg:w-6/12 mx-auto rounded-xl shadow-md p-1 bg-linear-to-br from-[#02487F] to-[#1384AB]">
           <div className="bg-white px-8 py-6 w-full rounded-xl">
               {txn.status === "approved" || txn.status === "completed" ? (
                 <CheckCircle className="text-green-600 w-15 h-15 mx-auto font-extrabold" />
