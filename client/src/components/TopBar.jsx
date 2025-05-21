@@ -37,7 +37,10 @@ const TopBar = ({ setSidebarOpen }) => {
           <div>
             <h1 className="text-base sm:text-lg">Hi, {user?.firstName}</h1>
             <h2 className="text-lg sm:text-xl font-semibold mt-2">Account Balance</h2>
-            <p className="text-xl sm:text-3xl font-bold mt-1">₦{user?.acctBalance}</p>
+            <p className="text-xl sm:text-3xl font-bold mt-1">₦{user?.acctBalance.toLocaleString("en-NG", {
+                minimumFractionDigits: 2,
+                maximumFractionDigits: 2,
+              })}</p>
           </div>
         </div>
 

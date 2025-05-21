@@ -66,7 +66,7 @@ const TransactionPin = () => {
             <div className="flex flex-col gap-1">
               <label>Enter Pin</label>
               <input
-                type="password"
+                type="number"
                 inputMode="numeric"
                 maxLength={4}
                 placeholder="Enter 4-digit PIN"
@@ -80,7 +80,7 @@ const TransactionPin = () => {
             <div className="flex flex-col gap-1">
               <label>Confirm Pin</label>
               <input
-                type="password"
+                type="number"
                 inputMode="numeric"
                 maxLength={4}
                 placeholder="Confirm 4-digit PIN"

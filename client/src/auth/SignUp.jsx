@@ -6,9 +6,12 @@ import { toast } from "react-toastify";
 import { useNavigate } from "react-router-dom";
 import { useState } from "react";
 import Loader from "../components/Loader";
+import { Eye, EyeOff } from "lucide-react";
 
 const SignUp = () => {
   const [loading, setLoading] = useState(false);
+  const [showPassword, setShowPassword] = useState(false);
+  
   const navigate = useNavigate();
   const {
     register,
@@ -129,7 +132,7 @@ const SignUp = () => {
               <div className="flex flex-col gap-y-1 w-1/2">
                 <label>Password</label>
                 <input
-                  type="password"
+                  type={showPassword ? "text" : "password"}
                   placeholder="Enter Password"
                   className="rounded-lg border-2 h-10 border-[#1384AB] p-4 outline-none"
                   {...register("password", { required: "Password required" })}
@@ -140,16 +143,25 @@ const SignUp = () => {
               </div>
               <div className="flex flex-col gap-y-1 w-1/2">
                 <label>Confirm Password</label>
-                <input
-                  type="password"
-                  placeholder="Confirm Password"
-                  className="rounded-lg border-2 h-10 border-[#1384AB] p-4 outline-none"
-                  {...register("confirmPassword", {
-                    required: "Confirm Password required",
-                    validate: (value) =>
-                      value === watch("password") || "Passwords do not match",
-                  })}
-                />
+                <div className="flex">
+                  <input
+                    type={showPassword ? "text" : "password"}
+                    placeholder="Confirm Password"
+                    className="rounded-lg border-2 h-10 border-[#1384AB] p-4 outline-none"
+                    {...register("confirmPassword", {
+                      required: "Confirm Password required",
+                      validate: (value) =>
+                        value === watch("password") || "Passwords do not match",
+                    })}
+                  />
+                  <button
+                    type="button"
+                    onClick={() => setShowPassword(!showPassword)}
+                    className="absolute right-4 top-1/2 transform -translate-y-1/2 text-gray-500"
+                  >
+                    {showPassword ? <EyeOff size={20} /> : <Eye size={20} />}
+                  </button>
+                </div>
                 {errors.confirmPassword && (
                   <p className="text-red-500">{errors.confirmPassword.message}</p>
                 )}

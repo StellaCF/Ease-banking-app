@@ -158,7 +158,10 @@ const LoanPage = () => {
         <div className="bg-gradient-to-r from-[#024875] to-[#1384AB] text-white p-6 rounded-2xl shadow flex flex-col md:flex-row md:justify-between gap-4">
           <div>
             <h4 className="text-lg font-semibold">Current Loan Amount</h4>
-            <p className="text-3xl font-bold mt-1">₦{loanAmt}</p>
+            <p className="text-3xl font-bold mt-1">₦{loanAmt.toLocaleString("en-NG", {
+                minimumFractionDigits: 2,
+                maximumFractionDigits: 2,
+              })}</p>
           </div>
 
           <div className="flex justify-end gap-2 mt-6 md:gap-4">
