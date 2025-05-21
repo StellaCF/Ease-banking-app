@@ -6,7 +6,7 @@ import { toast } from "react-toastify";
 import Sidebar from "../../components/SideBar";
 import TopBar from "../../components/TopBar";
 import Loader from "../../components/Loader";
-import Logo from "../../components/logo";
+// import Logo from "../../components/logo";
 
 const features = [
   { title: "Deposit", description: "Fund your account securely", color: "bg-[#1384AB]", path: "/depositPage" },
