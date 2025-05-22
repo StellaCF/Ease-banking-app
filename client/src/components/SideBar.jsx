@@ -119,6 +119,15 @@ const Sidebar = () => {
         >
           <FaUser />
         </NavLink>
+        <NavLink
+          to="/settings"
+          title="Settings"
+          className={({ isActive }) =>
+            `text-2xl ${isActive ? "text-[#20B6D9]" : "text-gray-600"}`
+          }
+          >
+             <FaToolbox />
+          </NavLink>
         <button onClick={() => setShowLogoutModal(true)} title="Logout" className="text-2xl text-red-500 cursor-pointer">
           <FaSignOutAlt />
         </button>

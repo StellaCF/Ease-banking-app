@@ -137,7 +137,7 @@ const Setting = () => {
                <div className="flex justify-between items-center mb-4">
                   <h2 className="text-xl font-semibold">Verify Password</h2>
                   <button
-                  onClick={() => setVerifyPassword(false)} className='text-red-600 text-lg font-bold cursor-pointer'>x</button>
+                  onClick={() => setVerifyPassword(false)} className='text-gray-600 hover:text-red-600 text-lg font-bold cursor-pointer'>x</button>
                </div>
                <input
                   type="password"
@@ -163,11 +163,11 @@ const Setting = () => {
                <div className="flex justify-between items-center mb-4">
                   <h2 className="text-xl font-semibold">Reset Transaction Pin</h2>
                   <button
-                  onClick={() => setResetPin(false)} className='text-red-600 text-lg font-bold cursor-pointer'>x</button>
+                  onClick={() => setResetPin(false)} className='text-gray-600 hover:text-red-600 text-lg font-bold cursor-pointer'>x</button>
                </div>
                {/* Add your reset pin form here */}
                <input
-                  type="number"
+                  type="text"
                   inputMode="numeric"
                   maxLength={4}
                   placeholder="Enter new pin"
@@ -175,10 +175,10 @@ const Setting = () => {
                   {...register("newPin", { required: "Pin is required" })}
                />
                {errors.pin && (
-                  <p className="text-red-500">{errors.pin.message}</p>
+                  <p className="hover:text-red-500">{errors.pin.message}</p>
                )}
                 <input
-                  type="number"
+                  type="text"
                   inputMode="numeric"
                   maxLength={4}
                   placeholder="Confirm pin"

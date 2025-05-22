@@ -11,6 +11,8 @@ import { Eye, EyeOff } from "lucide-react";
 const SignUp = () => {
   const [loading, setLoading] = useState(false);
   const [showPassword, setShowPassword] = useState(false);
+  const [showConfirmPassword, setShowConfirmPassword] = useState(false);
+  
 
   const navigate = useNavigate();
   const {
@@ -129,44 +131,57 @@ const SignUp = () => {
               )}
             </div>
             <div className="flex gap-x-2">
-              <div className="flex flex-col gap-y-1 w-1/2">
-                <div className="flex justify-between items-center">
-                  <label>Password</label>
-                  <button
-                    type="button"
-                    onClick={() => setShowPassword(!showPassword)}
-                    >
-                    {showPassword ? <Eye size={20} /> : <EyeOff size={20} />}
-                  </button>
-                </div>
-                <input
-                  type={showPassword ? "text" : "password"}
-                  placeholder="Enter Password"
-                  className="rounded-lg border-2 h-10 border-[#1384AB] p-4 outline-none"
-                  {...register("password", { required: "Password required" })}
-                />
-                {errors.password && (
-                  <p className="text-red-500">{errors.password.message}</p>
-                )}
-              </div>
-              <div className="flex flex-col gap-y-1 w-1/2">
-                <label>Confirm Password</label>
-                <input
-                  type={showPassword ? "text" : "password"}
-                  placeholder="Confirm Password"
-                  className="rounded-lg border-2 h-10 border-[#1384AB] p-4 outline-none"
-                  {...register("confirmPassword", {
-                    required: "Confirm Password required",
-                    validate: (value) =>
-                      value === watch("password") || "Passwords do not match",
-                  })}
-                />
-                
-                {errors.confirmPassword && (
-                  <p className="text-red-500">{errors.confirmPassword.message}</p>
-                )}
-              </div>
-            </div>
+  {/* Password Field */}
+  <div className="flex flex-col gap-y-1 w-1/2">
+    <label>Password</label>
+    <div className="relative">
+      <input
+        type={showPassword ? "text" : "password"}
+        placeholder="Enter Password"
+        className="rounded-lg border-2 h-10 border-[#1384AB] p-4 pr-10 outline-none w-full"
+        {...register("password", { required: "Password required" })}
+      />
+      <button
+        type="button"
+        onClick={() => setShowPassword(!showPassword)}
+        className="absolute right-3 top-2.5 text-gray-600 hover:text-[#02487F]"
+      >
+        {showPassword ? <Eye size={20} /> : <EyeOff size={20} />}
+      </button>
+    </div>
+    {errors.password && (
+      <p className="text-red-500 text-sm">{errors.password.message}</p>
+    )}
+  </div>
+
+  {/* Confirm Password Field */}
+  <div className="flex flex-col gap-y-1 w-1/2">
+    <label>Confirm Password</label>
+    <div className="relative">
+      <input
+        type={showConfirmPassword ? "text" : "password"}
+        placeholder="Confirm Password"
+        className="rounded-lg border-2 h-10 border-[#1384AB] p-4 pr-10 outline-none w-full"
+        {...register("confirmPassword", {
+          required: "Confirm Password required",
+          validate: (value) =>
+            value === watch("password") || "Passwords do not match",
+        })}
+      />
+      <button
+        type="button"
+        onClick={() => setShowConfirmPassword(!showConfirmPassword)}
+        className="absolute right-3 top-2.5 text-gray-600 hover:text-[#02487F]"
+      >
+        {showConfirmPassword ? <Eye size={20} /> : <EyeOff size={20} />}
+      </button>
+    </div>
+    {errors.confirmPassword && (
+      <p className="text-red-500 text-sm">{errors.confirmPassword.message}</p>
+    )}
+  </div>
+</div>
+
             <button
               type="submit"
               disabled={loading}

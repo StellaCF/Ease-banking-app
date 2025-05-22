@@ -83,22 +83,28 @@ const LoginPage = () => {
               )}
             </div>
             <div className="flex flex-col gap-1">
-              <div className="flex justify-between ">
-                <label>Password</label>
+              <label className="mb-1">Password</label>
+              <div className="relative">
+                <input
+                  type={showPassword ? "text" : "password"}
+                  placeholder="Enter Password"
+                  className="rounded-lg border-2 h-10 border-[#1384AB] p-4 pr-10 w-full outline-none"
+                  {...register("password", { required: "Password required" })}
+                />
                 <button
                   type="button"
                   onClick={() => setShowPassword(!showPassword)}
-                  className="pr-2"
-                  >
+                  className="absolute right-3 top-2.5 text-gray-600 hover:text-[#02487F]"
+                >
                   {showPassword ? <Eye size={20} /> : <EyeOff size={20} />}
                 </button>
               </div>
-              <input
-                type={showPassword ? "text" : "password"}
-                placeholder="Enter Password"
-                className="rounded-lg border-2 h-10 border-[#1384AB] p-4 outline-none"
-                {...register("password", { required: "Password required" })}
-              />
+              {errors.password && (
+                <p className="text-red-500 text-sm mt-1">
+                  {errors.password.message}
+                </p>
+              )}
+
               {errors.password && (
                 <p className="text-red-500">{errors.password.message}</p>
               )}

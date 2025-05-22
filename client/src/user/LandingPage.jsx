@@ -296,7 +296,7 @@ export default function MoneyTransferLanding() {
 
           {/* Right side image placeholder */}
           <div className="w-full md:w-1/2">
-            <img className="h-[80vh]" src={financeapp} alt="" />
+            <img className="h-[80vh] hidden md:block" src={financeapp} alt="" />
           </div>
         </div>
       </section>
@@ -513,7 +513,7 @@ export default function MoneyTransferLanding() {
               </li>
               <li>
                 <a href="tel:+61482076208" className="hover:underline">
-                  +61 482 076 208
+                  +2348144200150
                 </a>
               </li>
               <li>
@@ -528,13 +528,13 @@ export default function MoneyTransferLanding() {
         {/* Bottom Section */}
         <div className="border-t border-gray-200 mt-4 py-6 text-center text-sm px-4 sm:px-8">
           <p className="mb-2">
-            Ease Bank Transfers, Level 6, 200 Adelaide Street, Brisbane City,
-            QLD 4000.
+            Ease Bank Transfers, Level 6, 200 Iyiegbu Street, Awka,
+            Anambra State, Nigeria.
           </p>
           <p className="mb-2">
             Orbuis Group Pty Ltd trading as Ease Bank Transfers is registered
-            with Australia Securities and Investment Commission. ABN Number: 17
-            651 460 114. Orbuis Group Pty Ltd is registered with AUSTRAC
+            with Nigeria Securities and Investment Commission. ABN Number: 17
+            651 460 114.
           </p>
           <p className="text-gray-500">
             ©Ease Bank Platform 2025. Powered By Orbuis Group.
