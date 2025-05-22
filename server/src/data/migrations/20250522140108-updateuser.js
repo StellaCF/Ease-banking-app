@@ -4,12 +4,12 @@
 module.exports = {
   async up (queryInterface, Sequelize) {
     await queryInterface.addColumn("users", "loanBalance", {
-      allowNull: false,
+      allowNull: true,
       type: Sequelize.STRING,
     });
 
     await queryInterface.addColumn("users", "genBalance", {
-      allowNull: false,
+      allowNull: true,
       type: Sequelize.STRING,
     });
   },
