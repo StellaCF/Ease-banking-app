@@ -32,7 +32,7 @@ const Setting = () => {
          setVerifyPassword(false);
          setDeleteAccount(true);
       } catch (error) {
-         toast.error(error.response.data.error);
+         toast.error(error.response.data.error || "error verifying password");
       }
       setLoading(false);
    }
