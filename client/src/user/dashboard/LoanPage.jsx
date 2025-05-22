@@ -302,35 +302,39 @@ const LoanPage = () => {
             <h3 className="text-lg md:text-xl font-semibold">Loan History</h3>
           </div> 
 
-          <table className="w-full text-left border-collapse">
-            <thead>
-              <tr className="text-gray-600 text-sm border-b">
-                <th className="py-2">Type</th>
-                <th className="py-2">Amount</th>
-                <th className="py-2 hidden md:table-cell">Date</th>
-                <th className="py-2">Status</th>
-              </tr>
-            </thead>
-            <tbody>
-              {filteredHistory?.map?.((txn) => (
-                <tr key={txn.id}
-                onClick={() =>
-                  navigate(`/transactiondetails`, {
-                    state: { txn },
-                  })
-                }
-                  className="text-sm border-b text-gray-600 cursor-pointer">
-                  <td className="py-4">{txn.type.charAt(0).toUpperCase() + txn.type.slice(1)}</td>
-                  <td className="py-4">₦{Number(txn.amount).toLocaleString("en-NG", {
-                      minimumFractionDigits: 2,
-                      maximumFractionDigits: 2,
-                    })}</td>
-                  <td className="py-4 hidden md:block">{formatDateAndTime(txn.createdAt).date} | {formatDateAndTime(txn.createdAt).time}</td>
-                  <td className="py-4">{txn.status}</td>
+          {filteredHistory?.length === 0 ? (
+            <p>You dont have any loan history yet</p>
+          ) : (
+            <table className="w-full text-left border-collapse">
+              <thead>
+                <tr className="text-gray-600 text-sm border-b">
+                  <th className="py-2">Type</th>
+                  <th className="py-2">Amount</th>
+                  <th className="py-2 hidden md:table-cell">Date</th>
+                  <th className="py-2">Status</th>
                 </tr>
-              ))}
-            </tbody>
-          </table>
+              </thead>
+              <tbody>
+                {filteredHistory?.map?.((txn) => (
+                  <tr key={txn.id}
+                  onClick={() =>
+                    navigate(`/transactiondetails`, {
+                      state: { txn },
+                    })
+                  }
+                    className="text-sm border-b text-gray-600 cursor-pointer">
+                    <td className="py-4">{txn.type.charAt(0).toUpperCase() + txn.type.slice(1)}</td>
+                    <td className="py-4">₦{Number(txn.amount).toLocaleString("en-NG", {
+                        minimumFractionDigits: 2,
+                        maximumFractionDigits: 2,
+                      })}</td>
+                    <td className="py-4 hidden md:block">{formatDateAndTime(txn.createdAt).date} | {formatDateAndTime(txn.createdAt).time}</td>
+                    <td className="py-4">{txn.status}</td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+          )}
         </div>
       </main>
       <Loader loading={loading} inline={false} size={150} />

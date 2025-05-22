@@ -1,4 +1,5 @@
 const { User } = require('../data/models/association');
+const bcrypt = require("bcrypt");
 
 exports.userDetail = async (id) => {
   try {
@@ -60,5 +61,22 @@ exports.userTransactions = async (id) => {
     return { transactions, loanSave};
   } catch (error) {
     throw new Error('Error fetching user transactions: ' + error.message);
+  }
+};
+
+
+exports.deleteAcct = async (id) => {
+  try {
+    const user = await User.findByPk(id);
+
+    if (!user) {
+      throw new Error('User not found');
+    }
+
+    await user.destroy();
+    return { message: 'Account deleted successfully' };
+
+  } catch (error) {
+    throw new Error('Error updating user: ' + error.message);
   }
 };

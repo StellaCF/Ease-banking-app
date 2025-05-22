@@ -60,6 +60,14 @@ const Sidebar = () => {
             >
               <FaUser /> <span>Profile</span>
             </NavLink>
+            <NavLink
+              to="/settings"
+              className={({ isActive }) =>
+                `flex items-center rounded-lg space-x-2 text-gray-700 hover:text-[#20B6D9] hover:bg-[#E6F7FB] ${isActive && "bg-[#E6F7FB] text-[#20B6D9]"} p-3`
+              }
+            >
+              <FaUser /> <span>Settings</span>
+            </NavLink>
           </nav>
         </div>
 

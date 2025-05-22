@@ -25,7 +25,7 @@ const Deposit = () => {
         setUser(response.data);
         console.log(response.data)
       } catch (error) {
-        toast.error(error.response.error.message);
+        toast.error(error.response.data.error);
       } finally {
         setLoading(false);
       }
@@ -55,7 +55,7 @@ const Deposit = () => {
       );
       toast.success(response.data.message);
       setAmount("");
-      handleDepositSuccess(amount);
+      // handleDepositSuccess(amount);
     } catch (error) {
       toast.error(error.response.data.error);
     } finally {
