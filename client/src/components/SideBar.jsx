@@ -3,8 +3,10 @@ import { NavLink, useNavigate } from 'react-router-dom';
 import Cookies from "js-cookie";
 import { toast } from 'react-toastify';
 import logo from "../assets/banklogo.png";
+import { useState } from 'react';
 
 const Sidebar = () => {
+  const [showLogoutModal, setShowLogoutModal] = useState(false);
   const navigate = useNavigate();
 
   const logout = () => {
@@ -72,7 +74,7 @@ const Sidebar = () => {
         </div>
 
         <button
-          onClick={logout}
+          onClick={() => setShowLogoutModal(true)}
           className="flex items-center text-red-500 hover:text-red-600 p-2 mt-auto cursor-pointer"
         >
           <FaSignOutAlt className="mr-2" /> Logout
@@ -117,10 +119,32 @@ const Sidebar = () => {
         >
           <FaUser />
         </NavLink>
-        <button onClick={logout} title="Logout" className="text-2xl text-red-500">
+        <button onClick={() => setShowLogoutModal(true)} title="Logout" className="text-2xl text-red-500 cursor-pointer">
           <FaSignOutAlt />
         </button>
       </aside>
+
+      {showLogoutModal && (
+        <div className="fixed w-full h-screen flex items-center justify-center bg-[#0004] bg-opacity-50 z-50">
+          <div className="bg-white p-6 rounded shadow-lg">
+            <h2 className="text-lg font-semibold mb-4">Are you sure you want to log out?</h2>
+            <div className="flex justify-end space-x-4">
+              <button
+                onClick={() => setShowLogoutModal(false)}
+                className="bg-gray-300 text-gray-700 px-4 py-2 rounded"
+              >
+                Cancel
+              </button>
+              <button
+                onClick={logout}
+                className="bg-red-500 text-white px-4 py-2 rounded"
+              >
+                Logout
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
     </>
   );
 };
