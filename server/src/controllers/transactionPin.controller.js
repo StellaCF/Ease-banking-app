@@ -1,6 +1,6 @@
 const pinService = require('../services/transactionPin.services');
 
-const setPin = async (req, res) => {
+exports.setPin = async (req, res) => {
    try {
       const { id } = req.user;
       const { pin } = req.body;
@@ -20,7 +20,7 @@ const setPin = async (req, res) => {
    }
 }
 
-const verifyPassword = async (req, res) => {
+exports.verifyPassword = async (req, res) => {
    try {
       const password = req.body.password;
 
@@ -31,7 +31,7 @@ const verifyPassword = async (req, res) => {
    }
 }
 
-const resetPin = async (req, res) => {
+exports.resetPin = async (req, res) => {
    try {
 
       const { newPin } = req.body;
@@ -50,5 +50,3 @@ const resetPin = async (req, res) => {
       return res.status(500).json({ message: error.message });
    }
 }
-
-module.exports = setPin;
