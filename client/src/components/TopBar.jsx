@@ -34,7 +34,7 @@ const TopBar = () => {
 
   return (
     <>
-    <div className="w-full h-[80px] fixed top-0 left-0 z-99 lg:hidden bg-white shadow-md flex items-center justify-center mb-4">
+    <div className="w-full h-[80px] fixed top-0 left-0 z-99 lg:hidden bg-white shadow-md flex items-center justify-center">
       <div className="flex items-center">
         <img src={logo} alt="" className='bg-transparent w-20 h-20'/>
         <span className="font-bold text-2xl text-[#02487F]">Ease Bank</span>
