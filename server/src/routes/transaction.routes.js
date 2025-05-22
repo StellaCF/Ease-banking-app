@@ -19,6 +19,6 @@ router.post('/transfer', auth, validate(transferSchema), transactionController.t
 router.post('/verify-account', transactionController.accountVerification)
 router.post('/transactionPin', auth, pinController.setPin);
 router.post('/verify-password', auth, pinController.verifyPassword);
-router.post('/reset-pin/:id', auth, pinController.resetPin);
+router.post('/reset-pin', auth, pinController.resetPin);
 
 module.exports = router;

@@ -12,7 +12,6 @@ const LoanPage = () => {
   const [loading, setLoading] = useState(false);
   const [user, setUser] = useState();
   const [history, setHistory] = useState([]);
-  const safeHistory = history ?? [];
   const [loanAmount, setLoanAmount] = useState("");
   const [showRepayField, setShowRepayField] = useState(false);
   const [repayAmount, setRepayAmount] = useState("");
@@ -69,12 +68,14 @@ const LoanPage = () => {
   const filteredHistory = history?.filter((h) => h.type === "loan" || h.type === "repayment");
   console.log(filteredHistory);
 
-  const totalLoan = (safeHistory.filter(l => l.type === "loan").reduce((sum, l) => sum + Number(l.amount), 0));
-  const totalRepay = (safeHistory.filter(l => l.type === "repayment").reduce((sum, l) => sum + Number(l.amount), 0));
-  let loanAmt  = Number(totalLoan - totalRepay).toFixed(2);
-  if (loanAmt < 0) {
-    loanAmt = 0.00;
-  }
+  // const totalLoan = (safeHistory.filter(l => l.type === "loan").reduce((sum, l) => sum + Number(l.amount), 0));
+  // const totalRepay = (safeHistory.filter(l => l.type === "repayment").reduce((sum, l) => sum + Number(l.amount), 0));
+  // let loanAmt  = Number(totalLoan - totalRepay).toFixed(2);
+  // if (loanAmt < 0) {
+  //   loanAmt = 0.00;
+  // }
+
+  const loanAmt = user?.loanBalance || 0.00;
 
   const formatDateAndTime = (isoString) => {
     const dateObj = new Date(isoString);

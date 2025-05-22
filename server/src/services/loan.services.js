@@ -3,20 +3,14 @@ const { Transaction } = require("../data/models/transactions");
 const { LoanSave } = require("../data/models/loan-save")
 const { Op } = require("sequelize");
 
-exports.verifyNIN = async (id, nin, address) => {
-  const user = await User.findByPk(id);
-  if (!user) throw new Error("User not found");
-
-
-  await user.save();
-}
 
 exports.requestLoan = async (id, loanData, nin, address) => {
   const user = await User.findByPk(id);
   if (!user) throw new Error("User not found");
 
   const loanAmount = parseFloat(loanData.amount);
-  user.acctBalance = (parseFloat(user.acctBalance) + loanAmount).toFixed(2);
+  user.loanBalance = (parseFloat(user.loanBalance) + loanAmount).toFixed(2);
+  user.genBalance = (parseFloat(user.acctBalance) + user.loanBalance).toFixed(2);
   user.nin = nin;
   user.address = address;
   
@@ -24,7 +18,7 @@ exports.requestLoan = async (id, loanData, nin, address) => {
 
   await LoanSave.create(loanData); 
 
-  return { message: "Loan credited", newBalance: user.acctBalance };
+  return { message: "Loan credited"};
 };
 
 
@@ -35,7 +29,8 @@ exports.repayLoan = async (id, loanData) => {
   const repaymentAmount = parseFloat(loanData.amount);
   if (parseFloat(user.acctBalance) < repaymentAmount) throw new Error("Insufficient balance to repay loan");
 
-  user.acctBalance = (parseFloat(user.acctBalance) - repaymentAmount).toFixed(2);
+  user.loanBalance = (parseFloat(user.loanBalance) - repaymentAmount).toFixed(2);
+  user.genBalance = (parseFloat(user.genBalance) + user.loanBalance).toFixed(2);
 
   await user.save();
 
@@ -78,7 +73,8 @@ exports.autoDeductLoans = async () => {
   }
  
    if (parseFloat(user.acctBalance) >= parseFloat(loan.amount)) {
-     user.acctBalance = (parseFloat(user.acctBalance) - parseFloat(loan.amount)).toFixed(2);
+     user.loanBalance = (parseFloat(user.acctBalance) - parseFloat(loan.amount)).toFixed(2);
+     user.genBalance = (parseFloat(user.acctBalance) + user.loanBalance).toFixed(2);
      await user.save();
  
      await LoanSave.create({
