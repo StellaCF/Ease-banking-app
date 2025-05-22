@@ -62,6 +62,10 @@ module.exports.User = sequelize.define('users',
     type: DataTypes.STRING,
     allowNull: true,
   },
+  genBalance: {
+    type: DataTypes.STRING,
+    allowNull: true,
+  },
   transactionPin: {
     type: DataTypes.STRING,
     allowNull: true
