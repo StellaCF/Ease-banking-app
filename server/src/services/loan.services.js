@@ -10,7 +10,7 @@ exports.requestLoan = async (id, loanData, nin, address) => {
 
   const loanAmount = parseFloat(loanData.amount);
   user.loanBalance = (parseFloat(user.loanBalance) + loanAmount).toFixed(2);
-  user.genBalance = (parseFloat(user.acctBalance) + user.loanBalance).toFixed(2);
+  user.acctBalance = (parseFloat(user.acctBalance) + loanAmount).toFixed(2);
   user.nin = nin;
   user.address = address;
   
@@ -27,10 +27,10 @@ exports.repayLoan = async (id, loanData) => {
   if (!user) throw new Error("User not found");
 
   const repaymentAmount = parseFloat(loanData.amount);
-  if (parseFloat(user.acctBalance) < repaymentAmount) throw new Error("Insufficient balance to repay loan");
+  if (parseFloat(user.loanBalance) < repaymentAmount) throw new Error("Incorrect amount");
 
   user.loanBalance = (parseFloat(user.loanBalance) - repaymentAmount).toFixed(2);
-  user.genBalance = (parseFloat(user.genBalance) + user.loanBalance).toFixed(2);
+  user.acctBalance = (parseFloat(user.acctBalance) - repaymentAmount).toFixed(2);
 
   await user.save();
 
@@ -73,8 +73,8 @@ exports.autoDeductLoans = async () => {
   }
  
    if (parseFloat(user.acctBalance) >= parseFloat(loan.amount)) {
-     user.loanBalance = (parseFloat(user.acctBalance) - parseFloat(loan.amount)).toFixed(2);
-     user.genBalance = (parseFloat(user.acctBalance) + user.loanBalance).toFixed(2);
+     user.acctBalance = (parseFloat(user.acctBalance) - parseFloat(loan.amount)).toFixed(2);
+     user.loanBalance = (parseFloat(user.loanBalance) - parseFloat(loan.amount)).toFixed(2);
      await user.save();
  
      await LoanSave.create({

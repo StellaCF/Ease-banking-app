@@ -12,7 +12,6 @@ exports.deposit = async (id, depositData) => {
       await Transaction.create(depositData)
       const newBalance = parseFloat(user.acctBalance) + parseFloat(depositData.amount);
       user.acctBalance = newBalance.toFixed(2)
-      user.genBalance = (parseFloat(user.genBalance + user.acctBalance)).toFixed(2);
       await user.save()
    } catch (error) {
       throw new Error('Error making deposit:' + error.message)
@@ -28,7 +27,7 @@ exports.withdraw = async (id, withData, pin) => {
 
       const validPin = await bcrypt.compare(pin, user.transactionPin);
 
-      if (Number(user.genBalance) < Number(withData.amount)) {
+      if (Number(user.acctBalance) < Number(withData.amount)) {
          throw new Error('Insufficient Balance')
       } else if (user.transactionPin === null) {
          throw new Error('Transaction pin not set')
@@ -37,8 +36,8 @@ exports.withdraw = async (id, withData, pin) => {
       }
 
       await Transaction.create(withData)
-      const newBalance = parseFloat(user.genBalance) - parseFloat(withData.amount);
-      user.genBalance = newBalance.toFixed(2)
+      const newBalance = parseFloat(user.acctBalance) - parseFloat(withData.amount);
+      user.acctBalance = newBalance.toFixed(2)
       await user.save()
    } catch (error) {
       throw new Error('Error making withdrawal:' + error.message)
@@ -69,7 +68,7 @@ exports.transfer = async (id, transferData, pin) => {
 
       const { firstName, otherName, lastName, acctNumber } = receivingUser;
 
-      if (transferData.amount > parseFloat(user.genBalance)) {
+      if (transferData.amount > parseFloat(user.acctBalance)) {
          throw new Error('Insufficient funds')
       }
 
@@ -80,13 +79,13 @@ exports.transfer = async (id, transferData, pin) => {
          throw new Error('Invalid transaction pin')
       }
 
-      const newBalance = parseFloat(user.genBalance) - parseFloat(transferData.amount);
-      const receivingUserBalance = parseFloat(receivingUser.genBalance) + parseFloat(transferData.amount);
+      const newBalance = parseFloat(user.acctBalance) - parseFloat(transferData.amount);
+      const receivingUserBalance = parseFloat(receivingUser.acctBalance) + parseFloat(transferData.amount);
 
      await Transaction.create(transferData);
 
-      user.genBalance = newBalance.toFixed(2);
-      receivingUser.genBalance = receivingUserBalance.toFixed(2);
+      user.acctBalance = newBalance.toFixed(2);
+      receivingUser.acctBalance = receivingUserBalance.toFixed(2);
       await user.save()
       await receivingUser.save()
 
