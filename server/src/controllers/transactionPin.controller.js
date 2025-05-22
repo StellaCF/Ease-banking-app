@@ -36,11 +36,11 @@ exports.resetPin = async (req, res) => {
 
       const { newPin } = req.body;
    
-      if (!pin) {
+      if (!newPin) {
          return res.status(400).json({ message: 'Pin is required' });
       }
    
-      if (pin.length !== 4) {
+      if (newPin.length !== 4) {
          return res.status(400).json({ message: 'Pin must be 4 digits' });
       }
    
