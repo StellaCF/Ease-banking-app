@@ -18,7 +18,7 @@ import LoanPage from './user/dashboard/LoanPage';
 import Profile from './user/dashboard/Profile';
 import Transaction from './user/dashboard/Transaction';
 import TransactionDetails from './user/dashboard/TransactionDetails';
-import Settings from './user/dashboard/Settings';
+import Settings from './user/dashboard/Setting';
 
 
 
