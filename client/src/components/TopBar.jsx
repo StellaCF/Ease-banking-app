@@ -3,6 +3,8 @@ import { useNavigate } from "react-router-dom";
 import Cookies from "js-cookie";
 import axios from "axios";
 import { toast } from "react-toastify";
+import logo from "../assets/banklogo.png";
+
 
 const TopBar = () => {
   const [user, setUser] = useState();
@@ -31,6 +33,13 @@ const TopBar = () => {
   const initial = firstInitial + lastInitial;
 
   return (
+    <>
+    <div className="w-full h-[80px] lg:hidden bg-white shadow-md flex items-center justify-center mb-4">
+      <div className="flex items-center mb-5">
+        <img src={logo} alt="" className='bg-transparent w-20 h-20'/>
+        <span className="font-bold text-2xl text-[#02487F]">Ease Bank</span>
+      </div>
+    </div>
     <div className="bg-gradient-to-r from-[#02487F] to-[#1384AB] text-white p-4 sm:p-6 rounded-lg space-y-4">
       <div className="flex justify-between items-center">
         <div className="flex items-center space-x-4">
@@ -52,6 +61,7 @@ const TopBar = () => {
         </div>
       </div>
     </div>
+    </>
   );
 };
 
