@@ -22,7 +22,7 @@ exports.setPin = async (req, res) => {
 
 exports.verifyPassword = async (req, res) => {
    try {
-      const password = req.body.password;
+      const { password } = req.body;
 
       await pinService.verifyPassword(req.user.id, password);
       return res.status(200).json({ message: 'Password verified' });

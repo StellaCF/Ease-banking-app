@@ -36,6 +36,9 @@ exports.resetTransactionPin = async ({id, pin}) => {
       if (!user) {
          throw new Error('user not found')
       }
+      if (user.transactionPin === null) {
+         throw new Error('Transaction pin not set')
+      }
       const hashedPin = await bcrypt.hash(pin, 10);
       user.transactionPin = hashedPin;
       await user.save()

@@ -1,4 +1,4 @@
-import { FaHome, FaMoneyCheck, FaListAlt, FaUser, FaSignOutAlt } from 'react-icons/fa';
+import { FaHome, FaMoneyCheck, FaListAlt, FaUser, FaSignOutAlt, FaToolbox } from 'react-icons/fa';
 import { NavLink, useNavigate } from 'react-router-dom';
 import Cookies from "js-cookie";
 import { toast } from 'react-toastify';
@@ -66,7 +66,7 @@ const Sidebar = () => {
                 `flex items-center rounded-lg space-x-2 text-gray-700 hover:text-[#20B6D9] hover:bg-[#E6F7FB] ${isActive && "bg-[#E6F7FB] text-[#20B6D9]"} p-3`
               }
             >
-              <FaUser /> <span>Settings</span>
+              <FaToolbox /> <span>Settings</span>
             </NavLink>
           </nav>
         </div>
