@@ -1,5 +1,5 @@
 import { NavLink } from "react-router-dom";
-import payment from "../assets/payment.png";
+import payment from "../assets/Payment.png";
 import { useForm } from "react-hook-form";
 import axios from "axios";
 import { toast } from "react-toastify";
@@ -7,9 +7,11 @@ import { useNavigate } from "react-router-dom";
 import { useState } from "react";
 import Loader from "../components/Loader";
 import Cookies from "js-cookie";
+import { Eye, EyeOff } from "lucide-react";
 
 const LoginPage = () => {
   const [loading, setLoading] = useState(false);
+  const [showPassword, setShowPassword] = useState(false);
   const navigate = useNavigate();
   const {
     register,
@@ -73,7 +75,7 @@ const LoginPage = () => {
               <input
                 type="email"
                 placeholder="Enter Email"
-                className="rounded-lg border-2 h-10 border-[#1384AB] p-4"
+                className="rounded-lg border-2 h-10 border-[#1384AB] p-4 outline-none"
                 {...register("email", { required: "Email required" })}
               />
               {errors.email && (
@@ -81,11 +83,20 @@ const LoginPage = () => {
               )}
             </div>
             <div className="flex flex-col gap-1">
-              <label>Password</label>
+              <div className="flex justify-between ">
+                <label>Password</label>
+                <button
+                  type="button"
+                  onClick={() => setShowPassword(!showPassword)}
+                  className="pr-2"
+                  >
+                  {showPassword ? <Eye size={20} /> : <EyeOff size={20} />}
+                </button>
+              </div>
               <input
-                type="password"
+                type={showPassword ? "text" : "password"}
                 placeholder="Enter Password"
-                className="rounded-lg border-2 h-10 border-[#1384AB] p-4"
+                className="rounded-lg border-2 h-10 border-[#1384AB] p-4 outline-none"
                 {...register("password", { required: "Password required" })}
               />
               {errors.password && (
@@ -98,7 +109,9 @@ const LoginPage = () => {
             <button
               disabled={loading}
               type="submit"
-              className="bg-[#02487F] text-white p-2 rounded-md gap-y-3 mt-5 cursor-pointer hover:bg-[#1384AB] transition duration-300 ease-in-out"
+              className={`p-2 rounded-md gap-y-3 mt-5 transition duration-300 ease-in-out
+                ${loading ? "bg-gray-300 cursor-not-allowed" : "bg-[#02487F] hover:bg-[#1384AB] text-white"}
+              `}
             >
               {loading ? (
                 <Loader loading={true} inline={true} size={20} />
@@ -107,7 +120,7 @@ const LoginPage = () => {
               )}
             </button>
             <p className="text-center">
-              Don't have an account?{" "}
+              Dont have an account?{" "}
               <NavLink to="/signup" className="text-[#02487F]">
                 Signup
               </NavLink>

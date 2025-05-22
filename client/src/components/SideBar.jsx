@@ -1,12 +1,11 @@
-import { FaHome, FaMoneyCheck, FaListAlt, FaUser, FaSignOutAlt } from 'react-icons/fa';
-import { NavLink, useLocation, useNavigate } from 'react-router-dom';
+import { FaHome, FaMoneyCheck, FaListAlt, FaUser, FaSignOutAlt, FaToolbox } from 'react-icons/fa';
+import { NavLink, useNavigate } from 'react-router-dom';
 import Cookies from "js-cookie";
 import { toast } from 'react-toastify';
 import logo from "../assets/banklogo.png";
 
 const Sidebar = () => {
   const navigate = useNavigate();
-  const location = useLocation();
 
   const logout = () => {
     try {
@@ -60,6 +59,14 @@ const Sidebar = () => {
               }
             >
               <FaUser /> <span>Profile</span>
+            </NavLink>
+            <NavLink
+              to="/settings"
+              className={({ isActive }) =>
+                `flex items-center rounded-lg space-x-2 text-gray-700 hover:text-[#20B6D9] hover:bg-[#E6F7FB] ${isActive && "bg-[#E6F7FB] text-[#20B6D9]"} p-3`
+              }
+            >
+              <FaToolbox /> <span>Settings</span>
             </NavLink>
           </nav>
         </div>

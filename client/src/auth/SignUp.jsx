@@ -6,9 +6,12 @@ import { toast } from "react-toastify";
 import { useNavigate } from "react-router-dom";
 import { useState } from "react";
 import Loader from "../components/Loader";
+import { Eye, EyeOff } from "lucide-react";
 
 const SignUp = () => {
   const [loading, setLoading] = useState(false);
+  const [showPassword, setShowPassword] = useState(false);
+
   const navigate = useNavigate();
   const {
     register,
@@ -127,9 +130,17 @@ const SignUp = () => {
             </div>
             <div className="flex gap-x-2">
               <div className="flex flex-col gap-y-1 w-1/2">
-                <label>Password</label>
+                <div className="flex justify-between items-center">
+                  <label>Password</label>
+                  <button
+                    type="button"
+                    onClick={() => setShowPassword(!showPassword)}
+                    >
+                    {showPassword ? <Eye size={20} /> : <EyeOff size={20} />}
+                  </button>
+                </div>
                 <input
-                  type="password"
+                  type={showPassword ? "text" : "password"}
                   placeholder="Enter Password"
                   className="rounded-lg border-2 h-10 border-[#1384AB] p-4 outline-none"
                   {...register("password", { required: "Password required" })}
@@ -141,7 +152,7 @@ const SignUp = () => {
               <div className="flex flex-col gap-y-1 w-1/2">
                 <label>Confirm Password</label>
                 <input
-                  type="password"
+                  type={showPassword ? "text" : "password"}
                   placeholder="Confirm Password"
                   className="rounded-lg border-2 h-10 border-[#1384AB] p-4 outline-none"
                   {...register("confirmPassword", {
@@ -150,6 +161,7 @@ const SignUp = () => {
                       value === watch("password") || "Passwords do not match",
                   })}
                 />
+                
                 {errors.confirmPassword && (
                   <p className="text-red-500">{errors.confirmPassword.message}</p>
                 )}
@@ -158,7 +170,9 @@ const SignUp = () => {
             <button
               type="submit"
               disabled={loading}
-              className="bg-[#02487F] text-white p-2 rounded-md gap-y-3 mt-5 cursor-pointer hover:bg-[#1384AB] transition duration-300 ease-in-out"
+              className={`p-2 rounded-md gap-y-3 mt-5 transition duration-300 ease-in-out
+                ${loading ? "bg-gray-300 cursor-not-allowed" : "bg-[#02487F] hover:bg-[#1384AB] text-white"}
+              `}
             >
               {loading ? (
                 <Loader loading={true} inline={true} size={20} />

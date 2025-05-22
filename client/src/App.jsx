@@ -18,6 +18,7 @@ import LoanPage from './user/dashboard/LoanPage';
 import Profile from './user/dashboard/Profile';
 import Transaction from './user/dashboard/Transaction';
 import TransactionDetails from './user/dashboard/TransactionDetails';
+import Settings from './user/dashboard/Setting';
 
 
 
@@ -42,6 +43,7 @@ const App = () => {
           <Route path="/profile" element={<Profile />} />
           <Route path="/transaction" element={<Transaction />} />
           <Route path="/transactiondetails" element={<TransactionDetails />} />
+          <Route path="/settings" element={<Settings />} />
         </Routes>
       </Router>
       <ToastContainer/>

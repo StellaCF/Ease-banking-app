@@ -24,6 +24,7 @@ exports.register = async (req, res) => {
          acctNumber: acctNumber,
          acctBalance: 0,
          savingsBalance: 0,
+         loanBalance: 0,
       });
 
       return res.status(201).json({ message: 'User registered successfully', data });

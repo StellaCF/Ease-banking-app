@@ -1,10 +1,10 @@
 import { useState } from "react";
 import heroimg from "../assets/heroimg.png";
-import financeapp from "../assets/financeapp.png";
+import financeapp from "../assets/Financeapp.png";
 import img4 from "../assets/img4.png";
 import img7 from "../assets/img7.png";
 import img6 from "../assets/img6.png";
-import finance1 from "../assets/finance1.png";
+import finance1 from "../assets/Finance1.png";
 import logo from "../assets/banklogo.png";
 import { Swiper, SwiperSlide } from "swiper/react";
 import "swiper/css";
@@ -78,54 +78,56 @@ export default function MoneyTransferLanding() {
     setOpenIndex(openIndex === index ? null : index);
   };
   return (
-    <div className="min-h-screen bg-gradient-to-r from-[#02487F] to-[#1384AB] text-white font-sans">
+    <div className="min-h-screen  text-white font-sans">
       {/* Top Navigation */}
       <Navbar />
 
       {/* Main Section */}
-      <section className="flex flex-col w-10/12 mx-auto lg:flex-row items-center justify-between py-16 lg:py-1">
-        {/* Left Content */}
-        <div className="max-w-lg text-left">
-          <div className="flex items-center mb-4">
-            <div className="bg-white text-[#004876] rounded-full px-4 py-2 font-semibold flex items-center space-x-2">
-              <span>Zero Transfer fee for new users!</span>
-            </div>
-          </div>
-
-          <h1 className="text-4xl lg:text-5xl font-bold leading-tight mb-6">
-            Quick and easy way to send and receive money internationally
-          </h1>
-          <p className="text-lg mb-6">
-            Send funds to loved ones or receive payments from clients abroad
-            with minimal fees, in just 5 minutes!
-          </p>
-
-          <div className="mt-6 flex items-center space-x-2">
-            <div className="flex space-x-1">
-              {[...Array(4)].map((_, i) => (
-                <div
-                  key={i}
-                  className="w-5 h-5 bg-green-500 rounded text-white flex items-center justify-center"
-                >
-                  ★
-                </div>
-              ))}
-              <div className="w-5 h-5 bg-gray-300 rounded text-white flex items-center justify-center">
-                ★
+      <div className="bg-gradient-to-r from-[#02487F] to-[#1384AB] w-full">
+        <section className="flex flex-col w-10/12 mx-auto lg:flex-row items-center justify-between py-16 lg:py-1">
+          {/* Left Content */}
+          <div className="max-w-lg text-left">
+            <div className="flex items-center mb-4">
+              <div className="bg-white text-[#004876] rounded-full px-4 py-2 font-semibold flex items-center space-x-2">
+                <span>Zero Transfer fee for new users!</span>
               </div>
             </div>
-            <span className="ml-2 text-white text-lg font-semibold">4.3</span>
-            <span className="text-white text-sm">Trustpilot</span>
+
+            <h1 className="text-4xl lg:text-5xl font-bold leading-tight mb-6">
+              Quick and easy way to send and receive money internationally
+            </h1>
+            <p className="text-lg mb-6">
+              Send funds to loved ones or receive payments from clients abroad
+              with minimal fees, in just 5 minutes!
+            </p>
+
+            <div className="mt-6 flex items-center space-x-2">
+              <div className="flex space-x-1">
+                {[...Array(4)].map((_, i) => (
+                  <div
+                    key={i}
+                    className="w-5 h-5 bg-green-500 rounded text-white flex items-center justify-center"
+                  >
+                    ★
+                  </div>
+                ))}
+                <div className="w-5 h-5 bg-gray-300 rounded text-white flex items-center justify-center">
+                  ★
+                </div>
+              </div>
+              <span className="ml-2 text-white text-lg font-semibold">4.3</span>
+              <span className="text-white text-sm">Trustpilot</span>
+            </div>
           </div>
-        </div>
 
-        {/* Right Panel - Check Rates */}
-        <div className=" p-6 mt-12 lg:mt-0 w-full max-w-2xl">
-          <img src={heroimg} alt="Finance" />
-        </div>
-      </section>
+          {/* Right Panel - Check Rates */}
+          <div className=" p-6 mt-12 lg:mt-0 w-full max-w-2xl">
+            <img src={heroimg} alt="Finance" />
+          </div>
+        </section>
+      </div>
 
-      <section className="bg-white text-[#004876] py-20 px-6 md:px-20 flex flex-col lg:flex-row items-center justify-between">
+      <section className="bg-white text-[#004876] py-20 w-10/12 mx-auto flex flex-col md:flex-row items-center justify-between">
         {/* Left Text Content */}
         <div className="max-w-lg mb-10 lg:mb-0">
           <button className="mb-4 px-4 py-2 border border-[#004876] rounded-full text-sm">
@@ -169,22 +171,22 @@ export default function MoneyTransferLanding() {
       </section>
 
       <section className=" bg-gradient-to-r from-[#02487F] to-[#1384AB] flex flex-col items-center justify-center p-6 text-white">
-        <div className="w-full mx-auto flex flex-col md:flex-row items-center gap-10">
+        <div className="w-10/12 mx-auto flex flex-col md:flex-row items-center gap-20">
           {/* Left side: Image */}
-          <div className="flex flex-col sm:flex-row">
+          <div className="w-[50%] flex flex-col sm:flex-row">
             <img
               src={img7}  
               alt="..."
-              className="hidden sm:block w-full sm:w-1/2 object-cover"
+              className="hidden md:block w-full object-cover"
             />
           </div>
 
           {/* Right side: Text content */}
-          <div className="w-full md:w-1/2">
+          <div className="w-full md:w-[50%]">
             <div className="inline-block px-4 py-1 text-sm bg-white text-[#02487F] rounded-full font-semibold mb-4">
               Receive Payments
             </div>
-            <h2 className="text-3xl md:text-4xl font-bold mb-6 leading-tight">
+            <h2 className="w-full text-3xl md:text-4xl font-bold mb-6 leading-tight">
               Get paid for your services quickly
             </h2>
 
@@ -207,8 +209,8 @@ export default function MoneyTransferLanding() {
         </div>
       </section>
 
-      <section className="bg-white py-16 px-6 md:px-12">
-        <div className="max-w-6xl mx-auto flex flex-col-reverse md:flex-row items-center gap-12">
+      <section className="bg-white py-24">
+        <div className="w-10/12 mx-auto flex flex-col-reverse md:flex-row items-center gap-20">
           {/* Left content */}
           <div className="w-full md:w-1/2 text-[#02487F]">
             <div className="inline-block px-4 py-1 text-sm bg-[#f1f5f9] text-[#02487F] rounded-full font-semibold mb-4">
@@ -239,133 +241,131 @@ export default function MoneyTransferLanding() {
           </div>
 
           {/* Right image */}
-          <div className="w-full md:w-1/2 flex justify-center">
-            <div className="w-[350px] h-[500px] bg-[#E5F6FB] rounded-[2rem] shadow-lg overflow-hidden">
-              <div className="w-full h-full  flex items-center justify-center text-gray-500 text-center p-6">
+          <div className="w-full md:w-1/2 flex justify-center bg-[#E5F6FB] rounded-[2rem] p-5 shadow-lg">
+            {/* <div className="w-[350px] h-[500px]  overflow-hidden"> */}
                 <img src={img4} alt="" />
-              </div>
-            </div>
+            {/* </div> */}
           </div>
         </div>
       </section>
 
-      <section className=" text-white py-12 px-6 md:px-12 flex flex-col lg:flex-row items-center justify-between">
-        <div className="max-w-xl space-y-6">
-          <h2 className="text-3xl font-bold">
-            All The Reasons To Choose <br />
-            <span className="text-cyan-400">Ease Bank</span>
-          </h2>
+      <section className="bg-gradient-to-r from-[#02487F] to-[#1384AB] w-full">
+        <div className="text-white py-12 w-10/12 mx-auto flex flex-col lg:flex-row items-center justify-between">
+          <div className="max-w-xl space-y-6">
+            <h2 className="text-3xl font-bold">
+              All The Reasons To Choose <br />
+              <span className="text-cyan-400">Ease Bank</span>
+            </h2>
 
-          <div className="space-y-4">
-            <div>
-              <h3 className="text-xl font-semibold">24/7 Live Support</h3>
-              <p className="text-sm">
-                At Ease Bank, we strive for excellence by providing timely 24/7
-                assistance and ensuring a seamless cross-border transaction
-                experience.
-              </p>
-            </div>
-
-            <div>
-              <h3 className="text-xl font-semibold">Super-Fast Transfers</h3>
-              <p className="text-sm">
-                We prioritise seamless transactions to ensure your funds arrive
-                promptly and reliably.
-              </p>
-            </div>
-
-            <div>
-              <h3 className="text-xl font-semibold">Regulatory Compliance</h3>
-              <p className="text-sm">
-                We are registered with all necessary bodies, including ASIC, and
-                strictly adhere to regulatory compliance for customer safety and
-                convenience.
-              </p>
-            </div>
-
-            <div>
-              <h3 className="text-xl font-semibold">100% Safe Transactions</h3>
-              <p className="text-sm">
-                We employ bank-grade security to protect your funds throughout
-                the transfer process, ensuring safe and secure delivery.
-              </p>
-            </div>
-          </div>
-        </div>
-
-        {/* Right side image placeholder */}
-        <div className="mt-8 lg:mt-0 lg:ml-12 w-full lg:w-1/2">
-          <div className="w-full h-96 rounded-xl flex items-center justify-center">
-            <span className="text-gray-500">
-              <img className="max-h-[90vh]" src={financeapp} alt="" />
-            </span>
-          </div>
-        </div>
-      </section>
-
-      <section className="flex min-h-screen bg-[#F3FAFC] font-sans">
-        {/* Left Panel - Instructions */}
-        <div className="w-full md:w-1/2 p-10">
-          <h1 className="text-3xl font-bold text-[#003366] mb-8">
-            How to start transacting in less than 3 minutes
-          </h1>
-          {[
-            {
-              number: "01",
-              title: "Create an Account",
-              description:
-                "Sign up with your email and a secure password either through our app or website.",
-            },
-            {
-              number: "02",
-              title: "Verify Your Details",
-              description:
-                "Our verification process ensures the authenticity of our users. This takes a few quick minutes.",
-            },
-            {
-              number: "03",
-              title: "Start Sending Money",
-              description:
-                "Choose a destination, enter the amount, and see the exchange rate and our fees instantly.",
-            },
-            {
-              number: "04",
-              title: "Add Beneficiary Details",
-              description:
-                "Enter the recipient's information accurately and save it for faster future transactions.",
-            },
-            {
-              number: "05",
-              title: "Complete Your Transfer",
-              description:
-                "Go to your bank app, select 'pay someone' or 'pay anyone' and follow the prompts to complete your transaction.",
-            },
-          ].map((step) => (
-            <div key={step.number} className="mb-6 flex items-start">
-              <div className="w-10 h-10 flex items-center justify-center bg-[#003366] text-white font-bold rounded-full mr-4">
-                {step.number}
-              </div>
+            <div className="space-y-4">
               <div>
-                <h2 className="text-xl text-black font-semibold">
-                  {step.title}
-                </h2>
-                <p className="text-black">{step.description}</p>
+                <h3 className="text-xl font-semibold">24/7 Live Support</h3>
+                <p className="text-sm">
+                  At Ease Bank, we strive for excellence by providing timely 24/7
+                  assistance and ensuring a seamless cross-border transaction
+                  experience.
+                </p>
+              </div>
+
+              <div>
+                <h3 className="text-xl font-semibold">Super-Fast Transfers</h3>
+                <p className="text-sm">
+                  We prioritise seamless transactions to ensure your funds arrive
+                  promptly and reliably.
+                </p>
+              </div>
+
+              <div>
+                <h3 className="text-xl font-semibold">Regulatory Compliance</h3>
+                <p className="text-sm">
+                  We are registered with all necessary bodies, including ASIC, and
+                  strictly adhere to regulatory compliance for customer safety and
+                  convenience.
+                </p>
+              </div>
+
+              <div>
+                <h3 className="text-xl font-semibold">100% Safe Transactions</h3>
+                <p className="text-sm">
+                  We employ bank-grade security to protect your funds throughout
+                  the transfer process, ensuring safe and secure delivery.
+                </p>
               </div>
             </div>
-          ))}
-        </div>
+          </div>
 
-        {/* Right Panel - Static Image */}
-        <div className="hidden md:flex w-1/2 items-center justify-center p-6">
-          <img
-            src={finance1}
-            alt="Dashboard Screenshot"
-            className="max-w-full max-h-[90vh] rounded-lg"
-          />
+          {/* Right side image placeholder */}
+          <div className="w-full md:w-1/2">
+            <img className="h-[80vh]" src={financeapp} alt="" />
+          </div>
         </div>
       </section>
 
-      <section className="py-16 px-4 sm:px-8 max-w-3xl mx-auto" id="faq">
+      <section className="bg-[#F3FAFC] w-full py-12">
+        <div className="w-10/12 mx-auto flex gap-10 items-center min-h-screen">
+          {/* Left Panel - Instructions */}
+          <div className="w-full md:w-1/2">
+            <h1 className="text-3xl font-bold text-[#003366] mb-8">
+              How to start transacting in less than 3 minutes
+            </h1>
+            {[
+              {
+                number: "01",
+                title: "Create an Account",
+                description:
+                  "Sign up with your email and a secure password either through our app or website.",
+              },
+              {
+                number: "02",
+                title: "Verify Your Details",
+                description:
+                  "Our verification process ensures the authenticity of our users. This takes a few quick minutes.",
+              },
+              {
+                number: "03",
+                title: "Start Sending Money",
+                description:
+                  "Choose a destination, enter the amount, and see the exchange rate and our fees instantly.",
+              },
+              {
+                number: "04",
+                title: "Add Beneficiary Details",
+                description:
+                  "Enter the recipient's information accurately and save it for faster future transactions.",
+              },
+              {
+                number: "05",
+                title: "Complete Your Transfer",
+                description:
+                  "Go to your bank app, select 'pay someone' or 'pay anyone' and follow the prompts to complete your transaction.",
+              },
+            ].map((step) => (
+              <div key={step.number} className="mb-6 flex items-start gap-2">
+                <div className="w-10 h-10 flex items-center justify-center bg-[#003366] text-white font-bold rounded-full">
+                  {step.number}
+                </div>
+                <div>
+                  <h2 className="text-xl text-black font-semibold">
+                    {step.title}
+                  </h2>
+                  <p className="text-black">{step.description}</p>
+                </div>
+              </div>
+            ))}
+          </div>
+
+          {/* Right Panel - Static Image */}
+          <div className="hidden md:flex w-1/2 items-center justify-center">
+            <img
+              src={finance1}
+              alt="Dashboard Screenshot"
+              className="w-full h-[90vh] rounded-lg"
+            />
+          </div>
+        </div>
+      </section>
+
+      <section className="bg-gradient-to-r from-[#02487F] to-[#1384AB] py-16 w-full flex flex-col justify-center items-center" id="faq">
         <div className="text-center mb-10">
           <h5 className="text-sm font-semibold text-white uppercase">FAQ</h5>
           <h2 className="text-3xl font-bold text-white mt-1">
@@ -373,7 +373,7 @@ export default function MoneyTransferLanding() {
           </h2>
         </div>
 
-        <div className="space-y-3">
+        <div className="space-y-3 w-11/12 md:w-3xl">
           {faqItems.map((item, index) => (
             <div
               key={index}

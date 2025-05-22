@@ -7,13 +7,15 @@ import Cookies from "js-cookie";
 import Loader from "../../components/Loader";
 import { toast } from "react-toastify";
 import { useForm } from "react-hook-form";
+import PropTypes from "prop-types";
+
 
 const Profile = () => {
   const [isEditing, setIsEditing] = useState(false);
   const [userData, setUserData] = useState();
   const [loading, setLoading] = useState(false);
   const { register, handleSubmit, reset } = useForm();
-
+  
   const authToken = Cookies.get("auth_token");
 
   useEffect(() => {
@@ -50,7 +52,7 @@ const Profile = () => {
   }, [authToken, reset]);
 
   const fullname = userData?.firstName + " " + userData?.otherName + " " + userData?.lastName;
-
+  
   const formatDateAndTime = (isoString) => {
     const dateObj = new Date(isoString);
     const date = dateObj.toLocaleDateString("en-NG", {
@@ -58,13 +60,13 @@ const Profile = () => {
       month: "long",
       day: "numeric",
     });
-
+    
     const time = dateObj.toLocaleTimeString("en-NG", {
       hour: "2-digit",
       minute: "2-digit",
       hour12: true,
     });
-
+    
     return { date, time };
   };
 
@@ -106,18 +108,16 @@ const Profile = () => {
       toast.error(error.response.data.error);
     }
   };
-
+  
   return (
     <div className="flex flex-col md:flex-row min-h-screen bg-gray-100">
       <Sidebar />
 
       <main className="flex-1 md:ml-64 p-4 md:p-6 lg:p-8 space-y-6">
-        <TopBar username="user" accountBalance={1200.75} />
+        <TopBar/>
 
-        <div className="bg-white p-4 md:p-6 lg:p-8 rounded-2xl shadow-md relative">
-          <h2 className="text-2xl md:text-3xl font-bold text-[#02487F] mb-6">
-            Profile
-          </h2>
+        <div className="bg-white p-4 md:p-6 lg:p-8 rounded-2xl shadow-md mb-24 relative">
+          <h2 className="text-2xl md:text-3xl font-bold text-[#02487F] mb-6">Profile</h2>
 
           <button
             onClick={() => setIsEditing(!isEditing)}
@@ -133,11 +133,11 @@ const Profile = () => {
               editable={isEditing}
               {...register("fullName")}
               defaultValue={fullname}
-            />
+              />
             <Detail
               label="Email Address"
               defaultValue={userData?.email}
-            />
+              />
             <Detail
               label="Phone Number"
               editable={isEditing}
@@ -151,6 +151,7 @@ const Profile = () => {
               defaultValue={userData?.address}
             />
             <Detail
+              type="date"
               label="Date of Birth"
               editable={isEditing}
               {...register("DOB")}
@@ -161,7 +162,7 @@ const Profile = () => {
               editable={isEditing}
               {...register("gender")}
               defaultValue={userData?.gender}
-            />
+              />
           </div>
 
           {/* Account Details */}
@@ -173,37 +174,30 @@ const Profile = () => {
             <Detail
               label="Account Type"
               defaultValue="Savings"
-            />
+              />
             <Detail
               label="Account Status"
               defaultValue="Active"
-            />
+              />
             <Detail
               label="Date Joined"
               defaultValue={formatDateAndTime(userData?.createdAt).date}
-            />
+              />
           </div>
 
-          {/* Identification */}
-          <div className="border-t pt-6 grid grid-cols-1 sm:grid-cols-2 gap-4 md:gap-6">
-            <Detail
-              label="BVN"
-              value={userData?.bvn}
-              editable={isEditing}
-              onChange={(e) => handleChange("bvn", e.target.value)}
-            />
+          <div className="border-t pt-6 grid grid-cols-1 md:grid-cols-2 gap-6">
             <Detail
               label="National ID Number (NIN)"
               editable={isEditing}
               {...register("nin")}
               defaultValue={userData?.nin}
-            />
+              />
           </div>
 
           {isEditing && (
             <button
-              onClick={handleSubmit(handleSave)}
-              className="mt-6 bg-[#02487F] hover:bg-[#1384AB] text-white font-semibold py-3 px-6 rounded-lg transition"
+            onClick={handleSubmit(handleSave)}
+            className="mt-6 bg-[#02487F] hover:bg-[#1384AB] text-white font-semibold py-3 px-6 rounded-lg transition"
             >
               Save Changes
             </button>
@@ -215,13 +209,14 @@ const Profile = () => {
   );
 };
 
-const Detail = ({ label, editable, defaultValue, ...inputProps }) => (
+const Detail = ({ type="text", label, editable, defaultValue, ...inputProps }) => (
   <div>
     <p className="text-sm text-gray-500 font-medium mb-1">{label}</p>
     {editable ? (
       <input
         {...inputProps}
         defaultValue={defaultValue}
+        type={type}
         className="w-full border border-gray-300 rounded-lg px-4 py-2 text-gray-800 outline-none"
       />
     ) : (
@@ -232,4 +227,12 @@ const Detail = ({ label, editable, defaultValue, ...inputProps }) => (
   </div>
 );
 
+
+Detail.propTypes = {
+  type: PropTypes.string,
+  label: PropTypes.string.isRequired,
+  editable: PropTypes.bool,
+  defaultValue: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
+  inputProps: PropTypes.object,
+};
 export default Profile;

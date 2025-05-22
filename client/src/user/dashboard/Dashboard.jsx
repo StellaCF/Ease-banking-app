@@ -50,9 +50,9 @@ const Dashboard = () => {
     <div className="flex min-h-screen bg-gray-100 relative">
       {/* Sidebar */}
       <Sidebar isOpen={sidebarOpen} setIsOpen={setSidebarOpen} />
-
       {/* Main Content */}
       <main className="flex-1 px-4 sm:px-6 md:px-8 py-8 space-y-8 transition-all duration-300 lg:ml-64">
+
         <TopBar />
 
         {/* Quick Actions */}
@@ -77,33 +77,39 @@ const Dashboard = () => {
           <div className="flex justify-between items-center mb-4">
             <h3 className="text-lg sm:text-xl font-semibold">Recent Transactions</h3>
           </div>
-
-          <table className="w-full text-left border-collapse text-sm">
-            <thead>
-              <tr className="text-gray-600 border-b">
-                <th className="py-2 pr-4">Type</th>
-                <th className="py-2 pr-4">Amount</th>
-                <th className="py-2 pr-4 hidden md:table-cell">Date</th>
-                <th className="py-2 pr-4">Status</th>
-              </tr>
-            </thead>
-            <tbody>
-              {history.map((txn) => (
-                <tr key={txn.id}
-                  onClick={() =>
-                    navigate(`/transactiondetails`, {
-                      state: { txn },
-                    })
-                  }
-                  className="text-sm border-b text-gray-600">
-                  <td className="py-4">{txn.type}</td>
-                  <td className="py-4">₦{txn.amount}</td>
-                  <td className="py-4">{formatDateAndTime(txn.createdAt).date} | {formatDateAndTime(txn.createdAt).time}</td>
-                  <td className="py-4">{txn.status}</td>
+            {history.length === 0 ? (
+              <p>You dont have any transactions yet</p>
+            ) : (
+            <table className="w-full text-left border-collapse text-sm">
+              <thead>
+                <tr className="text-gray-600 border-b">
+                  <th className="py-2 pr-4">Type</th>
+                  <th className="py-2 pr-4">Amount</th>
+                  <th className="py-2 pr-4 hidden md:table-cell">Date</th>
+                  <th className="py-2 pr-4">Status</th>
                 </tr>
-              ))}
-            </tbody>
-          </table>
+              </thead>
+              <tbody>
+                {history.map((txn) => (
+                  <tr key={txn.id}
+                    onClick={() =>
+                      navigate(`/transactiondetails`, {
+                        state: { txn },
+                      })
+                    }
+                    className="text-sm border-b text-gray-600 cursor-pointer">
+                    <td className="py-4">{txn.type.charAt(0).toUpperCase() + txn.type.slice(1)}</td>
+                    <td className="py-4">₦{Number(txn.amount).toLocaleString("en-NG", {
+                        minimumFractionDigits: 2,
+                        maximumFractionDigits: 2,
+                      })}</td>
+                    <td className="py-4 hidden md:table-cell">{formatDateAndTime(txn.createdAt).date} | {formatDateAndTime(txn.createdAt).time}</td>
+                    <td className="py-4">{txn.status}</td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+            )}
         </div>
       </main>
       <Loader loading={loading} inline={false} size={150}/>

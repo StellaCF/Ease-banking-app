@@ -97,8 +97,8 @@ const SavePage = () => {
     const amount = parseFloat(actionAmount[id]);
     setLoading(true);
     try {
-      if (type === "spend") {
-        const axiosRes = await axios.post(`https://ease-banking-app.onrender.com/api/user/spend/${id}`, { amount }, {
+      if (type === "add") {
+        const axiosRes = await axios.patch(`https://ease-banking-app.onrender.com/api/user/save/${id}/update`, { amount }, {
           headers: {
             Authorization: `Bearer ${authToken}`
           }
@@ -108,7 +108,7 @@ const SavePage = () => {
         setActiveAction((prev) => ({ ...prev, [id]: null }));
         setActionAmount((prev) => ({ ...prev, [id]: "" }));
       } else {
-        const axiosRes = await axios.patch(`https://ease-banking-app.onrender.com/api/user/save/${id}/update`, { amount }, {
+        const axiosRes = await axios.post(`https://ease-banking-app.onrender.com/api/user/spend/${id}`, { amount }, {
           headers: {
             Authorization: `Bearer ${authToken}`
           }
@@ -135,8 +135,13 @@ const SavePage = () => {
         <TopBar/>
 
         <div className="w-full mx-auto bg-white p-4 md:p-8 rounded-2xl shadow-xl space-y-6">
-          <h2 className="text-2xl md:text-3xl font-bold text-[#02487F] mb-4 md:mb-6">Save Money</h2>
-
+          <div className="flex flex-col lg:flex-row lg:justify-between lg:items-center">
+            <h2 className="text-2xl md:text-3xl font-bold text-[#02487F] mb-4 md:mb-6">Save Money</h2>
+            <h3 className="text-xl text-[#02487f] font-semibold"> <span className="text-md">Total Amount Saved: </span>₦{Number(user?.savingsBalance).toLocaleString("en-NG", {
+                minimumFractionDigits: 2,
+                maximumFractionDigits: 2,
+              })}</h3>
+          </div>
           <div className="grid grid-cols-1 md:grid-cols-2 gap-4 md:gap-6">
             <div>
               <label className="block text-gray-600 font-medium mb-2">Description</label>
@@ -169,24 +174,27 @@ const SavePage = () => {
           </button>
 
           {savings.length > 0 && (
-            <div className="grid gap-4">
+            <div className="grid gap-4 mb-20">
               {savings.map((save) => (
                 <div
                   key={save.id}
                   className="border border-gray-300 p-4 md:p-6 rounded-xl bg-[#E6F7FB] shadow-sm"
                 >
                   <div className="flex flex-col md:flex-row md:items-center md:justify-between mb-2">
-                    <div className="flex justify-between items-center">
-                      <h3 className="text-lg md:text-xl font-semibold text-[#02487F]">{save.description}</h3>
-                      <p className="mt-2 md:mt-4 text-gray-700">₦{save.amount}</p>
+                    <div className="flex md:flex-col justify-between items-center md:items-start">
+                      <h3 className="text-lg md:text-xl font-semibold text-[#02487F]">{save.description.charAt(0).toUpperCase() + save.description.slice(1)}</h3>
+                      <p className="mt-2 md:mt-4 text-gray-700">₦{Number(save.amount).toLocaleString("en-NG", {
+                          minimumFractionDigits: 2,
+                          maximumFractionDigits: 2,
+                        })}</p>
                     </div>
 
-                    <div className="flex space-x-2 mt-4 md:mt-0 justify-end">
+                    <div className="flex space-x-2 mt-6 md:mt-0 justify-end">
                       <button
-                        onClick={() => toggleAction(save.id, "spend")}
+                        onClick={() => toggleAction(save.id, "withdraw to Account")}
                         className="bg-[#02487F] hover:bg-[#1384AB] cursor-pointer text-white py-1 px-4 rounded-lg"
                       >
-                        Spend
+                        Withdraw
                       </button>
                       <button
                         onClick={() => toggleAction(save.id, "add")}

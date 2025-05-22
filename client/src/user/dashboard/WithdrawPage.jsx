@@ -65,7 +65,7 @@ const WithdrawPage = () => {
         toast.error("Account verification failed. Please check the details.");
       }
     } catch (error) {
-      toast.error("Verification error. Please try again.");
+      toast.error(error);
       setIsVerified(false);
     }
     setLoading(false);
@@ -205,12 +205,13 @@ const WithdrawPage = () => {
       </main>
 
       {showConfirmModal && (
-        <div className="fixed w-full h-screen top-0 left-0 bg-[#0006] flex items-center justify-center z-50">
-          <div className="bg-white w-lg p-4 rounded-lg">
-            <div className="flex justify-between mb-4">
+        <div className="fixed inset-0 bg-[#0006] flex items-center justify-center z-50 px-4">
+          <div className="bg-white w-full max-w-md sm:max-w-lg p-6 rounded-xl shadow-lg">
+            <div className="flex justify-between items-center mb-4">
               <h2 className="text-xl font-semibold text-[#02487F]">Confirm Withdrawal</h2>
               <button onClick={() => setShowConfirmModal(false)} className="text-gray-500 hover:text-red-500 text-2xl">&times;</button>
             </div>
+
           <p className="mt-4 flex justify-between"><strong>Bank:</strong> {banks.find((bank) => bank.code === selectedBank)?.name || selectedBank}</p>
           <p className="mt-4 flex justify-between"><strong>Account Number:</strong> {accountNumber}</p>
           <p className="mt-4 flex justify-between"><strong>Account Name:</strong> {accountName}</p>
@@ -228,6 +229,34 @@ const WithdrawPage = () => {
         </div>
         </div>
       )}
+
+      {/* PIN Entry Modal */}
+      {showPinModal && (
+        <div className="fixed w-full h-screen top-0 left-0 bg-[#0006] flex items-center justify-center z-50">
+
+          <div className="bg-white p-4 rounded-lg">
+            <div className="flex justify-between">
+              <h2 className="text-xl font-semibold text-[#02487F]">Enter PIN</h2>
+              <button onClick={() => setShowPinModal(false)} className="text-gray-500 hover:text-red-500 text-xl">&times;</button>
+            </div>
+          <input
+            type="number"
+            maxLength={4}
+            value={pin}
+            onChange={(e) => setPin(e.target.value)}
+            placeholder="Enter 4-digit PIN"
+            className="w-full mt-4 border border-gray-300 rounded-lg px-4 py-3 text-gray-800 outline-none mb-4"
+          />
+          <button
+            onClick={handlePinConfirm}
+            className="w-full bg-[#02487F] hover:bg-[#1384AB] cursor-pointer text-white font-semibold py-3 px-6 rounded-lg transition"
+          >
+            Withdraw
+          </button>
+        </div>
+        </div>
+      )}
+
       <Loader loading={loader} inline={false} size={150} />
     </div>
   );

@@ -58,6 +58,10 @@ module.exports.User = sequelize.define('users',
     type: DataTypes.STRING,
     allowNull: true,
   },
+  loanBalance: {
+    type: DataTypes.STRING,
+    allowNull: true,
+  },
   transactionPin: {
     type: DataTypes.STRING,
     allowNull: true

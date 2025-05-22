@@ -17,6 +17,8 @@ router.route('/deposit')
 router.post('/withdraw', auth, validate(withdrawSchema), transactionController.withdrawal);
 router.post('/transfer', auth, validate(transferSchema), transactionController.transfer);
 router.post('/verify-account', transactionController.accountVerification)
-router.post('/transactionPin', auth, pinController);
+router.post('/transactionPin', auth, pinController.setPin);
+router.post('/verify-password', auth, pinController.verifyPassword);
+router.post('/reset-pin', auth, pinController.resetPin);
 
 module.exports = router;

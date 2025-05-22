@@ -4,7 +4,7 @@ import Cookies from "js-cookie";
 import axios from "axios";
 import { toast } from "react-toastify";
 
-const TopBar = ({ setSidebarOpen }) => {
+const TopBar = ({ amount}) => {
   const [user, setUser] = useState();
   const navigate = useNavigate();
   const authToken = Cookies.get("auth_token");
@@ -35,9 +35,13 @@ const TopBar = ({ setSidebarOpen }) => {
       <div className="flex justify-between items-center">
         <div className="flex items-center space-x-4">
           <div>
+            <p>{amount}</p>
             <h1 className="text-base sm:text-lg">Hi, {user?.firstName}</h1>
             <h2 className="text-lg sm:text-xl font-semibold mt-2">Account Balance</h2>
-            <p className="text-xl sm:text-3xl font-bold mt-1">₦{user?.acctBalance}</p>
+            <p className="text-xl sm:text-3xl font-bold mt-1">₦{Number(user?.acctBalance).toLocaleString("en-NG", {
+                minimumFractionDigits: 2,
+                maximumFractionDigits: 2,
+              })}</p>
           </div>
         </div>
 

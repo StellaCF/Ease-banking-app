@@ -6,12 +6,12 @@ import "react-toastify/dist/ReactToastify.css";
 import axios from "axios";
 import Cookies from "js-cookie";
 import Loader from "../../components/Loader";
+import { useNavigate } from "react-router-dom";
 
 const LoanPage = () => {
   const [loading, setLoading] = useState(false);
   const [user, setUser] = useState();
   const [history, setHistory] = useState([]);
-  const safeHistory = history ?? [];
   const [loanAmount, setLoanAmount] = useState("");
   const [showRepayField, setShowRepayField] = useState(false);
   const [repayAmount, setRepayAmount] = useState("");
@@ -20,6 +20,7 @@ const LoanPage = () => {
   const [nin, setNIN] = useState("");
 
   const authToken = Cookies.get("auth_token");
+  const navigate = useNavigate();
 
   useEffect(() => {
     const fetchUser = async () => {
@@ -67,12 +68,14 @@ const LoanPage = () => {
   const filteredHistory = history?.filter((h) => h.type === "loan" || h.type === "repayment");
   console.log(filteredHistory);
 
-  const totalLoan = (safeHistory.filter(l => l.type === "loan").reduce((sum, l) => sum + Number(l.amount), 0));
-  const totalRepay = (safeHistory.filter(l => l.type === "repayment").reduce((sum, l) => sum + Number(l.amount), 0));
-  let loanAmt  = Number(totalLoan - totalRepay).toFixed(2);
-  if (loanAmt < 0) {
-    loanAmt = 0.00;
-  }
+  // const totalLoan = (safeHistory.filter(l => l.type === "loan").reduce((sum, l) => sum + Number(l.amount), 0));
+  // const totalRepay = (safeHistory.filter(l => l.type === "repayment").reduce((sum, l) => sum + Number(l.amount), 0));
+  // let loanAmt  = Number(totalLoan - totalRepay).toFixed(2);
+  // if (loanAmt < 0) {
+  //   loanAmt = 0.00;
+  // }
+
+  const loanAmt = user?.loanBalance || 0.00;
 
   const formatDateAndTime = (isoString) => {
     const dateObj = new Date(isoString);
@@ -97,6 +100,9 @@ const LoanPage = () => {
       });
       return;
     }
+    if(!loanAmount){
+      toast.error("Amount required")
+    }
     const amount = Number(loanAmount);
     setLoading(true);
     try {
@@ -118,6 +124,13 @@ const LoanPage = () => {
   };
 
   const handleRepayLoan = async () => {
+    if(!repayAmount){
+      toast.error("Amount required")
+    }
+    if (repayAmount > loanAmt) {
+      toast.error("Repayment amount cannot exceed loan amount");
+      return;
+    }
     const amount = Number(repayAmount);
     setLoading(true);
     try {
@@ -153,13 +166,16 @@ const LoanPage = () => {
       <Sidebar />
 
       <main className="flex-1 lg:ml-64 p-4 sm:p-6 md:p-8 space-y-8">
-        <div className="bg-gradient-to-r from-[#024875] to-[#1384AB] text-white p-6 rounded-2xl shadow flex flex-col md:flex-row md:justify-between gap-4">
+        <div className="bg-gradient-to-r from-[#024875] to-[#1384AB] text-white h-40 p-6 rounded-2xl shadow flex flex-col md:flex-row md:justify-between gap-4">
           <div>
             <h4 className="text-lg font-semibold">Current Loan Amount</h4>
-            <p className="text-3xl font-bold mt-1">₦{loanAmt}</p>
+            <p className="text-3xl font-bold mt-2">₦{Number(loanAmt).toLocaleString("en-NG", {
+                minimumFractionDigits: 2,
+                maximumFractionDigits: 2,
+              })}</p>
           </div>
 
-          <div className="flex gap-2 md:gap-4">
+          <div className="flex items-center justify-end gap-2 lg:mt-6 md:gap-4">
             <button
               onClick={toggleLoanForm}
               className="bg-[#20B6D9] hover:bg-[#0e6b8f] text-white px-4 py-2 md:px-6 md:py-3 rounded-lg font-semibold"
@@ -168,6 +184,7 @@ const LoanPage = () => {
             </button>
             <button
               onClick={handleToggleRepayField}
+              disabled={Number(loanAmt) === 0.00}
               className="bg-[#20B6D9] hover:bg-[#0e6b8f] text-white px-4 py-2 md:px-6 md:py-3 rounded-lg font-semibold"
             >
               Repay Loan
@@ -281,31 +298,44 @@ const LoanPage = () => {
           )}
         </AnimatePresence>
 
-        <div className="bg-white p-4 sm:p-6 md:p-8 rounded-lg shadow overflow-x-auto">
+        <div className="bg-white p-4 sm:p-6 md:p-8 rounded-lg shadow mb-20 overflow-x-auto">
           <div className="flex justify-between items-center mb-4">
             <h3 className="text-lg md:text-xl font-semibold">Loan History</h3>
           </div> 
 
-          <table className="w-full text-left border-collapse">
-            <thead>
-              <tr className="text-gray-600 text-sm border-b">
-                <th className="py-2">Type</th>
-                <th className="py-2">Amount</th>
-                <th className="py-2 hidden md:table-cell">Date</th>
-                <th className="py-2">Status</th>
-              </tr>
-            </thead>
-            <tbody>
-              {filteredHistory?.map?.((tx) => (
-                <tr key={tx.id} className="text-sm border-b text-gray-600">
-                  <td className="py-4">{tx.type}</td>
-                  <td className="py-4">₦{tx.amount}</td>
-                  <td className="py-4 hidden md:table-cell">{formatDateAndTime(tx.createdAt).date} | {formatDateAndTime(tx.createdAt).time}</td>
-                  <td className="py-4">{tx.status}</td>
+          {filteredHistory?.length === 0 ? (
+            <p>You dont have any loan history yet</p>
+          ) : (
+            <table className="w-full text-left border-collapse">
+              <thead>
+                <tr className="text-gray-600 text-sm border-b">
+                  <th className="py-2">Type</th>
+                  <th className="py-2">Amount</th>
+                  <th className="py-2 hidden md:table-cell">Date</th>
+                  <th className="py-2">Status</th>
                 </tr>
-              ))}
-            </tbody>
-          </table>
+              </thead>
+              <tbody>
+                {filteredHistory?.map?.((txn) => (
+                  <tr key={txn.id}
+                  onClick={() =>
+                    navigate(`/transactiondetails`, {
+                      state: { txn },
+                    })
+                  }
+                    className="text-sm border-b text-gray-600 cursor-pointer">
+                    <td className="py-4">{txn.type.charAt(0).toUpperCase() + txn.type.slice(1)}</td>
+                    <td className="py-4">₦{Number(txn.amount).toLocaleString("en-NG", {
+                        minimumFractionDigits: 2,
+                        maximumFractionDigits: 2,
+                      })}</td>
+                    <td className="py-4 hidden md:block">{formatDateAndTime(txn.createdAt).date} | {formatDateAndTime(txn.createdAt).time}</td>
+                    <td className="py-4">{txn.status}</td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+          )}
         </div>
       </main>
       <Loader loading={loading} inline={false} size={150} />

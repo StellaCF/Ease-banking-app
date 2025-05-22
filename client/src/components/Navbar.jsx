@@ -13,7 +13,7 @@ const Navbar = () => {
   };
 
   return (
-    <>
+    <div className="w-full bg-gradient-to-r from-[#02487F] to-[#1384AB]">
       <div className="h-[90px] w-11/12 mx-auto flex justify-between items-center relative">
         {/* Logo */}
         <div className="flex items-center">
@@ -90,7 +90,7 @@ const Navbar = () => {
       </div>
 
       {/* Removed the semi-transparent overlay to keep background unchanged */}
-    </>
+    </div>
   );
 };
 
