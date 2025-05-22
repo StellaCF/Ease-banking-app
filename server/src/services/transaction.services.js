@@ -12,7 +12,7 @@ exports.deposit = async (id, depositData) => {
       await Transaction.create(depositData)
       const newBalance = parseFloat(user.acctBalance) + parseFloat(depositData.amount);
       user.acctBalance = newBalance.toFixed(2)
-      user.genBalance = (parseFloat(user.genBalance) + user.acctBalance).toFixed(2);
+      user.genBalance = (parseFloat(user.genBalance + user.acctBalance)).toFixed(2);
       await user.save()
    } catch (error) {
       throw new Error('Error making deposit:' + error.message)
