@@ -296,7 +296,7 @@ export default function MoneyTransferLanding() {
 
           {/* Right side image placeholder */}
           <div className="w-full md:w-1/2">
-            <img className="h-[80vh]" src={financeapp} alt="" />
+            <img className="h-[80vh] hidden md:block" src={financeapp} alt="" />
           </div>
         </div>
       </section>
