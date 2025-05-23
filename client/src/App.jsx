@@ -38,15 +38,7 @@ const App = () => {
       return;
     }
   
-    const interval = setInterval(() => {
-      if (tokenExpiry()) {
-        Cookies.remove("auth_token");
-        navigate("/");
-        toast.error("Session expired. Please log in again.");
-      }
-    }, 30 * 60 * 1000); // 30 mins
-  
-    return () => clearInterval(interval);
+    return;
   }, [navigate]);
   return (
     <div>
