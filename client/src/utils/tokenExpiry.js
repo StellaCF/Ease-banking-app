@@ -1,4 +1,4 @@
-import { jwtDecode  }from "jwt-decode";
+import { default as jwtDecode  }from "jwt-decode";
 import Cookies from "js-cookie";
 
 export const tokenExpiry = () => {
