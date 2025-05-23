@@ -12,6 +12,7 @@ const LoanPage = () => {
   const [loading, setLoading] = useState(false);
   const [user, setUser] = useState();
   const [history, setHistory] = useState([]);
+
   const [loanAmount, setLoanAmount] = useState("");
   const [showRepayField, setShowRepayField] = useState(false);
   const [repayAmount, setRepayAmount] = useState("");

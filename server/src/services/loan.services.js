@@ -9,7 +9,11 @@ exports.requestLoan = async (id, loanData, nin, address) => {
   if (!user) throw new Error("User not found");
 
   const loanAmount = parseFloat(loanData.amount);
-  user.loanBalance = (parseFloat(user.loanBalance) + loanAmount).toFixed(2);
+  const currentLoanBalance = parseFloat(user.loanBalance) || 0;
+  const newLoanAmount = parseFloat(loanAmount) || 0;
+
+  user.loanBalance = (currentLoanBalance + newLoanAmount).toFixed(2);
+  // user.loanBalance = (parseFloat(user.loanBalance) + loanAmount).toFixed(2);
   user.acctBalance = (parseFloat(user.acctBalance) + loanAmount).toFixed(2);
   user.nin = nin;
   user.address = address;
