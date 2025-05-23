@@ -24,7 +24,7 @@ const Sidebar = () => {
       {/* Sidebar for large screens */}
       <aside className="hidden lg:flex fixed top-0 left-0 w-64 h-screen bg-white shadow-md px-4 py-6 flex-col justify-between z-50">
         <div>
-          <div className="flex items-center mb-5">
+          <div onClick={navigate("/")} className="flex items-center mb-5">
             <img src={logo} alt="" className='bg-transparent w-20 h-20'/>
             <span className="font-bold text-2xl text-[#02487F]">Ease Bank</span>
           </div>
