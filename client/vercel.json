@@ -1,6 +1,13 @@
 {
    "rewrites": [
       {"source": "/(.*)",
-      "destination": "/"}
+      "destination": "/",
+      "headers": [
+        {
+          "key": "Cache-Control",
+          "value": "no-store"
+        }
+      ]
+   }
    ]
 }
