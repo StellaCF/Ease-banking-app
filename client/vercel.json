@@ -1,13 +1,19 @@
 {
+   "headers": [
+     {
+       "source": "/(.*)",
+       "headers": [
+         {
+           "key": "Cache-Control",
+           "value": "no-store"
+         }
+       ]
+     }
+   ],
    "rewrites": [
-      {"source": "/(.*)",
-      "destination": "/",
-      "headers": [
-        {
-          "key": "Cache-Control",
-          "value": "no-store"
-        }
-      ]
-   }
+     {
+       "source": "/(.*)",
+       "destination": "/"
+     }
    ]
-}
+ }
