@@ -7,7 +7,8 @@ import Cookies from "js-cookie";
 const Navbar = () => {
   const navigate = useNavigate();
   const [menuOpen, setMenuOpen] = useState(false);
-  const isLoggedIn = Cookies.get("auth_token") !== undefined;
+  const isLoggedIn = Cookies.get("auth_token");
+  console.log(isLoggedIn);
 
   const closeMenuAndNavigate = (path) => {
     navigate(path);
