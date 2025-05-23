@@ -1,5 +1,4 @@
 // import React from 'react';
-import { useEffect } from "react";
 import { Routes, Route } from 'react-router-dom';
 import LandingPage  from './user/LandingPage';
 import Dashboard from './user/dashboard/Dashboard';
@@ -9,7 +8,7 @@ import ForgetPassword from './auth/ForgetPassword'
 import VerifyPassword from './auth/VerifyPassword';
 import ResetPassword from './auth/ResetPassword';
 import TransactionPin from './auth/TransactionPin';
-import { toast, ToastContainer } from "react-toastify"
+import { ToastContainer } from "react-toastify"
 import "react-toastify/dist/ReactToastify.css";
 import DepositPage from './user/dashboard/DepositPage';
 import WithdrawPage from './user/dashboard/WithdrawPage';
@@ -20,41 +19,15 @@ import Profile from './user/dashboard/Profile';
 import Transaction from './user/dashboard/Transaction';
 import TransactionDetails from './user/dashboard/TransactionDetails';
 import Settings from './user/dashboard/Setting';
-import { useNavigate } from "react-router-dom";
-import { tokenExpiry } from "./utils/tokenExpiry";
-import Cookies from "js-cookie";
-import ProtectedRoute from "./components/ProtectedRoute";
 
 
 
 const App = () => {
-  const navigate = useNavigate();
-
-  useEffect(() => {
-    const expired = tokenExpiry();
-    if (expired) {
-      console.log("Token expired. Navigating out...");
-      Cookies.remove("auth_token");
-      navigate("/");
-      toast.error("Session expired. Please log in again.");
-      return;
-    }
-  
-    const interval = setInterval(() => {
-      if (tokenExpiry()) {
-        Cookies.remove("auth_token");
-        navigate("/");
-        toast.error("Session expired. Please log in again.");
-      }
-    }, 30 * 60 * 1000); // 30 mins
-  
-    return () => clearInterval(interval);
-  }, [navigate]);
   return (
     <div>
       <Routes>
         <Route path="/" element={<LandingPage />} />
-        <Route path ="/dashboard" element={ <ProtectedRoute> <Dashboard /> </ProtectedRoute> } />
+        <Route path ="/dashboard" element={ <Dashboard /> } />
         <Route path="/signup" element={<SignUp />} />
         <Route path="/login" element={<LoginPage />} />
         <Route path="/forgetPassword" element={<ForgetPassword />} />
