@@ -28,7 +28,7 @@ import Cookies from "js-cookie";
 
 const App = () => {
   const navigate = useNavigate();
-
+  
   useEffect(() => {
     const expired = tokenExpiry();
     if (expired) {
@@ -39,7 +39,7 @@ const App = () => {
     }
   
     return;
-  }, [navigate]);
+  });
   return (
     <div>
       <Routes>
