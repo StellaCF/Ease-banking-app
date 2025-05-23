@@ -40,14 +40,13 @@ const LoginPage = () => {
         secure: true,
         sameSite: "strict",
       });
-      setTimeout(() => {
         reset();
         if (response.data.user.pin === null) {
           navigate("/transactionPin");
         } else {
           navigate("/dashboard");
         }
-      }, 2000);
+
     } catch (error) {
       console.log(error);
       const errorMessage = error.response?.data?.error;
