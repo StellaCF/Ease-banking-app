@@ -27,7 +27,7 @@ const Navbar = () => {
         <div className="hidden sm:flex justify-end items-center space-x-6 text-sm">
           <a href="#faq" className="text-white">FAQ</a>
           <a href="#contact us" className="text-white">Contact Us</a>
-          {isLoggedIn ? (
+          {!isLoggedIn ? (
             <button 
               onClick={() => navigate("/dashboard")} 
               className="px-4 py-2 bg-white text-[#004876] font-semibold rounded-full cursor-pointer hover:bg-[#f1f5f9] transition"
