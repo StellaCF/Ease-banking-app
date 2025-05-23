@@ -10,6 +10,7 @@ export const tokenExpiry = () => {
     const currentTime = Date.now() / 1000;
     return decoded.exp < currentTime;
   } catch (err) {
-    return true; // if invalid token, treat as expired
+   console.log(err)
+    return true; 
   }
 };

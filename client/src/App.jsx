@@ -30,13 +30,22 @@ const App = () => {
   const navigate = useNavigate();
 
   useEffect(() => {
+    const expired = tokenExpiry();
+    if (expired) {
+      Cookies.remove("auth_token");
+      navigate("/");
+      toast.error("Session expired. Please log in again.");
+      return;
+    }
+  
     const interval = setInterval(() => {
       if (tokenExpiry()) {
         Cookies.remove("auth_token");
         navigate("/");
-        toast.error("Session expired. Please log in again.");}
-    }, 30 * 60 * 1000); 
-
+        toast.error("Session expired. Please log in again.");
+      }
+    }, 30 * 60 * 1000); // 30 mins
+  
     return () => clearInterval(interval);
   }, [navigate]);
   return (

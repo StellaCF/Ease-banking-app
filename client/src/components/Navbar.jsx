@@ -30,7 +30,7 @@ const Navbar = () => {
           {isLoggedIn ? (
             <button 
               onClick={() => navigate("/dashboard")} 
-              className="px-4 py-2 border border-white rounded-full cursor-pointer text-white hover:bg-white hover:text-[#004876] transition"
+              className="px-4 py-2 bg-white text-[#004876] font-semibold rounded-full cursor-pointer hover:bg-[#f1f5f9] transition"
             >
               Dashboard
             </button>
@@ -86,18 +86,29 @@ const Navbar = () => {
             >
               Contact Us
             </a>
-            <button
-              onClick={() => closeMenuAndNavigate("/login")}
-              className="w-full border border-[#004876] text-[#004876] py-2 rounded-lg hover:bg-[#f1f5f9] transition"
-            >
-              Log in
-            </button>
-            <button
-              onClick={() => closeMenuAndNavigate("/signup")}
-              className="w-full bg-[#004876] text-white py-2 rounded-lg hover:bg-[#00345c] transition"
-            >
-              Create Account
-            </button>
+            {isLoggedIn ? (
+              <button
+                onClick={() => closeMenuAndNavigate("/dashboard")}
+                className="w-full bg-[#004876] text-white py-2 rounded-lg hover:bg-[#00345c] transition"
+              >
+                Dashboard
+              </button>
+            ) : (
+              <>
+                <button
+                  onClick={() => closeMenuAndNavigate("/login")}
+                  className="w-full border border-[#004876] text-[#004876] py-2 rounded-lg hover:bg-[#f1f5f9] transition"
+                >
+                  Log in
+                </button>
+                <button
+                  onClick={() => closeMenuAndNavigate("/signup")}
+                  className="w-full bg-[#004876] text-white py-2 rounded-lg hover:bg-[#00345c] transition"
+                >
+                  Create Account
+                </button>
+              </>
+            )}
           </div>
         </div>
       </div>
