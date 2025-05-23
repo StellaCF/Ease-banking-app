@@ -1,5 +1,5 @@
 // import React from 'react';
-import { useEffect } from "react";
+// import { useEffect } from "react";
 import { Routes, Route } from 'react-router-dom';
 import LandingPage  from './user/LandingPage';
 import Dashboard from './user/dashboard/Dashboard';
@@ -9,7 +9,7 @@ import ForgetPassword from './auth/ForgetPassword'
 import VerifyPassword from './auth/VerifyPassword';
 import ResetPassword from './auth/ResetPassword';
 import TransactionPin from './auth/TransactionPin';
-import { toast, ToastContainer } from "react-toastify"
+import { ToastContainer } from "react-toastify"
 import "react-toastify/dist/ReactToastify.css";
 import DepositPage from './user/dashboard/DepositPage';
 import WithdrawPage from './user/dashboard/WithdrawPage';
@@ -20,26 +20,14 @@ import Profile from './user/dashboard/Profile';
 import Transaction from './user/dashboard/Transaction';
 import TransactionDetails from './user/dashboard/TransactionDetails';
 import Settings from './user/dashboard/Setting';
-import { useNavigate } from "react-router-dom";
-import { tokenExpiry } from "./utils/tokenExpiry";
-import Cookies from "js-cookie";
+// import { useNavigate } from "react-router-dom";
+// import { tokenExpiry } from "./utils/tokenExpiry";
+// import Cookies from "js-cookie";
 
 
 
 const App = () => {
-  const navigate = useNavigate();
   
-  useEffect(() => {
-    const expired = tokenExpiry();
-    if (expired) {
-      Cookies.remove("auth_token");
-      navigate("/");
-      toast.error("Session expired. Please log in again.");
-      return;
-    }
-  
-    return;
-  });
   return (
     <div>
       <Routes>
