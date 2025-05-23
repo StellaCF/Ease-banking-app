@@ -2,25 +2,15 @@ import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import logo from "../assets/banklogo.png";
 import { Menu, X } from "lucide-react";
-import Cookies from "js-cookie";  
 
 const Navbar = () => {
   const navigate = useNavigate();
   const [menuOpen, setMenuOpen] = useState(false);
-  const isLoggedIn = Cookies.get("auth_token") ? true : false; // Check if the user is logged in by checking for the auth token
-  console.log(isLoggedIn);
 
   const closeMenuAndNavigate = (path) => {
     navigate(path);
     setMenuOpen(false);
   };
-
-  // const dashNav = () => {
-  //   const authToken = Cookies.get("auth_token");
-  //   if (authToken) {
-  //     navigate("/dashboard");
-  //   }
-  // }
 
   return (
     <div className="w-full bg-gradient-to-r from-[#02487F] to-[#1384AB]">
@@ -36,25 +26,17 @@ const Navbar = () => {
           <a href="#faq" className="text-white">FAQ</a>
           <a href="#contact us" className="text-white">Contact Us</a>
             <button 
-              onClick={() => navigate('/dashboard')} 
-              className={`hidden ${isLoggedIn && "block" } px-4 py-2 bg-white text-[#004876] font-semibold rounded-full cursor-pointer hover:bg-[#f1f5f9] transition`}
+              onClick={() => navigate('/login')} 
+              className="px-4 py-2 border border-white rounded-full cursor-pointer text-white hover:bg-white hover:text-[#004876] transition"
             >
-              Dashboard
+              Log in
             </button>
-            <>
-              <button 
-                onClick={() => navigate('/login')} 
-                className="px-4 py-2 border border-white rounded-full cursor-pointer text-white hover:bg-white hover:text-[#004876] transition"
-              >
-                Log in
-              </button>
-              <button 
-                onClick={() => navigate('/signup')}
-                className="px-4 py-2 bg-white text-[#004876] font-semibold rounded-full cursor-pointer hover:bg-[#f1f5f9] transition"
-              >
-                Create Account
-              </button>
-            </>
+            <button 
+              onClick={() => navigate('/signup')}
+              className="px-4 py-2 bg-white text-[#004876] font-semibold rounded-full cursor-pointer hover:bg-[#f1f5f9] transition"
+            >
+              Create Account
+            </button>
         </div>
 
         {/* Hamburger - Small Screens */}
@@ -91,29 +73,18 @@ const Navbar = () => {
             >
               Contact Us
             </a>
-            {isLoggedIn ? (
               <button
-                onClick={() => closeMenuAndNavigate("/dashboard")}
+                onClick={() => closeMenuAndNavigate("/login")}
+                className="w-full border border-[#004876] text-[#004876] py-2 rounded-lg hover:bg-[#f1f5f9] transition"
+              >
+                Log in
+              </button>
+              <button
+                onClick={() => closeMenuAndNavigate("/signup")}
                 className="w-full bg-[#004876] text-white py-2 rounded-lg hover:bg-[#00345c] transition"
               >
-                Dashboard
+                Create Account
               </button>
-            ) : (
-              <>
-                <button
-                  onClick={() => closeMenuAndNavigate("/login")}
-                  className="w-full border border-[#004876] text-[#004876] py-2 rounded-lg hover:bg-[#f1f5f9] transition"
-                >
-                  Log in
-                </button>
-                <button
-                  onClick={() => closeMenuAndNavigate("/signup")}
-                  className="w-full bg-[#004876] text-white py-2 rounded-lg hover:bg-[#00345c] transition"
-                >
-                  Create Account
-                </button>
-              </>
-            )}
           </div>
         </div>
       </div>

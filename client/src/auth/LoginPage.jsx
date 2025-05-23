@@ -50,7 +50,7 @@ const LoginPage = () => {
       }, 2000);
     } catch (error) {
       console.log(error);
-      const errorMessage = error.response?.data?.error || "Login failed";
+      const errorMessage = error.response?.data?.error;
       toast.error(errorMessage);
     } finally {
       setLoading(false);
