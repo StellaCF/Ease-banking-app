@@ -7,7 +7,7 @@ import Cookies from "js-cookie";
 const Navbar = () => {
   const navigate = useNavigate();
   const [menuOpen, setMenuOpen] = useState(false);
-  const isLoggedIn = Cookies.get("auth_token");
+  const isLoggedIn = Cookies.get("auth_token") ? true : false; // Check if the user is logged in by checking for the auth token
   console.log(isLoggedIn);
 
   const closeMenuAndNavigate = (path) => {
@@ -15,12 +15,12 @@ const Navbar = () => {
     setMenuOpen(false);
   };
 
-  const dashNav = () => {
-    const authToken = Cookies.get("auth_token");
-    if (authToken) {
-      navigate("/dashboard");
-    }
-  }
+  // const dashNav = () => {
+  //   const authToken = Cookies.get("auth_token");
+  //   if (authToken) {
+  //     navigate("/dashboard");
+  //   }
+  // }
 
   return (
     <div className="w-full bg-gradient-to-r from-[#02487F] to-[#1384AB]">
@@ -35,14 +35,12 @@ const Navbar = () => {
         <div className="hidden sm:flex justify-end items-center space-x-6 text-sm">
           <a href="#faq" className="text-white">FAQ</a>
           <a href="#contact us" className="text-white">Contact Us</a>
-          {isLoggedIn ? (
             <button 
-              onClick={dashNav} 
-              className="px-4 py-2 bg-white text-[#004876] font-semibold rounded-full cursor-pointer hover:bg-[#f1f5f9] transition"
+              onClick={() => navigate('/dashboard')} 
+              className={`hidden ${isLoggedIn && "block" } px-4 py-2 bg-white text-[#004876] font-semibold rounded-full cursor-pointer hover:bg-[#f1f5f9] transition`}
             >
               Dashboard
             </button>
-          ) : ( 
             <>
               <button 
                 onClick={() => navigate('/login')} 
@@ -57,7 +55,6 @@ const Navbar = () => {
                 Create Account
               </button>
             </>
-          )}
         </div>
 
         {/* Hamburger - Small Screens */}
