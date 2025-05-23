@@ -1,4 +1,4 @@
-import { default as jwtDecode  }from "jwt-decode";
+import { jwtDecode }from "jwt-decode";
 import Cookies from "js-cookie";
 
 export const tokenExpiry = () => {
@@ -8,9 +8,13 @@ export const tokenExpiry = () => {
   try {
     const decoded = jwtDecode(token);
     const currentTime = Date.now() / 1000;
-    return decoded.exp < currentTime;
+    const expired = decoded.exp < currentTime;
+    if (expired) {
+      console.log("Token has expired.");
+    }
+    return expired;
   } catch (err) {
-   console.log(err)
-    return true; 
+    console.log("Failed to decode token:", err);
+    return true;
   }
 };

@@ -23,7 +23,7 @@ import Settings from './user/dashboard/Setting';
 import { useNavigate } from "react-router-dom";
 import { tokenExpiry } from "./utils/tokenExpiry";
 import Cookies from "js-cookie";
-import Navbar from "./components/Navbar";
+import ProtectedRoute from "./components/ProtectedRoute";
 
 
 
@@ -32,8 +32,8 @@ const App = () => {
 
   useEffect(() => {
     const expired = tokenExpiry();
-    console.log("Token expired. Navigating out...");
     if (expired) {
+      console.log("Token expired. Navigating out...");
       Cookies.remove("auth_token");
       navigate("/");
       toast.error("Session expired. Please log in again.");
@@ -54,7 +54,7 @@ const App = () => {
     <div>
       <Routes>
         <Route path="/" element={<LandingPage />} />
-        <Route path ="/dashboard" element={ <Dashboard /> } />
+        <Route path ="/dashboard" element={ <ProtectedRoute> <Dashboard /> </ProtectedRoute> } />
         <Route path="/signup" element={<SignUp />} />
         <Route path="/login" element={<LoginPage />} />
         <Route path="/forgetPassword" element={<ForgetPassword />} />
