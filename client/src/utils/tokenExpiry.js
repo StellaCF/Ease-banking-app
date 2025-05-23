@@ -1,7 +1,7 @@
-import jwtDecode from "jwt-decode";
+import { jwtDecode  }from "jwt-decode";
 import Cookies from "js-cookie";
 
-export const checkTokenExpiry = () => {
+export const tokenExpiry = () => {
   const token = Cookies.get("auth_token");
   if (!token) return false;
 
